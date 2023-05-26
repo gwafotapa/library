@@ -16,7 +16,7 @@ find_package(Qt5 COMPONENTS
         Sql
         REQUIRED)
 
-add_executable(library main.cpp author/author.h author/author.cpp)
+add_executable(library main.cpp author/author.h author/author.cpp book/book.h book/book.cpp)
 target_link_libraries(library
         Qt5::Core
         Qt5::Gui
