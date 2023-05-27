@@ -5,6 +5,8 @@
 #ifndef LIBRARY_BUTTONSWIDGET_H
 #define LIBRARY_BUTTONSWIDGET_H
 
+#include <QHBoxLayout>
+#include <QPushButton>
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -22,6 +24,9 @@ class ButtonsWidget: public QWidget {
 
   private:
     Ui::ButtonsWidget* ui;
+    QHBoxLayout* h_box_layout;
+    QPushButton* add_button;
+    QPushButton* search_button;
 };
 
 #endif  //LIBRARY_BUTTONSWIDGET_H

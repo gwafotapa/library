@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
+#include "../buttonswidget/buttonswidget.h"
 #include "../formwidget/formwidget.h"
 
 QT_BEGIN_NAMESPACE
@@ -26,7 +27,7 @@ class MainWindow: public QMainWindow {
     QVBoxLayout* v_box_layout;
     // QHBoxLayout* qHBoxLayout;
     FormWidget* form_widget;
-    // ButtonsWidget* buttonsWidget;
+    ButtonsWidget* buttons_widget;
     // ListWidget* listWidget;
 };
 

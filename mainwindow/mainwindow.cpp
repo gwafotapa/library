@@ -14,14 +14,16 @@ MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    central_widget = new QWidget;
-    v_box_layout = new QVBoxLayout(central_widget);
-    form_widget = new FormWidget;
 
+    central_widget = new QWidget;
     setCentralWidget(central_widget);
 
+    form_widget = new FormWidget;
+    buttons_widget = new ButtonsWidget;
+
+    v_box_layout = new QVBoxLayout(central_widget);
     v_box_layout->addWidget(form_widget);
-    // qVBoxLayout->addWidget(buttonsWidget);
+    v_box_layout->addWidget(buttons_widget);
     // qVBoxLayout->addWidget(listWidget);
 }
 
