@@ -31,19 +31,19 @@ class DataModel: public QSqlTableModel {
         if (!db_.tables().contains("Books")) {
             qDebug() << "Table 'Books' not found";
             bool result = query.exec(
-                "CREATE TABLE Books (title VARCHAR, authors VARCHAR)");
+                "CREATE TABLE Books (Title VARCHAR, Authors VARCHAR)");
             qDebug()
                 << (result ? "Table 'Books' created"
                            : query.lastError().databaseText());
         }
-        if (!db_.tables().contains("Authors")) {
-            qDebug() << "Table 'Authors' not found";
-            bool result = query.exec("CREATE TABLE Authors (name VARCHAR)");
-            qDebug()
-                << (result ? "Table 'Authors' created"
-                           : query.lastError().databaseText());
-        }
-        /* setTable("books"); */
+        /* if (!db_.tables().contains("Authors")) { */
+        /*     qDebug() << "Table 'Authors' not found"; */
+        /*     bool result = query.exec("CREATE TABLE Authors (name VARCHAR)"); */
+        /*     qDebug() */
+        /*         << (result ? "Table 'Authors' created" */
+        /*                    : query.lastError().databaseText()); */
+        /* } */
+        setTable("Books");
     }
     ~DataModel();
 };
