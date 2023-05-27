@@ -8,6 +8,7 @@
 #include "../buttonswidget/buttonswidget.h"
 #include "../datamodel/datamodel.h"
 #include "../formwidget/formwidget.h"
+#include "../tablewidget/tablewidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -29,7 +30,7 @@ class MainWindow: public QMainWindow {
     // QHBoxLayout* qHBoxLayout;
     FormWidget* form_widget;
     ButtonsWidget* buttons_widget;
-    // ListWidget* listWidget;
+    TableWidget* table_widget;
     DataModel* data_model;
 
   private slots:

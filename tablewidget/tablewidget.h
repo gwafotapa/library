@@ -1,6 +1,7 @@
 #ifndef TABLEWIDGET_H
 #define TABLEWIDGET_H
 
+#include <QTableView>
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -16,8 +17,11 @@ class TableWidget: public QWidget {
     explicit TableWidget(QWidget* parent = nullptr);
     ~TableWidget() override;
 
+    QTableView* get_table_view() const;
+
   private:
     Ui::TableWidget* ui;
+    QTableView* table_view;
 };
 
 #endif  // TABLEWIDGET_H

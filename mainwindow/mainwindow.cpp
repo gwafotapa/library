@@ -1,9 +1,3 @@
-//
-// Created by Administrateur on 26/05/2023.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_MainWindow.h" resolved
-
 #include "mainwindow.h"
 
 #include <QDebug>
@@ -23,14 +17,16 @@ MainWindow::MainWindow(QWidget* parent) :
 
     form_widget = new FormWidget;
     buttons_widget = new ButtonsWidget;
+    table_widget = new TableWidget;
 
     v_box_layout = new QVBoxLayout(central_widget);
     v_box_layout->addWidget(form_widget);
     v_box_layout->addWidget(buttons_widget);
-    // qVBoxLayout->addWidget(listWidget);
+    v_box_layout->addWidget(table_widget);
 
     data_model = new DataModel(this);
     // data_model->select();
+    table_widget->get_table_view()->setModel(data_model);
 
     connect(
         buttons_widget->get_add_button(),
