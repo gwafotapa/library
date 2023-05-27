@@ -20,3 +20,11 @@ ButtonsWidget::ButtonsWidget(QWidget* parent) :
 ButtonsWidget::~ButtonsWidget() {
     delete ui;
 }
+
+QPushButton* ButtonsWidget::get_add_button() const {
+    return add_button;
+}
+
+QPushButton* ButtonsWidget::get_search_button() const {
+    return search_button;
+}

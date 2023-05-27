@@ -1,9 +1,7 @@
-//
-// Created by Administrateur on 26/05/2023.
-//
+#ifndef BUTTONSWIDGET_H
+#define BUTTONSWIDGET_H
 
-#ifndef LIBRARY_BUTTONSWIDGET_H
-#define LIBRARY_BUTTONSWIDGET_H
+#include <qpushbutton.h>
 
 #include <QHBoxLayout>
 #include <QPushButton>
@@ -22,6 +20,9 @@ class ButtonsWidget: public QWidget {
     explicit ButtonsWidget(QWidget* parent = nullptr);
     ~ButtonsWidget() override;
 
+    QPushButton* get_add_button() const;
+    QPushButton* get_search_button() const;
+
   private:
     Ui::ButtonsWidget* ui;
     QHBoxLayout* h_box_layout;
@@ -29,4 +30,4 @@ class ButtonsWidget: public QWidget {
     QPushButton* search_button;
 };
 
-#endif  //LIBRARY_BUTTONSWIDGET_H
+#endif  // BUTTONSWIDGET_H

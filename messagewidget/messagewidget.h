@@ -1,9 +1,5 @@
-//
-// Created by Administrateur on 27/05/2023.
-//
-
-#ifndef LIBRARY_MESSAGEWIDGET_H
-#define LIBRARY_MESSAGEWIDGET_H
+#ifndef MESSAGEWIDGET_H
+#define MESSAGEWIDGET_H
 
 #include <QWidget>
 
@@ -24,4 +20,4 @@ class MessageWidget: public QWidget {
     Ui::MessageWidget* ui;
 };
 
-#endif  //LIBRARY_MESSAGEWIDGET_H
+#endif  // MESSAGEWIDGET_H

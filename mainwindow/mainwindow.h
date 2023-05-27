@@ -6,6 +6,7 @@
 #include <QWidget>
 
 #include "../buttonswidget/buttonswidget.h"
+#include "../datamodel/datamodel.h"
 #include "../formwidget/formwidget.h"
 
 QT_BEGIN_NAMESPACE
@@ -29,6 +30,10 @@ class MainWindow: public QMainWindow {
     FormWidget* form_widget;
     ButtonsWidget* buttons_widget;
     // ListWidget* listWidget;
+    DataModel* data_model;
+
+  private slots:
+    void add_data();
 };
 
 #endif  // MAINWINDOW_H

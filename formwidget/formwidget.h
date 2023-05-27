@@ -1,9 +1,5 @@
-//
-// Created by Administrateur on 26/05/2023.
-//
-
-#ifndef LIBRARY_FORMWIDGET_H
-#define LIBRARY_FORMWIDGET_H
+#ifndef FORMWIDGET_H
+#define FORMWIDGET_H
 
 #include <QFormLayout>
 #include <QLineEdit>
@@ -22,6 +18,8 @@ class FormWidget: public QWidget {
     explicit FormWidget(QWidget* parent = nullptr);
     ~FormWidget() override;
 
+    QString title() const;
+    QString authors() const;
     // public slots:
     //   void addButtonClicked() const;
 
@@ -38,4 +36,4 @@ class FormWidget: public QWidget {
     // void createContent();
 };
 
-#endif  //LIBRARY_FORMWIDGET_H
+#endif  // FORMWIDGET_H

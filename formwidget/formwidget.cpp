@@ -19,6 +19,14 @@ FormWidget::FormWidget(QWidget* parent) :
     form_layout->addRow("Authors", authors_line);
 }
 
+QString FormWidget::title() const {
+    return title_line->text();
+}
+
+QString FormWidget::authors() const {
+    return authors_line->text();
+}
+
 FormWidget::~FormWidget() {
     delete ui;
 }

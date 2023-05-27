@@ -1,9 +1,5 @@
-//
-// Created by Administrateur on 26/05/2023.
-//
-
-#ifndef LIBRARY_TABLEWIDGET_H
-#define LIBRARY_TABLEWIDGET_H
+#ifndef TABLEWIDGET_H
+#define TABLEWIDGET_H
 
 #include <QWidget>
 
@@ -24,4 +20,4 @@ class TableWidget: public QWidget {
     Ui::TableWidget* ui;
 };
 
-#endif  //LIBRARY_TABLEWIDGET_H
+#endif  // TABLEWIDGET_H

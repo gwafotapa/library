@@ -6,7 +6,7 @@
 
 #include "messagewidget.h"
 
-#include "ui_MessageWidget.h"
+#include "ui_messagewidget.h"
 
 MessageWidget::MessageWidget(QWidget* parent) :
     QWidget(parent),
