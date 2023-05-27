@@ -56,27 +56,32 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::add_data() {
-    QString title = form_widget->title();
-    QString authors = form_widget->authors();
-
-    if (authors.isEmpty()) {
+    if (form_widget->authors().isEmpty()) {
         qDebug() << "Field 'Authors' is empty";
         return;
     }
 
     QSqlRecord record = data_model->record();
-    record.setValue("Authors", authors);
 
-    // Add naked author if not present
-    data_model->setFilter("\"Authors\" = '" + authors + "'");
-    data_model->select();
-    if (data_model->rowCount() == 0) {
-        data_model->insertRecord(-1, record);
+    // Add naked authors if not present in the database
+    QStringList authors = form_widget->authors().split(u',');
+    for (QString& author : authors) {
+        author = author.simplified();
+        if (author.isEmpty()) {
+            continue;
+        }
+        data_model->setFilter("\"Authors\" = '" + author + "'");
+        data_model->select();
+        if (data_model->rowCount() == 0) {
+            record.setValue("Authors", author);
+            data_model->insertRecord(-1, record);
+        }
     }
 
     // Add book
-    if (!title.isEmpty()) {
-        record.setValue("Title", title);
+    if (!form_widget->title().isEmpty()) {
+        record.setValue("Title", form_widget->title());
+        record.setValue("Authors", form_widget->authors());
         data_model->insertRecord(-1, record);
     }
 
