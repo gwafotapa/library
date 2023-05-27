@@ -26,6 +26,7 @@ class DataModel: public QSqlTableModel {
         db_.setDatabaseName(data_path);
         qDebug() << data_path;
         db_.open();
+
         QSqlQuery query(db_);
         if (!db_.tables().contains("Books")) {
             qDebug() << "Table 'Books' not found";

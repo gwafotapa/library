@@ -6,6 +6,7 @@
 
 #include "mainwindow.h"
 
+#include <QDebug>
 #include <QPushButton>
 #include <QSqlRecord>
 #include <QVBoxLayout>
@@ -36,6 +37,12 @@ MainWindow::MainWindow(QWidget* parent) :
         &QPushButton::clicked,
         this,
         &MainWindow::add_data);
+
+    connect(
+        buttons_widget->get_search_button(),
+        &QPushButton::clicked,
+        this,
+        &MainWindow::search_data);
 }
 
 MainWindow::~MainWindow() {
@@ -68,4 +75,33 @@ void MainWindow::add_data() {
     record.setValue("authors", authors);
     data_model->insertRecord(-1, record);
     data_model->submit();
+}
+
+void MainWindow::search_data() {
+    QString title = form_widget->title();
+    QString authors = form_widget->authors();
+
+    if (title.isEmpty()) {
+        data_model->setTable("Authors");
+        data_model->setFilter("\"name\" LIKE '%" + authors + "%'");
+        data_model->select();
+
+        qDebug() << data_model->query().lastQuery();
+        for (int i = 0; i < data_model->rowCount(); ++i) {
+            qDebug() << data_model->record(i);
+        }
+    } else {
+        data_model->setTable("Books");
+        data_model->setFilter(
+            "\"title\" LIKE '%" + title + "%' AND \"authors\" LIKE '%" + authors
+            + "%'");
+        data_model->select();
+
+        qDebug() << data_model->query().lastQuery();
+        for (int i = 0; i < data_model->rowCount(); ++i) {
+            qDebug() << data_model->record(i);
+        }
+    }
+
+    // data_model->setTable(title.isEmpty() ? "Authors" : "Books");
 }

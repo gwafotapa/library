@@ -34,6 +34,7 @@ class MainWindow: public QMainWindow {
 
   private slots:
     void add_data();
+    void search_data();
 };
 
 #endif  // MAINWINDOW_H
