@@ -1,11 +1,11 @@
-//
-// Created by Administrateur on 26/05/2023.
-//
-
-#ifndef LIBRARY_MAINWINDOW_H
-#define LIBRARY_MAINWINDOW_H
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QVBoxLayout>
+#include <QWidget>
+
+#include "../formwidget/formwidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -22,6 +22,12 @@ class MainWindow: public QMainWindow {
 
   private:
     Ui::MainWindow* ui;
+    QWidget* central_widget;
+    QVBoxLayout* v_box_layout;
+    // QHBoxLayout* qHBoxLayout;
+    FormWidget* form_widget;
+    // ButtonsWidget* buttonsWidget;
+    // ListWidget* listWidget;
 };
 
-#endif  //LIBRARY_MAINWINDOW_H
+#endif  // MAINWINDOW_H

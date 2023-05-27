@@ -6,12 +6,23 @@
 
 #include "mainwindow.h"
 
-#include "ui_MainWindow.h"
+#include <qboxlayout.h>
+
+#include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    central_widget = new QWidget;
+    v_box_layout = new QVBoxLayout(central_widget);
+    form_widget = new FormWidget;
+
+    setCentralWidget(central_widget);
+
+    v_box_layout->addWidget(form_widget);
+    // qVBoxLayout->addWidget(buttonsWidget);
+    // qVBoxLayout->addWidget(listWidget);
 }
 
 MainWindow::~MainWindow() {
