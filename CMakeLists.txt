@@ -8,47 +8,71 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -Wall -Wextra -Wpedantic")
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
+set(BUILD_GMOCK OFF)
+
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  # Specify the commit you depend on and update it regularly.
+  URL https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+# set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 
 find_package(Qt5 COMPONENTS
-        Core
-        Gui
-        Widgets
-        Sql
-        REQUIRED)
+  Core
+  Gui
+  Widgets
+  Sql
+  REQUIRED)
 
-add_executable(library main.cpp author/author.h author/author.cpp book/book.h book/book.cpp mainwindow/mainwindow.cpp mainwindow/mainwindow.h mainwindow/mainwindow.ui formwidget/formwidget.cpp formwidget/formwidget.h formwidget/formwidget.ui tablewidget/tablewidget.cpp tablewidget/tablewidget.h tablewidget/tablewidget.ui buttonswidget/buttonswidget.cpp buttonswidget/buttonswidget.h buttonswidget/buttonswidget.ui messagewidget/messagewidget.cpp messagewidget/messagewidget.h messagewidget/messagewidget.ui datamodel/datamodel.h datamodel/datamodel.cpp searchwidget/searchwidget.cpp searchwidget/searchwidget.h searchwidget/searchwidget.ui)
-target_link_libraries(library
-        Qt5::Core
-        Qt5::Gui
-        Qt5::Widgets
-        Qt5::Sql
-        )
+add_library(Sources author/author.h author/author.cpp book/book.h book/book.cpp mainwindow/mainwindow.cpp mainwindow/mainwindow.h mainwindow/mainwindow.ui formwidget/formwidget.cpp formwidget/formwidget.h formwidget/formwidget.ui tablewidget/tablewidget.cpp tablewidget/tablewidget.h tablewidget/tablewidget.ui buttonswidget/buttonswidget.cpp buttonswidget/buttonswidget.h buttonswidget/buttonswidget.ui messagewidget/messagewidget.cpp messagewidget/messagewidget.h messagewidget/messagewidget.ui datamodel/datamodel.h datamodel/datamodel.cpp searchwidget/searchwidget.cpp searchwidget/searchwidget.h searchwidget/searchwidget.ui)
+target_link_libraries(Sources
+  Qt5::Core
+  Qt5::Gui
+  Qt5::Widgets
+  Qt5::Sql
+)
+
+add_executable(library main.cpp)
+target_link_libraries (library Sources)
+# target_link_libraries(library
+#   Qt5::Core
+#   Qt5::Gui
+#   Qt5::Widgets
+#   Qt5::Sql
+# )
+
+enable_testing ()
+add_subdirectory (test)
+
 
 if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-    set(DEBUG_SUFFIX)
-    if (MSVC AND CMAKE_BUILD_TYPE MATCHES "Debug")
-        set(DEBUG_SUFFIX "d")
-    endif ()
-    set(QT_INSTALL_PATH "${CMAKE_PREFIX_PATH}")
+  set(DEBUG_SUFFIX)
+  if (MSVC AND CMAKE_BUILD_TYPE MATCHES "Debug")
+    set(DEBUG_SUFFIX "d")
+  endif ()
+  set(QT_INSTALL_PATH "${CMAKE_PREFIX_PATH}")
+  if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
+    set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
     if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
-        set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
-        if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
-            set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
-        endif ()
+      set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
     endif ()
-    if (EXISTS "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll")
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E make_directory
-                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy
-                "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"
-                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
-    endif ()
-    foreach (QT_LIB Core Gui Widgets Sql)
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy
-                "${QT_INSTALL_PATH}/bin/Qt5${QT_LIB}${DEBUG_SUFFIX}.dll"
-                "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
-    endforeach (QT_LIB)
+  endif ()
+  if (EXISTS "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll")
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E make_directory
+      "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy
+      "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"
+      "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
+  endif ()
+  foreach (QT_LIB Core Gui Widgets Sql)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy
+      "${QT_INSTALL_PATH}/bin/Qt5${QT_LIB}${DEBUG_SUFFIX}.dll"
+      "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
+  endforeach (QT_LIB)
 endif ()
