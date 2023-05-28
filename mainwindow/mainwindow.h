@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <qtabwidget.h>
+
 #include <QMainWindow>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -31,12 +33,14 @@ class MainWindow: public QMainWindow {
   private:
     Ui::MainWindow* ui;
     QWidget* central_widget;
-    QVBoxLayout* v_box_layout;
-    FormWidget* form_widget;
-    ButtonsWidget* buttons_widget;
-    // SearchWidget* search_widget;
-    TableWidget* table_widget;
-    DataModel* data_model;
+    QTabWidget* tab_widget;
+    SearchWidget* search_widget;
+    // QVBoxLayout* v_box_layout;
+    // FormWidget* form_widget;
+    // ButtonsWidget* buttons_widget;
+    // // SearchWidget* search_widget;
+    // TableWidget* table_widget;
+    // DataModel* data_model;
 
   private slots:
     void add_data();
