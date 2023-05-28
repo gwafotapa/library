@@ -2,6 +2,7 @@
 
 #include <qformlayout.h>
 #include <qlineedit.h>
+#include <qnamespace.h>
 
 #include "ui_formwidget.h"
 
@@ -11,6 +12,12 @@ FormWidget::FormWidget(QWidget* parent) :
     ui->setupUi(this);
 
     title_line = new QLineEdit;
+    // title_line->setReadOnly(true);
+    QPalette palette;
+    palette.setColor(QPalette::Base, Qt::lightGray);
+    palette.setColor(QPalette::Text, Qt::darkGray);
+    title_line->setPalette(palette);
+
     authors_line = new QLineEdit;
     authors_line->setPlaceholderText("Author1, Author2, ...");
 

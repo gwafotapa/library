@@ -24,6 +24,10 @@ class MainWindow: public QMainWindow {
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow() override;
 
+    void add_author(QString& author) const;
+    void add_authors(QStringList& authors) const;
+    void add_book(QString& title, QString& authors) const;
+
   private:
     Ui::MainWindow* ui;
     QWidget* central_widget;
@@ -36,6 +40,7 @@ class MainWindow: public QMainWindow {
 
   private slots:
     void add_data();
+    void add_data2();
     void search_data();
     // void filter_search_data();
 };
