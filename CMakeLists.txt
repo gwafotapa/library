@@ -3,6 +3,7 @@ project(library)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # set(CMAKE_PREFIX_PATH "C:/Users/Administrateur/SE23-188121-POEI-Python-C-/qt/5.15.2/mingw81_64")
+set(CMAKE_PREFIX_PATH "/home/guillaume/programs/qt/6.5.1/gcc_64/lib/cmake/Qt6")
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -Wall -Wextra -Wpedantic")
 set(CMAKE_AUTOMOC ON)
@@ -20,7 +21,7 @@ set(CMAKE_AUTOUIC ON)
 # # set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 # FetchContent_MakeAvailable(googletest)
 
-find_package(Qt5 COMPONENTS
+find_package(Qt6 COMPONENTS
   Core
   Gui
   Widgets
@@ -29,19 +30,19 @@ find_package(Qt5 COMPONENTS
 
 add_library(Sources author/author.h author/author.cpp book/book.h book/book.cpp mainwindow/mainwindow.cpp mainwindow/mainwindow.h mainwindow/mainwindow.ui formwidget/formwidget.cpp formwidget/formwidget.h formwidget/formwidget.ui tablewidget/tablewidget.cpp tablewidget/tablewidget.h tablewidget/tablewidget.ui buttonswidget/buttonswidget.cpp buttonswidget/buttonswidget.h buttonswidget/buttonswidget.ui messagewidget/messagewidget.cpp messagewidget/messagewidget.h messagewidget/messagewidget.ui datamodel/datamodel.h datamodel/datamodel.cpp searchwidget/searchwidget.cpp searchwidget/searchwidget.h searchwidget/searchwidget.ui add_widget/add_widget.cpp add_widget/add_widget.h add_widget/add_widget.ui add_std_book_widget/add_std_book_widget.h add_std_book_widget/add_std_book_widget.cpp add_std_book_widget/add_std_book_widget.ui add_comic_book_widget/add_comic_book_widget.h add_comic_book_widget/add_comic_book_widget.cpp add_comic_book_widget/add_comic_book_widget.ui add_author_widget/add_author_widget.h add_author_widget/add_author_widget.cpp add_author_widget/add_author_widget.ui)
 target_link_libraries(Sources
-  Qt5::Core
-  Qt5::Gui
-  Qt5::Widgets
-  Qt5::Sql
+  Qt6::Core
+  Qt6::Gui
+  Qt6::Widgets
+  Qt6::Sql
 )
 
 add_executable(library main.cpp)
 target_link_libraries (library Sources)
 # target_link_libraries(library
-#   Qt5::Core
-#   Qt5::Gui
-#   Qt5::Widgets
-#   Qt5::Sql
+#   Qt6::Core
+#   Qt6::Gui
+#   Qt6::Widgets
+#   Qt6::Sql
 # )
 
 # enable_testing ()
@@ -72,7 +73,7 @@ if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   foreach (QT_LIB Core Gui Widgets Sql)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E copy
-      "${QT_INSTALL_PATH}/bin/Qt5${QT_LIB}${DEBUG_SUFFIX}.dll"
+      "${QT_INSTALL_PATH}/bin/Qt6${QT_LIB}${DEBUG_SUFFIX}.dll"
       "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
   endforeach (QT_LIB)
 endif ()

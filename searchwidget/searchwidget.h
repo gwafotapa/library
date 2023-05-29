@@ -21,7 +21,7 @@ class SearchWidget: public QWidget {
     ~SearchWidget() override;
 
     QPushButton* get_search_button() const;
-    void regular_book_search() const;
+    void non_comic_book_search() const;
     void comic_book_search() const;
 
   private:
@@ -34,9 +34,11 @@ class SearchWidget: public QWidget {
     QLineEdit* cb_writers_line;
     QLineEdit* cb_illustrators_line;
     QPushButton* search_button;
+    QPushButton* clear_button;
 
   private slots:
     void select_search(int index);
+    void clear_fields();
 };
 
 #endif  // SEARCHWIDGET_H

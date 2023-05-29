@@ -23,7 +23,7 @@ AddComicBookWidget::AddComicBookWidget(QWidget* parent) :
     form_layout->addRow("Title", title_line);
     form_layout->addRow("Writers", writers_line);
     form_layout->addRow("Illustrators", illustrators_line);
-    form_layout->addRow("Writer / Illustartor", check_box);
+    form_layout->addRow("Writer / Illustrator", check_box);
 
     connect(
         check_box,
