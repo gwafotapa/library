@@ -1,6 +1,8 @@
 #ifndef ADD_BOOK_WIDGET_H
 #define ADD_BOOK_WIDGET_H
 
+#include <qboxlayout.h>
+
 #include <QCheckBox>
 #include <QFormLayout>
 #include <QLineEdit>

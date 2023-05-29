@@ -1,9 +1,11 @@
 #include "add_book_widget.h"
 
+#include <qboxlayout.h>
 #include <qpushbutton.h>
 
 #include <QCheckBox>
 #include <QFormLayout>
+#include <QLabel>
 #include <QLineEdit>
 #include <QStyle>
 
@@ -22,7 +24,7 @@ AddBookWidget::AddBookWidget(QWidget* parent) :
     illustrators_line = new QLineEdit;
     illustrators_line->setPlaceholderText("Illustrator1, Illustrator2, ...");
     illustrators_line->setClearButtonEnabled(true);
-    check_box = new QCheckBox;
+    check_box = new QCheckBox("Writers / Illustrators");
     add_button = new QPushButton("Add");
     clear_button = new QPushButton("Clear");
 
@@ -30,7 +32,7 @@ AddBookWidget::AddBookWidget(QWidget* parent) :
     form_layout->addRow("Title", title_line);
     form_layout->addRow("Writers", writers_line);
     form_layout->addRow("Illustrators", illustrators_line);
-    form_layout->addRow("Writer / Illustrator", check_box);
+    form_layout->addRow("", check_box);
 
     buttons_layout = new QHBoxLayout;
     buttons_layout->addWidget(add_button);
