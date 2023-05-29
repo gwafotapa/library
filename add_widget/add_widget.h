@@ -1,11 +1,13 @@
 #ifndef ADD_WIDGET_H
 #define ADD_WIDGET_H
 
-/* #include <QFormLayout> */
-/* #include <QLineEdit> */
 #include <QComboBox>
 #include <QStackedWidget>
 #include <QWidget>
+
+#include "../add_author_widget/add_author_widget.h"
+#include "../add_comic_book_widget/add_comic_book_widget.h"
+#include "../add_std_book_widget/add_std_book_widget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,9 +26,9 @@ class AddWidget: public QWidget {
     Ui::AddWidget* ui;
     QComboBox* combo_box;
     QStackedWidget* stacked_widget;
-    /* AddStdBookWidget* add_std_book_widget; */
-    /* AddComicBookWidget* add_comic_book_widget; */
-    /* AddAuthorWidget* add_author_widget; */
+    AddStdBookWidget* add_std_book_widget;
+    AddComicBookWidget* add_comic_book_widget;
+    AddAuthorWidget* add_author_widget;
 };
 
 #endif  // ADD_WIDGET_H

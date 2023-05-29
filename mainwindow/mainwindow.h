@@ -43,6 +43,8 @@ class MainWindow: public QMainWindow {
     // TableWidget* table_widget;
     // DataModel* data_model;
 
+    void keyPressEvent(QKeyEvent* event);
+
   private slots:
     void add_data();
     void add_data2();

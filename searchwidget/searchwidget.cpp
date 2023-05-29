@@ -1,11 +1,10 @@
 #include "searchwidget.h"
 
-#include <qboxlayout.h>
-#include <qcheckbox.h>
-#include <qcombobox.h>
-#include <qformlayout.h>
-#include <qlineedit.h>
-#include <qpushbutton.h>
+#include <QComboBox>
+#include <QFormLayout>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QWidget>
 
 #include "ui_searchwidget.h"
 

@@ -3,6 +3,7 @@
 #include <qsqlrecord.h>
 
 #include <QDebug>
+#include <QKeyEvent>
 #include <QPushButton>
 #include <QSqlRecord>
 #include <QVBoxLayout>
@@ -60,6 +61,16 @@ MainWindow::MainWindow(QWidget* parent) :
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+void MainWindow::keyPressEvent(QKeyEvent* event) {
+    switch (event->key()) {
+        case Qt::Key_Escape:
+            close();
+            break;
+        default:
+            QMainWindow::keyPressEvent(event);
+    }
 }
 
 void MainWindow::add_author(QString& author) const {

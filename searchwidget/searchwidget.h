@@ -1,12 +1,11 @@
 #ifndef SEARCHWIDGET_H
 #define SEARCHWIDGET_H
 
-#include <qboxlayout.h>
-#include <qcheckbox.h>
-#include <qcombobox.h>
-#include <qformlayout.h>
-#include <qpushbutton.h>
-#include <qwidget.h>
+#include <QComboBox>
+#include <QFormLayout>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

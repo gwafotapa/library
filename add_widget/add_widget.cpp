@@ -13,19 +13,30 @@
 AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
     ui->setupUi(this);
 
-    // combo_box = new QComboBox;
-    // stacked_widget = new QStackedWidget;
-    // add_std_book_widget = new AddStdBookWidget;
-    // add_comic_book_widget = new AddComicBookWidget;
-    // add_author_widget = new AddAuthorWidget;
+    combo_box = new QComboBox;
+    combo_box->addItem("Book");
+    combo_box->addItem("Comic book");
+    combo_box->addItem("Author");
 
-    // stacked_widget->addWidget(add_std_book_widget);
-    // stacked_widget->addWidget(add_comic_book_widget);
-    // stacked_widget->addWidget(add_author_widget);
+    add_std_book_widget = new AddStdBookWidget;
+    add_comic_book_widget = new AddComicBookWidget;
+    add_author_widget = new AddAuthorWidget;
 
-    // QVBoxLayout* layout = new QVBoxLayout;
-    // layout->addWidget(stacked_widget);
-    // setLayout(layout);
+    stacked_widget = new QStackedWidget;
+    stacked_widget->addWidget(add_std_book_widget);
+    stacked_widget->addWidget(add_comic_book_widget);
+    stacked_widget->addWidget(add_author_widget);
+
+    QVBoxLayout* layout = new QVBoxLayout;
+    layout->addWidget(combo_box);
+    layout->addWidget(stacked_widget);
+    setLayout(layout);
+
+    connect(
+        combo_box,
+        static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+        stacked_widget,
+        &QStackedWidget::setCurrentIndex);
 }
 
 AddWidget::~AddWidget() {
