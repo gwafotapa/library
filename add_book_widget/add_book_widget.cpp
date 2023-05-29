@@ -1,15 +1,14 @@
-#include "add_comic_book_widget.h"
-
 #include <QCheckBox>
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QStyle>
 
-#include "ui_add_comic_book_widget.h"
+#include "add_book_widget.h"
+#include "ui_add_book_widget.h"
 
-AddComicBookWidget::AddComicBookWidget(QWidget* parent) :
+AddBookWidget::AddBookWidget(QWidget* parent) :
     QWidget(parent),
-    ui(new Ui::AddComicBookWidget) {
+    ui(new Ui::AddBookWidget) {
     ui->setupUi(this);
 
     title_line = new QLineEdit;
@@ -29,14 +28,14 @@ AddComicBookWidget::AddComicBookWidget(QWidget* parent) :
         check_box,
         &QCheckBox::stateChanged,
         this,
-        &AddComicBookWidget::writer_illustrator);
+        &AddBookWidget::writer_illustrator);
 }
 
-AddComicBookWidget::~AddComicBookWidget() {
+AddBookWidget::~AddBookWidget() {
     delete ui;
 }
 
-void AddComicBookWidget::writer_illustrator(int state) {
+void AddBookWidget::writer_illustrator(int state) {
     if (state == Qt::Checked) {
         // TODO: factorize read only palette
         QPalette read_only_palette;
@@ -51,7 +50,7 @@ void AddComicBookWidget::writer_illustrator(int state) {
             writers_line,
             &QLineEdit::textEdited,
             this,
-            &AddComicBookWidget::copy_writer_to_illustrator);
+            &AddBookWidget::copy_writer_to_illustrator);
     } else {
         illustrators_line->setReadOnly(false);
         illustrators_line->setPalette(QApplication::style()->standardPalette());
@@ -60,10 +59,10 @@ void AddComicBookWidget::writer_illustrator(int state) {
             writers_line,
             &QLineEdit::textEdited,
             this,
-            &AddComicBookWidget::copy_writer_to_illustrator);
+            &AddBookWidget::copy_writer_to_illustrator);
     }
 }
 
-void AddComicBookWidget::copy_writer_to_illustrator() {
+void AddBookWidget::copy_writer_to_illustrator() {
     illustrators_line->setText(writers_line->text());
 }

@@ -18,13 +18,11 @@ AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
     combo_box->addItem("Comic book");
     combo_box->addItem("Author");
 
-    add_std_book_widget = new AddStdBookWidget;
-    add_comic_book_widget = new AddComicBookWidget;
+    add_book_widget = new AddBookWidget;
     add_author_widget = new AddAuthorWidget;
 
     stacked_widget = new QStackedWidget;
-    stacked_widget->addWidget(add_std_book_widget);
-    stacked_widget->addWidget(add_comic_book_widget);
+    stacked_widget->addWidget(add_book_widget);
     stacked_widget->addWidget(add_author_widget);
 
     QVBoxLayout* layout = new QVBoxLayout;

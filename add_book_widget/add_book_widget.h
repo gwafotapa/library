@@ -1,5 +1,5 @@
-#ifndef ADD_COMIC_BOOK_WIDGET_H
-#define ADD_COMIC_BOOK_WIDGET_H
+#ifndef ADD_BOOK_WIDGET_H
+#define ADD_BOOK_WIDGET_H
 
 #include <QCheckBox>
 #include <QFormLayout>
@@ -7,18 +7,18 @@
 #include <QWidget>
 
 namespace Ui {
-class AddComicBookWidget;
+class AddBookWidget;
 }
 
-class AddComicBookWidget: public QWidget {
+class AddBookWidget: public QWidget {
     Q_OBJECT
 
   public:
-    explicit AddComicBookWidget(QWidget* parent = nullptr);
-    ~AddComicBookWidget();
+    explicit AddBookWidget(QWidget* parent = nullptr);
+    ~AddBookWidget();
 
   private:
-    Ui::AddComicBookWidget* ui;
+    Ui::AddBookWidget* ui;
     QFormLayout* form_layout;
     QLineEdit* title_line;
     QLineEdit* writers_line;
@@ -30,4 +30,4 @@ class AddComicBookWidget: public QWidget {
     void copy_writer_to_illustrator();
 };
 
-#endif  // ADD_COMIC_BOOK_WIDGET_H
+#endif  // ADD_BOOK_WIDGET_H
