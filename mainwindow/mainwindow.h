@@ -33,10 +33,10 @@ class MainWindow: public QMainWindow {
 
   private:
     Ui::MainWindow* ui;
+    // QVBoxLayout* main_layout;
     QTabWidget* tab_widget;
     SearchWidget* search_widget;
     AddWidget* add_widget;
-    // QVBoxLayout* v_box_layout;
     // FormWidget* form_widget;
     // ButtonsWidget* buttons_widget;
     // // SearchWidget* search_widget;

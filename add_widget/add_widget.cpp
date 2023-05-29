@@ -2,6 +2,7 @@
 
 #include <qboxlayout.h>
 #include <qcombobox.h>
+#include <qpushbutton.h>
 #include <qstackedwidget.h>
 
 // #include <qformlayout.h>
@@ -25,16 +26,30 @@ AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
     stacked_widget->addWidget(add_book_widget);
     stacked_widget->addWidget(add_author_widget);
 
-    QVBoxLayout* layout = new QVBoxLayout;
-    layout->addWidget(combo_box);
-    layout->addWidget(stacked_widget);
-    setLayout(layout);
+    // QHBoxLayout* stacked_widget_layout = new QHBoxLayout;
+    // stacked_widget->setLayout(stacked_widget_layout);
+
+    main_layout = new QVBoxLayout;
+    main_layout->addWidget(combo_box);
+    main_layout->addWidget(stacked_widget);
+    // main_layout->addStretch();
+    // main_layout->addLayout(buttons_layout);
+    setLayout(main_layout);
+
+    // connect(combo_box, &QComboBox::currentIndexChanged, [&](int index) {
+    //     stacked_widget->setFixedHeight(
+    //         stacked_widget->currentWidget()->sizeHint().height());
+    // });
+
+    connect(combo_box, &QComboBox::currentIndexChanged, [&](int index) {
+        stacked_widget->setCurrentIndex(index <= 1 ? 0 : 1);
+    });
 
     connect(
         combo_box,
-        static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-        stacked_widget,
-        &QStackedWidget::setCurrentIndex);
+        &QComboBox::currentIndexChanged,
+        add_book_widget,
+        &AddBookWidget::set_add_book_mode);
 }
 
 AddWidget::~AddWidget() {

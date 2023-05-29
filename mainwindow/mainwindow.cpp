@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 
+#include <qboxlayout.h>
 #include <qsqlrecord.h>
 
 #include <QDebug>
@@ -38,6 +39,10 @@ MainWindow::MainWindow(QWidget* parent) :
     tab_widget->addTab(search_widget, "Search");
     tab_widget->addTab(add_widget, "Add");
     // tab_widget->addTab(buttons_widget, "Add");
+
+    // main_layout = new QVBoxLayout;
+    // main_layout->addWidget(tab_widget);
+    // setLayout(main_layout);
 
     // connect(
     //     buttons_widget->get_add_button(),

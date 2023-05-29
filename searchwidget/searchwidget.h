@@ -38,7 +38,7 @@ class SearchWidget: public QWidget {
 
   private slots:
     void select_search(int index);
-    void clear_fields();
+    void clear();
 };
 
 #endif  // SEARCHWIDGET_H

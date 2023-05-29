@@ -52,11 +52,7 @@ SearchWidget::SearchWidget(QWidget* parent) :
         this,
         &SearchWidget::select_search);
 
-    connect(
-        clear_button,
-        &QPushButton::clicked,
-        this,
-        &SearchWidget::clear_fields);
+    connect(clear_button, &QPushButton::clicked, this, &SearchWidget::clear);
 }
 
 SearchWidget::~SearchWidget() {
@@ -111,7 +107,7 @@ void SearchWidget::select_search(int index) {
     index == 0 ? non_comic_book_search() : comic_book_search();
 }
 
-void SearchWidget::clear_fields() {
+void SearchWidget::clear() {
     title_line->clear();
     writers_line->clear();
     cb_writers_line->clear();
