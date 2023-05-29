@@ -40,8 +40,6 @@ class MainWindow: public QMainWindow {
     // FormWidget* form_widget;
     // ButtonsWidget* buttons_widget;
     // // SearchWidget* search_widget;
-    // TableWidget* table_widget;
-    // DataModel* data_model;
 
     void keyPressEvent(QKeyEvent* event);
 

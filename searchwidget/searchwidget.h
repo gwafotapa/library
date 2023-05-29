@@ -1,11 +1,15 @@
 #ifndef SEARCHWIDGET_H
 #define SEARCHWIDGET_H
 
+#include <QBoxLayout>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QTableView>
 #include <QWidget>
+
+#include "../datamodel/datamodel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -26,15 +30,18 @@ class SearchWidget: public QWidget {
 
   private:
     Ui::SearchWidget* ui;
+    QVBoxLayout* main_layout;
     QFormLayout* form_layout;
+    QHBoxLayout* buttons_layout;
 
     QComboBox* combo_box;
     QLineEdit* title_line;
     QLineEdit* writers_line;
-    QLineEdit* cb_writers_line;
-    QLineEdit* cb_illustrators_line;
+    QLineEdit* illustrators_line;
     QPushButton* search_button;
     QPushButton* clear_button;
+    QTableView* table_view;
+    DataModel* data_model;
 
   private slots:
     void select_search(int index);
