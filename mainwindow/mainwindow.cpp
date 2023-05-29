@@ -14,9 +14,6 @@ MainWindow::MainWindow(QWidget* parent) :
     ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    central_widget = new QWidget;
-    setCentralWidget(central_widget);
-
     // form_widget = new FormWidget;
     // buttons_widget = new ButtonsWidget;
     // // search_widget = new SearchWidget;
@@ -33,9 +30,12 @@ MainWindow::MainWindow(QWidget* parent) :
     // table_widget->get_table_view()->setModel(data_model);
 
     search_widget = new SearchWidget;
+    add_widget = new AddWidget;
 
-    tab_widget = new QTabWidget(central_widget);
+    tab_widget = new QTabWidget;
+    // tab_widget->setStyleSheet("QTabBar::tab { width: 80px; }");
     tab_widget->addTab(search_widget, "Search");
+    tab_widget->addTab(add_widget, "Add");
     // tab_widget->addTab(buttons_widget, "Add");
 
     // connect(
@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget* parent) :
     //     &QPushButton::clicked,
     //     this,
     //     &MainWindow::filter_search_data);
+    setCentralWidget(tab_widget);
 }
 
 MainWindow::~MainWindow() {

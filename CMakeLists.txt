@@ -27,7 +27,7 @@ find_package(Qt5 COMPONENTS
   Sql
   REQUIRED)
 
-add_library(Sources author/author.h author/author.cpp book/book.h book/book.cpp mainwindow/mainwindow.cpp mainwindow/mainwindow.h mainwindow/mainwindow.ui formwidget/formwidget.cpp formwidget/formwidget.h formwidget/formwidget.ui tablewidget/tablewidget.cpp tablewidget/tablewidget.h tablewidget/tablewidget.ui buttonswidget/buttonswidget.cpp buttonswidget/buttonswidget.h buttonswidget/buttonswidget.ui messagewidget/messagewidget.cpp messagewidget/messagewidget.h messagewidget/messagewidget.ui datamodel/datamodel.h datamodel/datamodel.cpp searchwidget/searchwidget.cpp searchwidget/searchwidget.h searchwidget/searchwidget.ui)
+add_library(Sources author/author.h author/author.cpp book/book.h book/book.cpp mainwindow/mainwindow.cpp mainwindow/mainwindow.h mainwindow/mainwindow.ui formwidget/formwidget.cpp formwidget/formwidget.h formwidget/formwidget.ui tablewidget/tablewidget.cpp tablewidget/tablewidget.h tablewidget/tablewidget.ui buttonswidget/buttonswidget.cpp buttonswidget/buttonswidget.h buttonswidget/buttonswidget.ui messagewidget/messagewidget.cpp messagewidget/messagewidget.h messagewidget/messagewidget.ui datamodel/datamodel.h datamodel/datamodel.cpp searchwidget/searchwidget.cpp searchwidget/searchwidget.h searchwidget/searchwidget.ui add_widget/add_widget.cpp add_widget/add_widget.h add_widget/add_widget.ui)
 target_link_libraries(Sources
   Qt5::Core
   Qt5::Gui

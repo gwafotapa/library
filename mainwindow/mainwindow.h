@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
+#include "../add_widget/add_widget.h"
 #include "../buttonswidget/buttonswidget.h"
 #include "../datamodel/datamodel.h"
 #include "../formwidget/formwidget.h"
@@ -32,9 +33,9 @@ class MainWindow: public QMainWindow {
 
   private:
     Ui::MainWindow* ui;
-    QWidget* central_widget;
     QTabWidget* tab_widget;
     SearchWidget* search_widget;
+    AddWidget* add_widget;
     // QVBoxLayout* v_box_layout;
     // FormWidget* form_widget;
     // ButtonsWidget* buttons_widget;
