@@ -31,13 +31,6 @@ void DataModel::create_table(
     }
 }
 
-void DataModel::add_writers(QStringList& writers) {
-    // QStringList writer_list = writers.split(u',');
-    for (QString& writer : writers) {
-        add_writer(writer);
-    }
-}
-
 void DataModel::add_writer(QString& writer) {
     writer = writer.simplified();
     if (writer.isEmpty()) {
@@ -60,6 +53,71 @@ void DataModel::add_writer(QString& writer) {
     select();
 }
 
+void DataModel::add_writers(QStringList& writers) {
+    // QStringList writer_list = writers.split(u',');
+    for (QString& writer : writers) {
+        add_writer(writer);
+    }
+}
+
+// TODO: factor with add_writer (table name is the only difference)
+void DataModel::add_comic_book_writer(QString& writer) {
+    writer = writer.simplified();
+    if (writer.isEmpty()) {
+        qDebug() << "Name of writer is empty";
+        return;
+    }
+
+    setTable(comic_books_table_name);
+    setFilter("Writers = '" + writer + "'");
+    select();
+    if (rowCount() == 0) {
+        QSqlRecord rec = record();
+        rec.setValue("Writers", writer);
+        insertRecord(-1, rec);
+        submit();
+    } else {
+        qDebug() << "Writer is already in the database";
+    }
+    setFilter("");
+    select();
+}
+
+void DataModel::add_comic_book_writers(QStringList& writers) {
+    for (QString& writer : writers) {
+        add_comic_book_writer(writer);
+    }
+}
+
+// TODO: factor with add_writer and add_comic_book_writer as add_author
+void DataModel::add_illustrator(QString& illustrator) {
+    illustrator = illustrator.simplified();
+    if (illustrator.isEmpty()) {
+        qDebug() << "Name of illustrator is empty";
+        return;
+    }
+
+    setTable(comic_books_table_name);
+    setFilter("Illustrators = '" + illustrator + "'");
+    select();
+    if (rowCount() == 0) {
+        QSqlRecord rec = record();
+        rec.setValue("Illustrators", illustrator);
+        insertRecord(-1, rec);
+        submit();
+    } else {
+        qDebug() << "Illustrator is already in the database";
+    }
+    setFilter("");
+    select();
+}
+
+void DataModel::add_illustrators(QStringList& illustrators) {
+    for (QString& illustrator : illustrators) {
+        add_illustrator(illustrator);
+    }
+}
+
 void DataModel::add_book(QString& title, QString& writers) {
     title = title.simplified();
     writers = writers.simplified();
@@ -79,6 +137,45 @@ void DataModel::add_book(QString& title, QString& writers) {
         submit();
     } else {
         qDebug() << "Book is already in the database";
+    }
+    setFilter("");
+    select();
+}
+
+void DataModel::add_comic_book(
+    QString& title,
+    QString& writers,
+    QString& illustrators) {
+    title = title.simplified();
+    writers = writers.simplified();
+    illustrators = illustrators.simplified();
+    if (title.isEmpty()) {
+        qDebug() << "Empty string: Title";
+        return;
+    }
+    if (writers.isEmpty()) {
+        qDebug() << "Empty string: Writers";
+        return;
+    }
+    if (illustrators.isEmpty()) {
+        qDebug() << "Empty string: Illustrators";
+        return;
+    }
+
+    setTable(comic_books_table_name);
+    setFilter(
+        "Title = '" + title + "' AND Writers = '" + writers
+        + "' AND Illustrators = '" + illustrators + "'");
+    select();
+    if (rowCount() == 0) {
+        QSqlRecord rec = record();
+        rec.setValue("Title", title);
+        rec.setValue("Writers", writers);
+        rec.setValue("Illustrators", illustrators);
+        insertRecord(-1, rec);
+        submit();
+    } else {
+        qDebug() << "Comic book is already in the database";
     }
     setFilter("");
     select();

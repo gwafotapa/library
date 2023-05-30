@@ -24,7 +24,7 @@ class AddBookWidget: public QWidget {
     ~AddBookWidget();
 
   public slots:
-    void set_add_book_mode(int mode);
+    void set_book_type(int book_type);
 
   private:
     Ui::AddBookWidget* ui;
@@ -47,6 +47,7 @@ class AddBookWidget: public QWidget {
     void copy_writer_to_illustrator();
     void clear();
     void add_book_and_writers();
+    void add_comic_book_and_authors();
 };
 
 #endif  // ADD_BOOK_WIDGET_H

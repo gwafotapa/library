@@ -45,7 +45,13 @@ class DataModel: public QSqlTableModel {
   public slots:
     void add_writer(QString& writer);
     void add_writers(QStringList& writers);
+    void add_comic_book_writer(QString& writer);
+    void add_comic_book_writers(QStringList& writers);
+    void add_illustrator(QString& illustrator);
+    void add_illustrators(QStringList& illustrators);
     void add_book(QString& title, QString& writers);
+    void
+    add_comic_book(QString& title, QString& writers, QString& illustrators);
 
   private:
     const QString db_filename = "library.db";

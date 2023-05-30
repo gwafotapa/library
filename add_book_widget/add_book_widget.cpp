@@ -42,8 +42,6 @@ AddBookWidget::AddBookWidget(DataModel* data_model, QWidget* parent) :
 
     table_view = new QTableView;
     table_view->setModel(data_model);
-    data_model->setTable("Books");
-    data_model->select();
     this->data_model = data_model;
 
     main_layout = new QVBoxLayout;
@@ -53,7 +51,7 @@ AddBookWidget::AddBookWidget(DataModel* data_model, QWidget* parent) :
     main_layout->addStretch();
     setLayout(main_layout);
 
-    set_add_book_mode(0);
+    set_book_type(0);
 
     connect(
         check_box,
@@ -62,27 +60,45 @@ AddBookWidget::AddBookWidget(DataModel* data_model, QWidget* parent) :
         &AddBookWidget::writer_illustrator);
 
     connect(clear_button, &QPushButton::clicked, this, &AddBookWidget::clear);
-
-    connect(
-        add_button,
-        &QPushButton::clicked,
-        this,
-        &AddBookWidget::add_book_and_writers);
 }
 
 AddBookWidget::~AddBookWidget() {
     delete ui;
 }
 
-void AddBookWidget::set_add_book_mode(int mode) {
-    switch (mode) {
-        case 0:  // Add book
+void AddBookWidget::set_book_type(int book_type) {
+    switch (book_type) {
+        case 0:
             form_layout->setRowVisible(2, false);
             form_layout->setRowVisible(3, false);
+            connect(
+                add_button,
+                &QPushButton::clicked,
+                this,
+                &AddBookWidget::add_book_and_writers);
+            disconnect(
+                add_button,
+                &QPushButton::clicked,
+                this,
+                &AddBookWidget::add_comic_book_and_authors);
+            data_model->setTable("Books");
+            data_model->select();
             break;
-        case 1:  // Add comic book
+        case 1:
             form_layout->setRowVisible(2, true);
             form_layout->setRowVisible(3, true);
+            connect(
+                add_button,
+                &QPushButton::clicked,
+                this,
+                &AddBookWidget::add_comic_book_and_authors);
+            disconnect(
+                add_button,
+                &QPushButton::clicked,
+                this,
+                &AddBookWidget::add_book_and_writers);
+            data_model->setTable("Comic Books");
+            data_model->select();
             break;
     }
 }
@@ -129,11 +145,21 @@ void AddBookWidget::clear() {
 void AddBookWidget::add_book_and_writers() {
     QString writers = writers_line->text();
     QStringList writer_list = writers.split(u',');
-    // for (QString& writer : writer_list) {
-    //     data_model->add_writer(writer);
-    // }
     data_model->add_writers(writer_list);
 
     QString title = title_line->text();
     data_model->add_book(title, writers);
+}
+
+void AddBookWidget::add_comic_book_and_authors() {
+    QString writers = writers_line->text();
+    QStringList writer_list = writers.split(u',');
+    data_model->add_comic_book_writers(writer_list);
+
+    QString illustrators = illustrators_line->text();
+    QStringList illustrator_list = illustrators.split(u',');
+    data_model->add_illustrators(illustrator_list);
+
+    QString title = title_line->text();
+    data_model->add_comic_book(title, writers, illustrators);
 }
