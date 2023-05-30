@@ -63,6 +63,9 @@ class DataModel: public QSqlTableModel {
         const QString& table_name,
         const QStringList& table_column_names,
         const QStringList& column_types);
+    void add_writer(QString& writer);
+    void add_writers(QStringList& writers);
+    void add_book(QString& title, QString& writers);
 };
 
 #endif  // DATAMODEL_H

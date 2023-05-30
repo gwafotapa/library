@@ -1,5 +1,7 @@
 #include "datamodel.h"
 
+#include <QSqlRecord>
+
 DataModel::~DataModel() {
     if (db_.isOpen()) {
         db_.close();
@@ -26,5 +28,54 @@ void DataModel::create_table(
         qDebug()
             << (result ? "Table " + table_name + " created"
                        : query.lastError().databaseText());
+    }
+}
+
+void DataModel::add_writers(QStringList& writers) {
+    // QStringList writer_list = writers.split(u',');
+    for (QString& writer : writers) {
+        add_writer(writer);
+    }
+}
+
+void DataModel::add_writer(QString& writer) {
+    writer = writer.simplified();
+    if (writer.isEmpty()) {
+        qDebug() << "Name of writer is empty";
+        return;
+    }
+
+    setTable(books_table_name);
+    setFilter("Writers = '" + writer + "'");
+    select();
+    if (rowCount() == 0) {
+        QSqlRecord rec = record();
+        rec.setValue("Writers", writer);
+        insertRecord(-1, rec);
+        // data_model->submit();
+    } else {
+        qDebug() << "Writer is already in the database";
+    }
+}
+
+void DataModel::add_book(QString& title, QString& writers) {
+    title = title.simplified();
+    writers = writers.simplified();
+    if (title.isEmpty() || writers.isEmpty()) {
+        qDebug() << "Empty string: " << (title.isEmpty() ? "Title" : "Writers");
+        return;
+    }
+
+    setTable(books_table_name);
+    setFilter("Title = '" + title + "' AND Writers = '" + writers + "'");
+    select();
+    if (rowCount() == 0) {
+        QSqlRecord rec = record();
+        rec.setValue("Title", title);
+        rec.setValue("Writers", writers);
+        insertRecord(-1, rec);
+        // data_model->submit();
+    } else {
+        qDebug() << "Book is already in the database";
     }
 }
