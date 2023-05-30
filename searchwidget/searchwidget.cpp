@@ -1,6 +1,7 @@
 #include "searchwidget.h"
 
 #include <qboxlayout.h>
+#include <qtableview.h>
 
 #include <QComboBox>
 #include <QFormLayout>
@@ -33,13 +34,14 @@ SearchWidget::SearchWidget(QWidget* parent) :
     search_button = new QPushButton("Search");
     clear_button = new QPushButton("Clear");
 
+    data_model = new DataModel;
+    table_view = new QTableView;
+    table_view->setModel(data_model);
+
     form_layout = new QFormLayout;
-    // form_layout->addRow("", combo_box);
     form_layout->addRow("Title", title_line);
     form_layout->addRow("Writers", writers_line);
     form_layout->addRow("Illustrators", illustrators_line);
-    // form_layout->addRow("", search_button);
-    // form_layout->addRow("", clear_button);
 
     buttons_layout = new QHBoxLayout;
     buttons_layout->addWidget(search_button);
@@ -50,7 +52,7 @@ SearchWidget::SearchWidget(QWidget* parent) :
     main_layout->addLayout(form_layout);
     main_layout->addLayout(buttons_layout);
     main_layout->addStretch();
-    // main_layout->addWidget(table_view);
+    main_layout->addWidget(table_view);
     setLayout(main_layout);
 
     non_comic_book_search();
