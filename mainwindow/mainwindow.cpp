@@ -27,12 +27,13 @@ MainWindow::MainWindow(QWidget* parent) :
     // // v_box_layout->addWidget(search_widget);
     // v_box_layout->addWidget(table_widget);
 
+    data_model = new DataModel(this);
     // data_model = new DataModel(this);
     // // data_model->select();
     // table_widget->get_table_view()->setModel(data_model);
 
-    search_widget = new SearchWidget;
-    add_widget = new AddWidget;
+    search_widget = new SearchWidget(data_model);
+    add_widget = new AddWidget(data_model);
 
     tab_widget = new QTabWidget;
     // tab_widget->setStyleSheet("QTabBar::tab { width: 80px; }");

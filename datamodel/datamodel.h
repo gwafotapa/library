@@ -42,6 +42,11 @@ class DataModel: public QSqlTableModel {
     }
     ~DataModel();
 
+  public slots:
+    void add_writer(QString& writer);
+    void add_writers(QStringList& writers);
+    void add_book(QString& title, QString& writers);
+
   private:
     const QString db_filename = "library.db";
     const QString books_table_name = "Books";
@@ -63,9 +68,6 @@ class DataModel: public QSqlTableModel {
         const QString& table_name,
         const QStringList& table_column_names,
         const QStringList& column_types);
-    void add_writer(QString& writer);
-    void add_writers(QStringList& writers);
-    void add_book(QString& title, QString& writers);
 };
 
 #endif  // DATAMODEL_H

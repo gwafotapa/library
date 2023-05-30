@@ -1,6 +1,7 @@
 #include "searchwidget.h"
 
 #include <qboxlayout.h>
+#include <qpushbutton.h>
 #include <qtableview.h>
 
 #include <QComboBox>
@@ -9,9 +10,10 @@
 #include <QPushButton>
 #include <QWidget>
 
+#include "../datamodel/datamodel.h"
 #include "ui_searchwidget.h"
 
-SearchWidget::SearchWidget(QWidget* parent) :
+SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
     QWidget(parent),
     ui(new Ui::SearchWidget) {
     ui->setupUi(this);
@@ -34,7 +36,6 @@ SearchWidget::SearchWidget(QWidget* parent) :
     search_button = new QPushButton("Search");
     clear_button = new QPushButton("Clear");
 
-    data_model = new DataModel;
     table_view = new QTableView;
     table_view->setModel(data_model);
 

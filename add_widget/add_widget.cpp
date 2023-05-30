@@ -11,7 +11,9 @@
 
 #include "ui_add_widget.h"
 
-AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
+AddWidget::AddWidget(DataModel* data_model, QWidget* parent) :
+    QWidget(parent),
+    ui(new Ui::AddWidget) {
     ui->setupUi(this);
 
     combo_box = new QComboBox;
@@ -19,7 +21,7 @@ AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
     combo_box->addItem("Comic book");
     combo_box->addItem("Author");
 
-    add_book_widget = new AddBookWidget;
+    add_book_widget = new AddBookWidget(data_model);
     add_author_widget = new AddAuthorWidget;
 
     stacked_widget = new QStackedWidget;

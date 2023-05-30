@@ -9,6 +9,7 @@
 
 #include "../add_author_widget/add_author_widget.h"
 #include "../add_book_widget/add_book_widget.h"
+#include "../datamodel/datamodel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,7 +21,7 @@ class AddWidget: public QWidget {
     Q_OBJECT
 
   public:
-    explicit AddWidget(QWidget* parent = nullptr);
+    explicit AddWidget(DataModel* data_model, QWidget* parent = nullptr);
     ~AddWidget() override;
 
   private:

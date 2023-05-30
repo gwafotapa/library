@@ -4,6 +4,7 @@
 #include <qtabwidget.h>
 
 #include <QMainWindow>
+#include <QTableView>
 #include <QVBoxLayout>
 #include <QWidget>
 
@@ -40,6 +41,7 @@ class MainWindow: public QMainWindow {
     // FormWidget* form_widget;
     // ButtonsWidget* buttons_widget;
     // // SearchWidget* search_widget;
+    DataModel* data_model;
 
     void keyPressEvent(QKeyEvent* event);
 

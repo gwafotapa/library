@@ -2,6 +2,7 @@
 
 #include <qboxlayout.h>
 #include <qpushbutton.h>
+#include <qtableview.h>
 
 #include <QCheckBox>
 #include <QFormLayout>
@@ -9,9 +10,10 @@
 #include <QLineEdit>
 #include <QStyle>
 
+#include "../datamodel/datamodel.h"
 #include "ui_add_book_widget.h"
 
-AddBookWidget::AddBookWidget(QWidget* parent) :
+AddBookWidget::AddBookWidget(DataModel* data_model, QWidget* parent) :
     QWidget(parent),
     ui(new Ui::AddBookWidget) {
     ui->setupUi(this);
@@ -38,9 +40,16 @@ AddBookWidget::AddBookWidget(QWidget* parent) :
     buttons_layout->addWidget(add_button);
     buttons_layout->addWidget(clear_button);
 
+    table_view = new QTableView;
+    table_view->setModel(data_model);
+    data_model->setTable("Books");
+    data_model->select();
+    this->data_model = data_model;
+
     main_layout = new QVBoxLayout;
     main_layout->addLayout(form_layout);
     main_layout->addLayout(buttons_layout);
+    main_layout->addWidget(table_view);
     main_layout->addStretch();
     setLayout(main_layout);
 
@@ -53,6 +62,12 @@ AddBookWidget::AddBookWidget(QWidget* parent) :
         &AddBookWidget::writer_illustrator);
 
     connect(clear_button, &QPushButton::clicked, this, &AddBookWidget::clear);
+
+    connect(
+        add_button,
+        &QPushButton::clicked,
+        this,
+        &AddBookWidget::add_book_and_writers);
 }
 
 AddBookWidget::~AddBookWidget() {
@@ -109,4 +124,16 @@ void AddBookWidget::clear() {
     writers_line->clear();
     illustrators_line->clear();
     check_box->setChecked(false);
+}
+
+void AddBookWidget::add_book_and_writers() {
+    QString writers = writers_line->text();
+    QStringList writer_list = writers.split(u',');
+    // for (QString& writer : writer_list) {
+    //     data_model->add_writer(writer);
+    // }
+    data_model->add_writers(writer_list);
+
+    QString title = title_line->text();
+    data_model->add_book(title, writers);
 }

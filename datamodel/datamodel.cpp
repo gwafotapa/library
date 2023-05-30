@@ -52,10 +52,12 @@ void DataModel::add_writer(QString& writer) {
         QSqlRecord rec = record();
         rec.setValue("Writers", writer);
         insertRecord(-1, rec);
-        // data_model->submit();
+        submit();
     } else {
         qDebug() << "Writer is already in the database";
     }
+    setFilter("");
+    select();
 }
 
 void DataModel::add_book(QString& title, QString& writers) {
@@ -74,8 +76,10 @@ void DataModel::add_book(QString& title, QString& writers) {
         rec.setValue("Title", title);
         rec.setValue("Writers", writers);
         insertRecord(-1, rec);
-        // data_model->submit();
+        submit();
     } else {
         qDebug() << "Book is already in the database";
     }
+    setFilter("");
+    select();
 }

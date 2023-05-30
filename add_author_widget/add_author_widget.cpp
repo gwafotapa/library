@@ -42,6 +42,7 @@ AddAuthorWidget::AddAuthorWidget(QWidget* parent) :
     setLayout(main_layout);
 
     connect(clear_button, &QPushButton::clicked, this, &AddAuthorWidget::clear);
+
     // assert(main_layout->setStretchFactor(form_layout, 1));
     // assert(main_layout->setStretchFactor(buttons_layout, 10));
 

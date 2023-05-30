@@ -21,7 +21,7 @@ class SearchWidget: public QWidget {
     Q_OBJECT
 
   public:
-    explicit SearchWidget(QWidget* parent = nullptr);
+    explicit SearchWidget(DataModel* data_model, QWidget* parent = nullptr);
     ~SearchWidget() override;
 
     QPushButton* get_search_button() const;
@@ -41,7 +41,6 @@ class SearchWidget: public QWidget {
     QPushButton* search_button;
     QPushButton* clear_button;
     QTableView* table_view;
-    DataModel* data_model;
 
   private slots:
     void select_search(int index);
