@@ -52,6 +52,11 @@ class DataModel: public QSqlTableModel {
     void add_book(QString& title, QString& writers);
     void
     add_comic_book(QString& title, QString& writers, QString& illustrators);
+    void search_books_and_writers(QString& title, QString& writers);
+    void search_comic_books_and_authors(
+        QString& title,
+        QString& writers,
+        QString& illustrators);
 
   private:
     const QString db_filename = "library.db";

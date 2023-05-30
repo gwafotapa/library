@@ -6,6 +6,7 @@
 
 #include <QCheckBox>
 #include <QFormLayout>
+#include <QHeaderView>
 #include <QLabel>
 #include <QLineEdit>
 #include <QStyle>
@@ -41,6 +42,8 @@ AddBookWidget::AddBookWidget(DataModel* data_model, QWidget* parent) :
     buttons_layout->addWidget(clear_button);
 
     table_view = new QTableView;
+    table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    // table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     table_view->setModel(data_model);
     this->data_model = data_model;
 
@@ -48,10 +51,10 @@ AddBookWidget::AddBookWidget(DataModel* data_model, QWidget* parent) :
     main_layout->addLayout(form_layout);
     main_layout->addLayout(buttons_layout);
     main_layout->addWidget(table_view);
-    main_layout->addStretch();
+    // main_layout->addStretch();
     setLayout(main_layout);
 
-    set_book_type(0);
+    select_book_type(0);
 
     connect(
         check_box,
@@ -66,7 +69,7 @@ AddBookWidget::~AddBookWidget() {
     delete ui;
 }
 
-void AddBookWidget::set_book_type(int book_type) {
+void AddBookWidget::select_book_type(int book_type) {
     switch (book_type) {
         case 0:
             form_layout->setRowVisible(2, false);

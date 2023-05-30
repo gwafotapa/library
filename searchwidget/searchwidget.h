@@ -24,9 +24,9 @@ class SearchWidget: public QWidget {
     explicit SearchWidget(DataModel* data_model, QWidget* parent = nullptr);
     ~SearchWidget() override;
 
-    QPushButton* get_search_button() const;
-    void non_comic_book_search() const;
-    void comic_book_search() const;
+    // QPushButton* get_search_button() const;
+    void search_books_and_writers() const;
+    void search_comic_books_and_authors() const;
 
   private:
     Ui::SearchWidget* ui;
@@ -41,9 +41,10 @@ class SearchWidget: public QWidget {
     QPushButton* search_button;
     QPushButton* clear_button;
     QTableView* table_view;
+    DataModel* data_model;
 
   private slots:
-    void select_search(int index);
+    void select_search(int book_type);
     void clear();
 };
 

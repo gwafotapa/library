@@ -1,13 +1,14 @@
 #include "searchwidget.h"
 
-#include <qboxlayout.h>
 #include <qpushbutton.h>
-#include <qtableview.h>
 
+#include <QBoxLayout>
 #include <QComboBox>
 #include <QFormLayout>
+#include <QHeaderView>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QTableView>
 #include <QWidget>
 
 #include "../datamodel/datamodel.h"
@@ -19,8 +20,8 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
     ui->setupUi(this);
 
     combo_box = new QComboBox;
-    combo_box->addItem("Non-comic books / authors");
-    combo_box->addItem("Comic books / authors");
+    combo_box->addItem("Non-comic books and writers");
+    combo_box->addItem("Comic books, writers and illustrators");
 
     title_line = new QLineEdit;
     title_line->setClearButtonEnabled(true);
@@ -37,7 +38,10 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
     clear_button = new QPushButton("Clear");
 
     table_view = new QTableView;
+    table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    // table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     table_view->setModel(data_model);
+    this->data_model = data_model;
 
     form_layout = new QFormLayout;
     form_layout->addRow("Title", title_line);
@@ -52,11 +56,11 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
     main_layout->addWidget(combo_box);
     main_layout->addLayout(form_layout);
     main_layout->addLayout(buttons_layout);
-    main_layout->addStretch();
     main_layout->addWidget(table_view);
+    // main_layout->addStretch();
     setLayout(main_layout);
 
-    non_comic_book_search();
+    select_search(0);
 
     connect(
         combo_box,
@@ -71,52 +75,60 @@ SearchWidget::~SearchWidget() {
     delete ui;
 }
 
-QPushButton* SearchWidget::get_search_button() const {
-    return search_button;
-}
+// QPushButton* SearchWidget::get_search_button() const {
+//     return search_button;
+// }
 
-void SearchWidget::non_comic_book_search() const {
-    // TODO: factorize
-    // QPalette read_only_palette;
-    // read_only_palette.setColor(QPalette::Base, Qt::lightGray);
-    // read_only_palette.setColor(QPalette::Text, Qt::darkGray);
-
-    // writers_line->setReadOnly(false);
-    // writers_line->setPalette(QApplication::style()->standardPalette());
-    // cb_writers_line->setReadOnly(true);
-    // cb_writers_line->setPalette(read_only_palette);
-    // cb_illustrators_line->setReadOnly(true);
-    // cb_illustrators_line->setPalette(read_only_palette);
-    form_layout->setRowVisible(2, false);
-    // writers_line->show();
-    // cb_writers_line->hide();
-    // cb_illustrators_line->hide();
-}
-
-void SearchWidget::comic_book_search() const {
-    // TODO: factorize
-    // QPalette read_only_palette;
-    // read_only_palette.setColor(QPalette::Base, Qt::lightGray);
-    // read_only_palette.setColor(QPalette::Text, Qt::darkGray);
-
-    // writers_line->setReadOnly(true);
-    // writers_line->setPalette(read_only_palette);
-    // cb_writers_line->setReadOnly(false);
-    // cb_writers_line->setPalette(QApplication::style()->standardPalette());
-    // cb_illustrators_line->setReadOnly(false);
-    // cb_illustrators_line->setPalette(QApplication::style()->standardPalette());
-    form_layout->setRowVisible(2, true);
-    // writers_line->hide();
-    // cb_writers_line->show();
-    // cb_illustrators_line->show();
-}
-
-void SearchWidget::select_search(int index) {
-    index == 0 ? non_comic_book_search() : comic_book_search();
+void SearchWidget::select_search(int book_type) {
+    switch (book_type) {
+        case 0:
+            form_layout->setRowVisible(2, false);
+            connect(
+                search_button,
+                &QPushButton::clicked,
+                this,
+                &SearchWidget::search_books_and_writers);
+            disconnect(
+                search_button,
+                &QPushButton::clicked,
+                this,
+                &SearchWidget::search_comic_books_and_authors);
+            data_model->setTable("Books");
+            data_model->select();
+            break;
+        case 1:
+            form_layout->setRowVisible(2, true);
+            connect(
+                search_button,
+                &QPushButton::clicked,
+                this,
+                &SearchWidget::search_comic_books_and_authors);
+            disconnect(
+                search_button,
+                &QPushButton::clicked,
+                this,
+                &SearchWidget::search_books_and_writers);
+            data_model->setTable("Comic Books");
+            data_model->select();
+            break;
+    }
 }
 
 void SearchWidget::clear() {
     title_line->clear();
     writers_line->clear();
     illustrators_line->clear();
+}
+
+void SearchWidget::search_books_and_writers() const {
+    QString title = title_line->text();
+    QString writers = writers_line->text();
+    data_model->search_books_and_writers(title, writers);
+}
+
+void SearchWidget::search_comic_books_and_authors() const {
+    QString title = title_line->text();
+    QString writers = writers_line->text();
+    QString illustrators = illustrators_line->text();
+    data_model->search_comic_books_and_authors(title, writers, illustrators);
 }

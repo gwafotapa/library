@@ -24,7 +24,7 @@ class AddBookWidget: public QWidget {
     ~AddBookWidget();
 
   public slots:
-    void set_book_type(int book_type);
+    void select_book_type(int book_type);
 
   private:
     Ui::AddBookWidget* ui;

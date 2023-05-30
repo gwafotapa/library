@@ -180,3 +180,49 @@ void DataModel::add_comic_book(
     setFilter("");
     select();
 }
+
+void DataModel::search_books_and_writers(QString& title, QString& writers) {
+    title = title.simplified();
+    writers = writers.simplified();
+
+    // TODO: rework query, then add order by and then do comic query
+    setTable(books_table_name);
+    QString filter;
+    if (!title.isEmpty()) {
+        filter += "Title LIKE '%" + title + "%'";
+        if (!writers.isEmpty()) {
+            filter += " AND Writers LIKE '%" + writers + "%'";
+        }
+    } else if (!writers.isEmpty()) {
+        filter = "Writers LIKE '%" + writers + "%'";
+    }
+    setFilter(filter);
+    // setFilter(
+    //     "Title LIKE '%" + title + "%' AND Writers LIKE '%" + writers + "%'");
+    select();
+
+    qDebug() << query().lastQuery();
+    // for (int i = 0; i < rowCount(); ++i) {
+    //     qDebug() << record(i);
+    // }
+}
+
+void DataModel::search_comic_books_and_authors(
+    QString& title,
+    QString& writers,
+    QString& illustrators) {
+    title = title.simplified();
+    writers = writers.simplified();
+    illustrators = illustrators.simplified();
+
+    setTable(comic_books_table_name);
+    setFilter(
+        "Title LIKE '%" + title + "%' AND Writers LIKE '%" + writers
+        + "%' AND Illustrators LIKE '%" + illustrators + "%'");
+    select();
+
+    qDebug() << query().lastQuery();
+    // for (int i = 0; i < rowCount(); ++i) {
+    //     qDebug() << record(i);
+    // }
+};

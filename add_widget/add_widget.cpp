@@ -51,7 +51,7 @@ AddWidget::AddWidget(DataModel* data_model, QWidget* parent) :
         combo_box,
         &QComboBox::currentIndexChanged,
         add_book_widget,
-        &AddBookWidget::set_book_type);
+        &AddBookWidget::select_book_type);
 }
 
 AddWidget::~AddWidget() {
