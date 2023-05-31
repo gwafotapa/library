@@ -40,6 +40,7 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
     table_view = new QTableView;
     table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     // table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    table_view->setSortingEnabled(true);
     table_view->setModel(data_model);
     this->data_model = data_model;
 

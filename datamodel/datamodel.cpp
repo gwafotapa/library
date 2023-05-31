@@ -1,5 +1,7 @@
 #include "datamodel.h"
 
+#include <qnamespace.h>
+
 #include <QSqlRecord>
 
 DataModel::~DataModel() {
@@ -185,23 +187,21 @@ void DataModel::search_books_and_writers(QString& title, QString& writers) {
     title = title.simplified();
     writers = writers.simplified();
 
-    // TODO: rework query, then add order by and then do comic query
     setTable(books_table_name);
     QString filter;
     if (!title.isEmpty()) {
         filter += "Title LIKE '%" + title + "%'";
-        if (!writers.isEmpty()) {
-            filter += " AND Writers LIKE '%" + writers + "%'";
+    }
+    if (!writers.isEmpty()) {
+        if (!filter.isEmpty()) {
+            filter += " AND ";
         }
-    } else if (!writers.isEmpty()) {
-        filter = "Writers LIKE '%" + writers + "%'";
+        filter += "Writers LIKE '%" + writers + "%'";
     }
     setFilter(filter);
-    // setFilter(
-    //     "Title LIKE '%" + title + "%' AND Writers LIKE '%" + writers + "%'");
-    select();
+    sort(1, Qt::AscendingOrder);
 
-    qDebug() << query().lastQuery();
+    qDebug() << selectStatement();
     // for (int i = 0; i < rowCount(); ++i) {
     //     qDebug() << record(i);
     // }
@@ -216,12 +216,28 @@ void DataModel::search_comic_books_and_authors(
     illustrators = illustrators.simplified();
 
     setTable(comic_books_table_name);
-    setFilter(
-        "Title LIKE '%" + title + "%' AND Writers LIKE '%" + writers
-        + "%' AND Illustrators LIKE '%" + illustrators + "%'");
+    QString filter;
+    if (!title.isEmpty()) {
+        filter += "Title LIKE '%" + title + "%'";
+    }
+    if (!writers.isEmpty()) {
+        if (!filter.isEmpty()) {
+            filter += " AND ";
+        }
+        filter += "Writers LIKE '%" + writers + "%'";
+    }
+    if (!illustrators.isEmpty()) {
+        if (!filter.isEmpty()) {
+            filter += " AND ";
+        }
+        filter += "Illustrators LIKE '%" + illustrators + "%'";
+    }
+    setFilter(filter);
+    // setSort(2, Qt::AscendingOrder);
+    sort(1, Qt::AscendingOrder);
     select();
 
-    qDebug() << query().lastQuery();
+    qDebug() << selectStatement();
     // for (int i = 0; i < rowCount(); ++i) {
     //     qDebug() << record(i);
     // }
