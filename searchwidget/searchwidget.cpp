@@ -6,6 +6,7 @@
 #include <QComboBox>
 #include <QFormLayout>
 #include <QHeaderView>
+#include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QTableView>
@@ -37,6 +38,7 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
     search_button = new QPushButton("Search");
     clear_button = new QPushButton("Clear");
 
+    search_log = new QLabel;
     table_view = new QTableView;
     table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     // table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
@@ -57,6 +59,7 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
     main_layout->addWidget(combo_box);
     main_layout->addLayout(form_layout);
     main_layout->addLayout(buttons_layout);
+    main_layout->addWidget(search_log);
     main_layout->addWidget(table_view);
     // main_layout->addStretch();
     setLayout(main_layout);
@@ -70,6 +73,12 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
         &SearchWidget::select_search);
 
     connect(clear_button, &QPushButton::clicked, this, &SearchWidget::clear);
+
+    connect(
+        search_button,
+        &QPushButton::clicked,
+        this,
+        &SearchWidget::update_search_log);
 }
 
 SearchWidget::~SearchWidget() {
@@ -132,4 +141,18 @@ void SearchWidget::search_comic_books_and_authors() const {
     QString writers = writers_line->text();
     QString illustrators = illustrators_line->text();
     data_model->search_comic_books_and_authors(title, writers, illustrators);
+}
+
+void SearchWidget::update_search_log() {
+    int rows = data_model->rowCount();
+    switch (rows) {
+        case 0:
+            search_log->setText("No results found");
+            break;
+        case 1:
+            search_log->setText("1 result found");
+            break;
+        default:
+            search_log->setText(QString::number(rows) + " results found");
+    }
 }

@@ -4,6 +4,7 @@
 #include <QBoxLayout>
 #include <QComboBox>
 #include <QFormLayout>
+#include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QTableView>
@@ -40,12 +41,14 @@ class SearchWidget: public QWidget {
     QLineEdit* illustrators_line;
     QPushButton* search_button;
     QPushButton* clear_button;
+    QLabel* search_log;
     QTableView* table_view;
     DataModel* data_model;
 
   private slots:
     void select_search(int book_type);
     void clear();
+    void update_search_log();
 };
 
 #endif  // SEARCHWIDGET_H
