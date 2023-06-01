@@ -43,6 +43,7 @@ class DataModel: public QSqlTableModel {
     ~DataModel();
 
   public slots:
+    void select_table(const QString& table);
     void add_writer(QString& writer);
     void add_writers(QStringList& writers);
     void add_comic_book_writer(QString& writer);
@@ -52,11 +53,11 @@ class DataModel: public QSqlTableModel {
     void add_book(QString& title, QString& writers);
     void
     add_comic_book(QString& title, QString& writers, QString& illustrators);
-    void search_books_and_writers(QString& title, QString& writers);
+    void search_books_and_writers(QString title, QString writers);
     void search_comic_books_and_authors(
-        QString& title,
-        QString& writers,
-        QString& illustrators);
+        QString title,
+        QString writers,
+        QString illustrators);
 
   private:
     const QString db_filename = "library.db";

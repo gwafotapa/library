@@ -33,6 +33,12 @@ void DataModel::create_table(
     }
 }
 
+// TODO: select ? Implement 2 table views to "store" the results ?
+void DataModel::select_table(const QString& table) {
+    setTable(table);
+    // select();
+}
+
 void DataModel::add_writer(QString& writer) {
     writer = writer.simplified();
     if (writer.isEmpty()) {
@@ -183,7 +189,7 @@ void DataModel::add_comic_book(
     select();
 }
 
-void DataModel::search_books_and_writers(QString& title, QString& writers) {
+void DataModel::search_books_and_writers(QString title, QString writers) {
     title = title.simplified();
     writers = writers.simplified();
 
@@ -208,9 +214,9 @@ void DataModel::search_books_and_writers(QString& title, QString& writers) {
 }
 
 void DataModel::search_comic_books_and_authors(
-    QString& title,
-    QString& writers,
-    QString& illustrators) {
+    QString title,
+    QString writers,
+    QString illustrators) {
     title = title.simplified();
     writers = writers.simplified();
     illustrators = illustrators.simplified();

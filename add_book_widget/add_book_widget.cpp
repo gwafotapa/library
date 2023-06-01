@@ -30,6 +30,8 @@ AddBookWidget::AddBookWidget(DataModel* data_model, QWidget* parent) :
     check_box = new QCheckBox("Writers / Illustrators");
     add_button = new QPushButton("Add");
     clear_button = new QPushButton("Clear");
+    message = new QLabel("coucou");
+    message->setStyleSheet("QLabel { color : blue; }");
 
     form_layout = new QFormLayout;
     form_layout->addRow("Title", title_line);
@@ -50,6 +52,7 @@ AddBookWidget::AddBookWidget(DataModel* data_model, QWidget* parent) :
     main_layout = new QVBoxLayout;
     main_layout->addLayout(form_layout);
     main_layout->addLayout(buttons_layout);
+    main_layout->addWidget(message);
     main_layout->addWidget(table_view);
     // main_layout->addStretch();
     setLayout(main_layout);
@@ -106,6 +109,7 @@ void AddBookWidget::select_book_type(int book_type) {
     }
 }
 
+// TODO: change all palette to stylesheet
 void AddBookWidget::writer_illustrator(int state) {
     if (state == Qt::Checked) {
         // TODO: factorize read only palette

@@ -63,6 +63,22 @@ MainWindow::MainWindow(QWidget* parent) :
     //     this,
     //     &MainWindow::filter_search_data);
     setCentralWidget(tab_widget);
+
+    connect(
+        search_widget,
+        &SearchWidget::select_table,
+        data_model,
+        &DataModel::select_table);
+    connect(
+        search_widget,
+        &SearchWidget::search_books_and_writers,
+        data_model,
+        &DataModel::search_books_and_writers);
+    connect(
+        search_widget,
+        &SearchWidget::search_comic_books_and_authors,
+        data_model,
+        &DataModel::search_comic_books_and_authors);
 }
 
 MainWindow::~MainWindow() {

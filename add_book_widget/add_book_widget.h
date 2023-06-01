@@ -5,6 +5,7 @@
 
 #include <QCheckBox>
 #include <QFormLayout>
+#include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QTableView>
@@ -39,6 +40,7 @@ class AddBookWidget: public QWidget {
     QCheckBox* check_box;
     QPushButton* add_button;
     QPushButton* clear_button;
+    QLabel* message;
     QTableView* table_view;
     DataModel* data_model;
 

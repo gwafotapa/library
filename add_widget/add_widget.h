@@ -32,8 +32,8 @@ class AddWidget: public QWidget {
     QStackedWidget* stacked_widget;
     AddBookWidget* add_book_widget;
     AddAuthorWidget* add_author_widget;
-    QPushButton* add_button;
-    QPushButton* clear_button;
+    // QPushButton* add_button;
+    // QPushButton* clear_button;
 };
 
 #endif  // ADD_WIDGET_H

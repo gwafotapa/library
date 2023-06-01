@@ -44,7 +44,6 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
     // table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     table_view->setSortingEnabled(true);
     table_view->setModel(data_model);
-    this->data_model = data_model;
 
     form_layout = new QFormLayout;
     form_layout->addRow("Title", title_line);
@@ -74,11 +73,11 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
 
     connect(clear_button, &QPushButton::clicked, this, &SearchWidget::clear);
 
-    connect(
-        search_button,
-        &QPushButton::clicked,
-        this,
-        &SearchWidget::update_search_log);
+    // connect(
+    //     search_button,
+    //     &QPushButton::clicked,
+    //     this,
+    //     &SearchWidget::update_search_log);
 }
 
 SearchWidget::~SearchWidget() {
@@ -91,35 +90,35 @@ SearchWidget::~SearchWidget() {
 
 void SearchWidget::select_search(int book_type) {
     switch (book_type) {
-        case 0:
+        case 0:  // Non-comic book and writers
             form_layout->setRowVisible(2, false);
-            connect(
-                search_button,
-                &QPushButton::clicked,
-                this,
-                &SearchWidget::search_books_and_writers);
-            disconnect(
-                search_button,
-                &QPushButton::clicked,
-                this,
-                &SearchWidget::search_comic_books_and_authors);
-            data_model->setTable("Books");
-            data_model->select();
+            search_log->clear();
+            emit select_table(
+                "Books");  // TODO: replace the constant, necessary ?
+            disconnect(search_button, &QPushButton::clicked, this, nullptr);
+            connect(search_button, &QPushButton::clicked, [&]() {
+                emit search_books_and_writers(
+                    title_line->text(),
+                    writers_line->text());
+                update_search_log();
+            });
+            // data_model->setTable("Books");
+            // data_model->select();
             break;
-        case 1:
+        case 1:  // Comic books, writers and illustrators
             form_layout->setRowVisible(2, true);
-            connect(
-                search_button,
-                &QPushButton::clicked,
-                this,
-                &SearchWidget::search_comic_books_and_authors);
-            disconnect(
-                search_button,
-                &QPushButton::clicked,
-                this,
-                &SearchWidget::search_books_and_writers);
-            data_model->setTable("Comic Books");
-            data_model->select();
+            search_log->clear();
+            emit select_table("Comic Books");  // TODO: Necessary ?
+            disconnect(search_button, &QPushButton::clicked, this, nullptr);
+            connect(search_button, &QPushButton::clicked, [&]() {
+                emit search_comic_books_and_authors(
+                    title_line->text(),
+                    writers_line->text(),
+                    illustrators_line->text());
+                update_search_log();
+            });
+            // data_model->setTable("Comic Books");
+            // data_model->select();
             break;
     }
 }
@@ -130,21 +129,22 @@ void SearchWidget::clear() {
     illustrators_line->clear();
 }
 
-void SearchWidget::search_books_and_writers() const {
-    QString title = title_line->text();
-    QString writers = writers_line->text();
-    data_model->search_books_and_writers(title, writers);
-}
+// void SearchWidget::search_books_and_writers() const {
+//     QString title = title_line->text();
+//     QString writers = writers_line->text();
+// data_model->search_books_and_writers(title, writers);
+// }
 
-void SearchWidget::search_comic_books_and_authors() const {
-    QString title = title_line->text();
-    QString writers = writers_line->text();
-    QString illustrators = illustrators_line->text();
-    data_model->search_comic_books_and_authors(title, writers, illustrators);
-}
+// void SearchWidget::search_comic_books_and_authors() const {
+//     QString title = title_line->text();
+//     QString writers = writers_line->text();
+//     QString illustrators = illustrators_line->text();
+// data_model->search_comic_books_and_authors(title, writers, illustrators);
+// }
 
 void SearchWidget::update_search_log() {
-    int rows = data_model->rowCount();
+    int rows = table_view->model()->rowCount();
+    // int rows = data_model->rowCount();
     switch (rows) {
         case 0:
             search_log->setText("No results found");
