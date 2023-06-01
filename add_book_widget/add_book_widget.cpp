@@ -109,6 +109,10 @@ void AddBookWidget::select_book_type(int book_type) {
     }
 }
 
+void AddBookWidget::book_added(const Book& book) const {
+    message->setText("Added book \"" + book.title() + "\"");
+}
+
 // TODO: change all palette to stylesheet
 void AddBookWidget::writer_illustrator(int state) {
     if (state == Qt::Checked) {

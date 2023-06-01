@@ -9,6 +9,8 @@
 #include <QSqlQuery>
 #include <QSqlTableModel>
 
+#include "../book/book.h"
+
 class DataModel: public QSqlTableModel {
     Q_OBJECT
 
@@ -58,6 +60,9 @@ class DataModel: public QSqlTableModel {
         QString title,
         QString writers,
         QString illustrators);
+
+  signals:
+    void book_added(const Book& book) const;
 
   private:
     const QString db_filename = "library.db";

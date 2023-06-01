@@ -143,6 +143,7 @@ void DataModel::add_book(QString& title, QString& writers) {
         rec.setValue("Writers", writers);
         insertRecord(-1, rec);
         submit();
+        emit book_added(Book(title, writers));
     } else {
         qDebug() << "Book is already in the database";
     }

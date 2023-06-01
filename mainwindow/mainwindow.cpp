@@ -79,6 +79,11 @@ MainWindow::MainWindow(QWidget* parent) :
         &SearchWidget::search_comic_books_and_authors,
         data_model,
         &DataModel::search_comic_books_and_authors);
+    connect(
+        data_model,
+        &DataModel::book_added,
+        add_widget->book(),
+        &AddBookWidget::book_added);
 }
 
 MainWindow::~MainWindow() {

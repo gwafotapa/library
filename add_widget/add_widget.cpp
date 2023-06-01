@@ -57,3 +57,11 @@ AddWidget::AddWidget(DataModel* data_model, QWidget* parent) :
 AddWidget::~AddWidget() {
     delete ui;
 }
+
+AddBookWidget* AddWidget::book() const {
+    return add_book_widget;
+}
+
+AddAuthorWidget* AddWidget::author() const {
+    return add_author_widget;
+}

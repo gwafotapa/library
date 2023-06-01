@@ -23,6 +23,8 @@ class AddWidget: public QWidget {
   public:
     explicit AddWidget(DataModel* data_model, QWidget* parent = nullptr);
     ~AddWidget() override;
+    AddBookWidget* book() const;
+    AddAuthorWidget* author() const;
 
   private:
     Ui::AddWidget* ui;
