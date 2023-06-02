@@ -7,7 +7,7 @@
 
 class Illustrator: public Author {
   public:
-    /* Illustrator(const QString& name) : Author(name) {} */
+    Illustrator(const QString& name) : Author(name) {}
     virtual int book_type() const override;
 };
 

@@ -1,8 +1,9 @@
 #include "data_model.h"
 
-#include <qnamespace.h>
-
 #include <QSqlRecord>
+
+#include "standard_book.h"
+#include "writer.h"
 
 DataModel::~DataModel() {
     if (db_.isOpen()) {
@@ -126,7 +127,8 @@ void DataModel::add_illustrators(QStringList& illustrators) {
     }
 }
 
-void DataModel::add_book(QString& title, QString& writers) {
+void DataModel::add_standard_book(QString& title, QString& writers) {
+    // TODO: QList instead ? do this and simplified() calls in the sender (form) ?
     title = title.simplified();
     writers = writers.simplified();
     if (title.isEmpty() || writers.isEmpty()) {
@@ -143,7 +145,14 @@ void DataModel::add_book(QString& title, QString& writers) {
         rec.setValue("Writers", writers);
         insertRecord(-1, rec);
         submit();
-        emit book_added(Book(title, writers));
+
+        QList<Writer> writer_list;
+        for (const QString& name : writers.split(u',')) {
+            if (!name.isEmpty()) {
+                writer_list.push_back(Writer(name));
+            }
+        }
+        emit book_added(StandardBook(title, writer_list));
     } else {
         qDebug() << "Book is already in the database";
     }

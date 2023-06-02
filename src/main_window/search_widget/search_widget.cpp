@@ -21,7 +21,7 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
     ui->setupUi(this);
 
     combo_box = new QComboBox;
-    combo_box->addItem("Non-comic books and writers");
+    combo_box->addItem("Standard books and writers");
     combo_box->addItem("Comic books, writers and illustrators");
 
     title_line = new QLineEdit;

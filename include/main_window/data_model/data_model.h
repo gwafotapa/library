@@ -52,7 +52,7 @@ class DataModel: public QSqlTableModel {
     void add_comic_book_writers(QStringList& writers);
     void add_illustrator(QString& illustrator);
     void add_illustrators(QStringList& illustrators);
-    void add_book(QString& title, QString& writers);
+    void add_standard_book(QString& title, QString& writers);
     void
     add_comic_book(QString& title, QString& writers, QString& illustrators);
     void search_books_and_writers(QString title, QString writers);

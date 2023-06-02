@@ -110,7 +110,7 @@ void AddBookWidget::select_book_type(int book_type) {
 }
 
 void AddBookWidget::book_added(const Book& book) const {
-    message->setText("Added book \"" + book.title() + "\"");
+    message->setText("Added book \"" + book.get_title() + "\"");
 }
 
 // TODO: change all palette to stylesheet
@@ -159,7 +159,7 @@ void AddBookWidget::add_book_and_writers() {
     data_model->add_writers(writer_list);
 
     QString title = title_line->text();
-    data_model->add_book(title, writers);
+    data_model->add_standard_book(title, writers);
 }
 
 void AddBookWidget::add_comic_book_and_authors() {

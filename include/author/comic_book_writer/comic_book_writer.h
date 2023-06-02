@@ -7,7 +7,7 @@
 
 class ComicBookWriter: public Author {
   public:
-    /* ComicBookWriter(const QString& name) : Author(name) {} */
+    ComicBookWriter(const QString& name) : Author(name) {}
     virtual int book_type() const override;
 };
 

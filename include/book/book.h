@@ -5,16 +5,8 @@
 
 class Book {
   public:
-    Book(QString const& title, QString const& authors) :
-        title_ {title},
-        authors_ {authors} {}
-
-    QString title() const;
-    QString authors() const;
-
-  private:
-    QString title_;
-    QString authors_;
+    virtual ~Book() {}
+    virtual QString get_title() const = 0;
 };
 
 #endif  // BOOK_H
