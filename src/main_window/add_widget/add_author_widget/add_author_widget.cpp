@@ -9,6 +9,7 @@
 #include <QLineEdit>
 #include <QSizePolicy>
 
+#include "comic_book_writer.h"
 #include "ui_add_author_widget.h"
 
 AddAuthorWidget::AddAuthorWidget(QWidget* parent) :
@@ -23,6 +24,7 @@ AddAuthorWidget::AddAuthorWidget(QWidget* parent) :
     illustrator = new QCheckBox("Comic book illustrator");
     add_button = new QPushButton("Add");
     clear_button = new QPushButton("Clear");
+    message = new QLabel;
 
     form_layout = new QFormLayout;
     // form_layout->setSizeConstraint(QLayout::SetFixedSize);
@@ -38,15 +40,36 @@ AddAuthorWidget::AddAuthorWidget(QWidget* parent) :
     main_layout = new QVBoxLayout;
     main_layout->addLayout(form_layout);
     main_layout->addLayout(buttons_layout);
+    main_layout->addWidget(message);
     main_layout->addStretch();
     setLayout(main_layout);
 
     connect(clear_button, &QPushButton::clicked, this, &AddAuthorWidget::clear);
 
-    // assert(main_layout->setStretchFactor(form_layout, 1));
-    // assert(main_layout->setStretchFactor(buttons_layout, 10));
-
-    // main_layout->setStretchFactor(setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed));
+    connect(add_button, &QPushButton::clicked, [&]() {
+        QString name = name_line->text().simplified();
+        if (name.isEmpty()) {
+            message->setText("Error: blank author");
+            message->setStyleSheet("QLabel { color : red; }");
+            return;
+        }
+        if (!writer->isChecked() && !comic_book_writer->isChecked()
+            && !illustrator->isChecked()) {
+            message->setText("Error: all boxes unchecked");
+            message->setStyleSheet("QLabel { color : red; }");
+            return;
+        }
+        message->clear();
+        if (writer->isChecked()) {
+            emit add_writer(Writer(name));
+        }
+        if (comic_book_writer->isChecked()) {
+            emit add_comic_book_writer(ComicBookWriter(name));
+        }
+        if (illustrator->isChecked()) {
+            emit add_illustrator(Illustrator(name));
+        }
+    });
 }
 
 AddAuthorWidget::~AddAuthorWidget() {

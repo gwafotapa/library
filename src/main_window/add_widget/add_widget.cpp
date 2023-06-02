@@ -34,6 +34,9 @@ AddWidget::AddWidget(DataModel* data_model, QWidget* parent) :
     main_layout = new QVBoxLayout;
     main_layout->addWidget(combo_box);
     main_layout->addWidget(stacked_widget);
+
+    // TODO: put message here for both add_book_widget and add_author_widget
+
     // main_layout->addStretch();
     // main_layout->addLayout(buttons_layout);
     setLayout(main_layout);

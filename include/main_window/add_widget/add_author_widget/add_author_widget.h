@@ -5,9 +5,14 @@
 
 #include <QCheckBox>
 #include <QFormLayout>
+#include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QWidget>
+
+#include "comic_book_writer.h"
+#include "illustrator.h"
+#include "writer.h"
 
 namespace Ui {
 class AddAuthorWidget;
@@ -19,6 +24,11 @@ class AddAuthorWidget: public QWidget {
   public:
     explicit AddAuthorWidget(QWidget* parent = nullptr);
     ~AddAuthorWidget();
+
+  signals:
+    void add_writer(const Writer& writer);
+    void add_comic_book_writer(const ComicBookWriter& writer);
+    void add_illustrator(const Illustrator& illustrator);
 
   private:
     Ui::AddAuthorWidget* ui;
@@ -33,6 +43,7 @@ class AddAuthorWidget: public QWidget {
     QCheckBox* illustrator;
     QPushButton* add_button;
     QPushButton* clear_button;
+    QLabel* message;
 
   private slots:
     void clear();
