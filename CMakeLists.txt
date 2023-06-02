@@ -3,9 +3,11 @@ project(library)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # set(CMAKE_PREFIX_PATH "C:/Users/Administrateur/SE23-188121-POEI-Python-C-/qt/5.15.2/mingw81_64")
-set(CMAKE_PREFIX_PATH "/home/guillaume/programs/qt/6.5.1/gcc_64/lib/cmake/Qt6")
+set(CMAKE_PREFIX_PATH "/home/guillaume/programs/qt/6.5.1/gcc_64/lib/cmake")
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -Wall -Wextra -Wpedantic")
+set(INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include")
+message(INCLUDE_DIRECTORIES=${INCLUDE_DIRECTORIES}) #TODO: remove
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -28,22 +30,9 @@ find_package(Qt6 COMPONENTS
   Sql
   REQUIRED)
 
-add_library(Sources author/author.h author/author.cpp book/book.h book/book.cpp mainwindow/mainwindow.cpp mainwindow/mainwindow.h mainwindow/mainwindow.ui formwidget/formwidget.cpp formwidget/formwidget.h formwidget/formwidget.ui tablewidget/tablewidget.cpp tablewidget/tablewidget.h tablewidget/tablewidget.ui buttonswidget/buttonswidget.cpp buttonswidget/buttonswidget.h buttonswidget/buttonswidget.ui messagewidget/messagewidget.cpp messagewidget/messagewidget.h messagewidget/messagewidget.ui datamodel/datamodel.h datamodel/datamodel.cpp searchwidget/searchwidget.cpp searchwidget/searchwidget.h searchwidget/searchwidget.ui add_widget/add_widget.cpp add_widget/add_widget.h add_widget/add_widget.ui add_book_widget/add_book_widget.h add_book_widget/add_book_widget.cpp add_book_widget/add_book_widget.ui add_author_widget/add_author_widget.h add_author_widget/add_author_widget.cpp add_author_widget/add_author_widget.ui)
-target_link_libraries(Sources
-  Qt6::Core
-  Qt6::Gui
-  Qt6::Widgets
-  Qt6::Sql
-)
+add_executable(library)
 
-add_executable(library main.cpp)
-target_link_libraries (library Sources)
-# target_link_libraries(library
-#   Qt6::Core
-#   Qt6::Gui
-#   Qt6::Widgets
-#   Qt6::Sql
-# )
+add_subdirectory(src)
 
 # enable_testing ()
 # add_subdirectory (test)

@@ -1,0 +1,10 @@
+# target_sources(Sources PRIVATE add_book_widget.cpp)
+# string(REPLACE "src" "include" INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+# # message(INCLUDE_DIR="${INCLUDE_DIR}")
+# target_include_directories(Sources PUBLIC ${INCLUDE_DIR})
+
+target_sources(library PRIVATE add_book_widget.cpp)
+string(REPLACE "src" "include" INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+# message(INCLUDE_DIR="${INCLUDE_DIR}")
+target_sources(library PUBLIC ${INCLUDE_DIR}/add_book_widget.h)
+target_include_directories(library PUBLIC ${INCLUDE_DIR})
