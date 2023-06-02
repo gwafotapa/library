@@ -10,6 +10,10 @@
 #include <QSqlTableModel>
 
 #include "book.h"
+#include "comic_book.h"
+#include "comic_book_writer.h"
+#include "illustrator.h"
+#include "standard_book.h"
 
 class DataModel: public QSqlTableModel {
     Q_OBJECT
@@ -46,15 +50,14 @@ class DataModel: public QSqlTableModel {
 
   public slots:
     void select_table(const QString& table);
-    void add_writer(QString& writer);
-    void add_writers(QStringList& writers);
-    void add_comic_book_writer(QString& writer);
-    void add_comic_book_writers(QStringList& writers);
-    void add_illustrator(QString& illustrator);
-    void add_illustrators(QStringList& illustrators);
-    void add_standard_book(QString& title, QString& writers);
-    void
-    add_comic_book(QString& title, QString& writers, QString& illustrators);
+    void add_writer(const Writer& writer);
+    void add_writers(const QList<Writer>& writers);
+    void add_comic_book_writer(const ComicBookWriter& writer);
+    void add_comic_book_writers(const QList<ComicBookWriter>& writers);
+    void add_illustrator(const Illustrator& illustrator);
+    void add_illustrators(const QList<Illustrator>& illustrators);
+    void add_standard_book(const StandardBook& book);
+    void add_comic_book(const ComicBook& book);
     void search_standard_books(QString title, QString writers);
     void
     search_comic_books(QString title, QString writers, QString illustrators);

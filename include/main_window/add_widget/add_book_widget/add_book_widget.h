@@ -36,8 +36,11 @@ class AddBookWidget: public QWidget {
     void add_comic_book(const ComicBook& book);
     void add_author(const Author& author);  // TODO: useful ?
     void add_writer(const Writer& writer);
+    void add_writers(const QList<Writer>& writers);
     void add_comic_book_writer(const ComicBookWriter& writer);
+    void add_comic_book_writers(const QList<ComicBookWriter>& writers);
     void add_illustrator(const Illustrator& illustrator);
+    void add_illustrators(const QList<Illustrator>& illustrators);
 
   private:
     Ui::AddBookWidget* ui;

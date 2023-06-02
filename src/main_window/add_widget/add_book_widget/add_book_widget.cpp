@@ -103,9 +103,10 @@ void AddBookWidget::select_book_type(int book_type) {
                     }
                     message->clear();
                     emit add_standard_book(StandardBook(title, writers));
-                    for (const Writer& writer : writers) {
-                        emit add_writer(writer);
-                    }
+                    // for (const Writer& writer : writers) {
+                    //     emit add_writer(writer);
+                    // }
+                    emit add_writers(writers);
                 });
             data_model->setTable("Standard Books");
             data_model->select();
@@ -147,12 +148,14 @@ void AddBookWidget::select_book_type(int book_type) {
                     message->clear();
                     emit add_comic_book(
                         ComicBook(title, writers, illustrators));
-                    for (const ComicBookWriter& writer : writers) {
-                        emit add_comic_book_writer(writer);
-                    }
-                    for (const Illustrator& illustrator : illustrators) {
-                        emit add_illustrator(illustrator);
-                    }
+                    // for (const ComicBookWriter& writer : writers) {
+                    //     emit add_comic_book_writer(writer);
+                    // }
+                    emit add_comic_book_writers(writers);
+                    // for (const Illustrator& illustrator : illustrators) {
+                    //     emit add_illustrator(illustrator);
+                    // }
+                    emit add_illustrators(illustrators);
                 });
             data_model->setTable("Comic Books");
             data_model->select();

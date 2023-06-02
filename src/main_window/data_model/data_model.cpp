@@ -40,7 +40,7 @@ void DataModel::select_table(const QString& table) {
     // select();
 }
 
-void DataModel::add_writer(QString& writer) {
+void DataModel::add_writer(const Writer& writer) {
     writer = writer.simplified();
     if (writer.isEmpty()) {
         qDebug() << "Name of writer is empty";
