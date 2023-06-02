@@ -30,6 +30,9 @@ class AddBookWidget: public QWidget {
   public slots:
     void select_book_type(int book_type);
     void book_added(const Book& book) const;
+    void book_exists(const Book& book) const;
+    void author_added(const Author& author) const;
+    void author_exists(const Author& author) const;
 
   signals:
     void add_standard_book(const StandardBook& book);

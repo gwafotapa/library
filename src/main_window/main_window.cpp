@@ -1,14 +1,13 @@
 #include "main_window.h"
 
-#include <qboxlayout.h>
-#include <qsqlrecord.h>
-
 #include <QDebug>
 #include <QKeyEvent>
 #include <QPushButton>
 #include <QSqlRecord>
 #include <QVBoxLayout>
 
+#include "add_book_widget.h"
+#include "data_model.h"
 #include "ui_main_window.h"
 
 MainWindow::MainWindow(QWidget* parent) :
@@ -79,11 +78,53 @@ MainWindow::MainWindow(QWidget* parent) :
         &SearchWidget::search_comic_books,
         data_model,
         &DataModel::search_comic_books);
+
+    connect(
+        add_widget->book(),
+        &AddBookWidget::add_standard_book,
+        data_model,
+        &DataModel::add_standard_book);
+    connect(
+        add_widget->book(),
+        &AddBookWidget::add_comic_book,
+        data_model,
+        &DataModel::add_comic_book);
+    connect(
+        add_widget->book(),
+        &AddBookWidget::add_writers,
+        data_model,
+        &DataModel::add_writers);
+    connect(
+        add_widget->book(),
+        &AddBookWidget::add_comic_book_writers,
+        data_model,
+        &DataModel::add_comic_book_writers);
+    connect(
+        add_widget->book(),
+        &AddBookWidget::add_illustrators,
+        data_model,
+        &DataModel::add_illustrators);
+
     connect(
         data_model,
         &DataModel::book_added,
         add_widget->book(),
         &AddBookWidget::book_added);
+    connect(
+        data_model,
+        &DataModel::book_exists,
+        add_widget->book(),
+        &AddBookWidget::book_exists);
+    connect(
+        data_model,
+        &DataModel::author_added,
+        add_widget->book(),
+        &AddBookWidget::author_added);
+    connect(
+        data_model,
+        &DataModel::author_exists,
+        add_widget->book(),
+        &AddBookWidget::author_exists);
 }
 
 MainWindow::~MainWindow() {
@@ -100,46 +141,46 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
     }
 }
 
-void MainWindow::add_author(QString& author) const {
-    // author = author.simplified();
-    // if (author.isEmpty()) {
-    //     return;
-    // }
+// void MainWindow::add_author(QString& author) const {
+// author = author.simplified();
+// if (author.isEmpty()) {
+//     return;
+// }
 
-    // data_model->setFilter("\"Authors\" = '" + author + "'");
-    // data_model->select();
-    // if (data_model->rowCount() == 0) {
-    //     QSqlRecord record = data_model->record();
-    //     record.setValue("Authors", author);
-    //     data_model->insertRecord(-1, record);
-    //     // data_model->submit();
-    // }
-}
+// data_model->setFilter("\"Authors\" = '" + author + "'");
+// data_model->select();
+// if (data_model->rowCount() == 0) {
+//     QSqlRecord record = data_model->record();
+//     record.setValue("Authors", author);
+//     data_model->insertRecord(-1, record);
+//     // data_model->submit();
+// }
+// }
 
-void MainWindow::add_authors(QStringList& authors) const {
-    for (QString& author : authors) {
-        add_author(author);
-    }
-}
+// void MainWindow::add_authors(QStringList& authors) const {
+//     for (QString& author : authors) {
+//         add_author(author);
+//     }
+// }
 
-void MainWindow::add_book(QString& title, QString& authors) const {
-    // title = title.simplified();
-    // authors = authors.simplified();
-    // if (title.isEmpty() || authors.isEmpty()) {
-    //     return;
-    // }
+// void MainWindow::add_book(QString& title, QString& authors) const {
+// title = title.simplified();
+// authors = authors.simplified();
+// if (title.isEmpty() || authors.isEmpty()) {
+//     return;
+// }
 
-    // data_model->setFilter(
-    //     "\"Title\" = '" + title + "' AND \"Authors\" = '" + authors + "'");
-    // data_model->select();
-    // if (data_model->rowCount() == 0) {
-    //     QSqlRecord record = data_model->record();
-    //     record.setValue("Title", title);
-    //     record.setValue("Authors", authors);
-    //     data_model->insertRecord(-1, record);
-    //     // data_model->submit();
-    // }
-}
+// data_model->setFilter(
+//     "\"Title\" = '" + title + "' AND \"Authors\" = '" + authors + "'");
+// data_model->select();
+// if (data_model->rowCount() == 0) {
+//     QSqlRecord record = data_model->record();
+//     record.setValue("Title", title);
+//     record.setValue("Authors", authors);
+//     data_model->insertRecord(-1, record);
+//     // data_model->submit();
+// }
+// }
 
 void MainWindow::add_data2() {
     // QString title = form_widget->title();

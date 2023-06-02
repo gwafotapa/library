@@ -24,9 +24,9 @@ class MainWindow: public QMainWindow {
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow() override;
 
-    void add_author(QString& author) const;
-    void add_authors(QStringList& authors) const;
-    void add_book(QString& title, QString& authors) const;
+    // void add_author(QString& author) const;
+    // void add_authors(QStringList& authors) const;
+    // void add_book(QString& title, QString& authors) const;
 
   private:
     Ui::MainWindow* ui;

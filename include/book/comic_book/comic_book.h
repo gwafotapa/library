@@ -3,6 +3,7 @@
 
 #include <QList>
 #include <QString>
+#include <algorithm>
 
 #include "book.h"
 #include "comic_book_writer.h"
@@ -16,7 +17,16 @@ class ComicBook: public Book {
         QList<Illustrator> illustrators) :
         title {title},
         writers {writers},
-        illustrators {illustrators} {}
+        illustrators {illustrators} {
+        std::sort(
+            this->writers.begin(),
+            this->writers.end(),
+            [](auto w1, auto w2) { return w1.get_name() < w2.get_name(); });
+        std::sort(
+            this->illustrators.begin(),
+            this->illustrators.end(),
+            [](auto i1, auto i2) { return i1.get_name() < i2.get_name(); });
+    }
     QString
     get_title() const override;  // TODO: change syntax for private title_
     QList<ComicBookWriter> get_writers() const;  // TODO: return references ?

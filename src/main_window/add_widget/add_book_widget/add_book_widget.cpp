@@ -33,6 +33,12 @@ AddBookWidget::AddBookWidget(DataModel* data_model, QWidget* parent) :
     message = new QLabel("coucou");
     message->setStyleSheet("QLabel { color : blue; }");
 
+    table_view = new QTableView;
+    table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    // table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    table_view->setModel(data_model);
+    this->data_model = data_model;
+
     form_layout = new QFormLayout;
     form_layout->addRow("Title", title_line);
     form_layout->addRow("Writers", writers_line);
@@ -42,12 +48,6 @@ AddBookWidget::AddBookWidget(DataModel* data_model, QWidget* parent) :
     buttons_layout = new QHBoxLayout;
     buttons_layout->addWidget(add_button);
     buttons_layout->addWidget(clear_button);
-
-    table_view = new QTableView;
-    table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    // table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    table_view->setModel(data_model);
-    this->data_model = data_model;
 
     main_layout = new QVBoxLayout;
     main_layout->addLayout(form_layout);
@@ -74,7 +74,8 @@ AddBookWidget::~AddBookWidget() {
 
 void AddBookWidget::select_book_type(int book_type) {
     message->clear();
-    disconnect(add_button, &QPushButton::clicked, this, nullptr);
+    // disconnect(add_button, &QPushButton::clicked, this, nullptr);
+    add_button->disconnect();
     switch (book_type) {
         case 0:
             form_layout->setRowVisible(2, false);
@@ -106,7 +107,7 @@ void AddBookWidget::select_book_type(int book_type) {
                     // }
                     emit add_writers(writers);
                 });
-            data_model->setTable("Standard Books");
+            data_model->setTable("Standard Books");  // TODO: #ifdef DEBUG
             data_model->select();
             break;
         case 1:
@@ -163,6 +164,29 @@ void AddBookWidget::select_book_type(int book_type) {
 
 void AddBookWidget::book_added(const Book& book) const {
     message->setText("Added book \"" + book.get_title() + "\"");
+    message->setStyleSheet("QLabel { color : blue; }");
+}
+
+void AddBookWidget::book_exists(const Book& book) const {
+    message->setText(
+        "Book \"" + book.get_title() + "\" is already in the database");
+    message->setStyleSheet("QLabel { color : red; }");
+}
+
+void AddBookWidget::author_added(const Author& author) const {
+    if (!message->text().isEmpty()) {
+        message->setText(
+            message->text() + "\nAdded author \"" + author.get_name() + "\"");
+        message->setStyleSheet("QLabel { color : blue; }");
+    }
+}
+
+void AddBookWidget::author_exists(const Author& author) const {
+    if (message->text().isEmpty()) {
+        message->setText(
+            "Author \"" + author.get_name() + "\" is already in the database");
+        message->setStyleSheet("QLabel { color : red; }");
+    }
 }
 
 // TODO: change all palette to stylesheet

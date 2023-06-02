@@ -11,7 +11,8 @@ QList<Writer> StandardBook::get_writers() const {
 QString StandardBook::writers_to_string() const {
     QString writers_str;
     for (const Writer& writer : writers) {
-        writers_str += writer.get_name();
+        writers_str += writer.get_name() + ", ";
     }
+    writers_str.chop(2);
     return writers_str;
 }
