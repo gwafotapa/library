@@ -63,8 +63,8 @@ class AddBookWidget: public QWidget {
     void writer_illustrator(int state);
     void copy_writer_to_illustrator();
     void clear();
-    void add_book_and_writers();
-    void add_comic_book_and_authors();
+    // void add_book_and_writers();
+    // void add_comic_book_and_authors();
 };
 
 #endif  // ADD_BOOK_WIDGET_H

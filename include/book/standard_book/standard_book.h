@@ -15,6 +15,7 @@ class StandardBook: public Book {
     QString
     get_title() const override;  // TODO: change syntax for private title_
     QList<Writer> get_writers() const;
+    QString writers_to_string() const;
 
   private:
     QString title;

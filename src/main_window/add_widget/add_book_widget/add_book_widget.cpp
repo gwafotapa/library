@@ -1,15 +1,13 @@
 #include "add_book_widget.h"
 
-#include <qboxlayout.h>
-#include <qpushbutton.h>
-#include <qtableview.h>
-
 #include <QCheckBox>
 #include <QFormLayout>
 #include <QHeaderView>
 #include <QLabel>
 #include <QLineEdit>
+#include <QPushButton>
 #include <QStyle>
+#include <QTableView>
 
 #include "comic_book.h"
 #include "data_model.h"
@@ -208,24 +206,24 @@ void AddBookWidget::clear() {
     message->clear();
 }
 
-void AddBookWidget::add_book_and_writers() {
-    QString writers = writers_line->text();
-    QStringList writer_list = writers.split(u',');
-    data_model->add_writers(writer_list);
+// void AddBookWidget::add_book_and_writers() {
+//     QString writers = writers_line->text();
+//     QStringList writer_list = writers.split(u',');
+//     data_model->add_writers(writer_list);
 
-    QString title = title_line->text();
-    data_model->add_standard_book(title, writers);
-}
+//     QString title = title_line->text();
+//     data_model->add_standard_book(title, writers);
+// }
 
-void AddBookWidget::add_comic_book_and_authors() {
-    QString writers = writers_line->text();
-    QStringList writer_list = writers.split(u',');
-    data_model->add_comic_book_writers(writer_list);
+// void AddBookWidget::add_comic_book_and_authors() {
+//     QString writers = writers_line->text();
+//     QStringList writer_list = writers.split(u',');
+//     data_model->add_comic_book_writers(writer_list);
 
-    QString illustrators = illustrators_line->text();
-    QStringList illustrator_list = illustrators.split(u',');
-    data_model->add_illustrators(illustrator_list);
+//     QString illustrators = illustrators_line->text();
+//     QStringList illustrator_list = illustrators.split(u',');
+//     data_model->add_illustrators(illustrator_list);
 
-    QString title = title_line->text();
-    data_model->add_comic_book(title, writers, illustrators);
-}
+//     QString title = title_line->text();
+//     data_model->add_comic_book(title, writers, illustrators);
+// }

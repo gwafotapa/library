@@ -19,7 +19,7 @@ class DataModel: public QSqlTableModel {
     Q_OBJECT
 
   public:
-    DataModel(
+    DataModel(  // TODO: move to .cpp
         QObject* parent = nullptr,
         QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE")) :
         QSqlTableModel(parent, db) {
@@ -63,7 +63,10 @@ class DataModel: public QSqlTableModel {
     search_comic_books(QString title, QString writers, QString illustrators);
 
   signals:
-    void book_added(const Book& book) const;
+    void book_added(const Book& book);
+    void book_exists(const Book& book);
+    void author_added(const Author& author);
+    void author_exists(const Author& author);
 
   private:
     const QString db_filename = "library.db";

@@ -2,6 +2,8 @@
 
 #include <QSqlRecord>
 
+#include "comic_book.h"
+#include "comic_book_writer.h"
 #include "standard_book.h"
 #include "writer.h"
 
@@ -41,159 +43,118 @@ void DataModel::select_table(const QString& table) {
 }
 
 void DataModel::add_writer(const Writer& writer) {
-    writer = writer.simplified();
-    if (writer.isEmpty()) {
-        qDebug() << "Name of writer is empty";
-        return;
-    }
-
     setTable(books_table_name);
-    setFilter("Writers = '" + writer + "'");
+    setFilter("Writers = '" + writer.get_name() + "'");
     select();
     if (rowCount() == 0) {
         QSqlRecord rec = record();
-        rec.setValue("Writers", writer);
+        rec.setValue("Writers", writer.get_name());
         insertRecord(-1, rec);
         submit();
+        emit author_added(writer);
     } else {
         qDebug() << "Writer is already in the database";
+        emit author_exists(writer);
     }
     setFilter("");
     select();
 }
 
-void DataModel::add_writers(QStringList& writers) {
-    // QStringList writer_list = writers.split(u',');
-    for (QString& writer : writers) {
+void DataModel::add_writers(const QList<Writer>& writers) {
+    for (const Writer& writer : writers) {
         add_writer(writer);
     }
 }
 
 // TODO: factor with add_writer (table name is the only difference)
-void DataModel::add_comic_book_writer(QString& writer) {
-    writer = writer.simplified();
-    if (writer.isEmpty()) {
-        qDebug() << "Name of writer is empty";
-        return;
-    }
-
+void DataModel::add_comic_book_writer(const ComicBookWriter& writer) {
     setTable(comic_books_table_name);
-    setFilter("Writers = '" + writer + "'");
+    setFilter("Writers = '" + writer.get_name() + "'");
     select();
     if (rowCount() == 0) {
         QSqlRecord rec = record();
-        rec.setValue("Writers", writer);
+        rec.setValue("Writers", writer.get_name());
         insertRecord(-1, rec);
         submit();
+        emit author_added(writer);
     } else {
         qDebug() << "Writer is already in the database";
+        emit author_exists(writer);
     }
     setFilter("");
     select();
 }
 
-void DataModel::add_comic_book_writers(QStringList& writers) {
-    for (QString& writer : writers) {
+void DataModel::add_comic_book_writers(const QList<ComicBookWriter>& writers) {
+    for (const ComicBookWriter& writer : writers) {
         add_comic_book_writer(writer);
     }
 }
 
 // TODO: factor with add_writer and add_comic_book_writer as add_author
-void DataModel::add_illustrator(QString& illustrator) {
-    illustrator = illustrator.simplified();
-    if (illustrator.isEmpty()) {
-        qDebug() << "Name of illustrator is empty";
-        return;
-    }
-
+void DataModel::add_illustrator(const Illustrator& illustrator) {
     setTable(comic_books_table_name);
-    setFilter("Illustrators = '" + illustrator + "'");
+    setFilter("Illustrators = '" + illustrator.get_name() + "'");
     select();
     if (rowCount() == 0) {
         QSqlRecord rec = record();
-        rec.setValue("Illustrators", illustrator);
+        rec.setValue("Illustrators", illustrator.get_name());
         insertRecord(-1, rec);
         submit();
+        emit author_added(illustrator);
     } else {
         qDebug() << "Illustrator is already in the database";
+        emit author_exists(illustrator);
     }
     setFilter("");
     select();
 }
 
-void DataModel::add_illustrators(QStringList& illustrators) {
-    for (QString& illustrator : illustrators) {
+void DataModel::add_illustrators(const QList<Illustrator>& illustrators) {
+    for (const Illustrator& illustrator : illustrators) {
         add_illustrator(illustrator);
     }
 }
 
-void DataModel::add_standard_book(QString& title, QString& writers) {
-    // TODO: QList instead ? do this and simplified() calls in the sender (form) ?
-    title = title.simplified();
-    writers = writers.simplified();
-    if (title.isEmpty() || writers.isEmpty()) {
-        qDebug() << "Empty string: " << (title.isEmpty() ? "Title" : "Writers");
-        return;
-    }
-
+void DataModel::add_standard_book(const StandardBook& book) {
     setTable(books_table_name);
-    setFilter("Title = '" + title + "' AND Writers = '" + writers + "'");
+    setFilter(
+        "Title = '" + book.get_title() + "' AND Writers = '"
+        + book.writers_to_string() + "'");
     select();
     if (rowCount() == 0) {
         QSqlRecord rec = record();
-        rec.setValue("Title", title);
-        rec.setValue("Writers", writers);
+        rec.setValue("Title", book.get_title());
+        rec.setValue("Writers", book.writers_to_string());
         insertRecord(-1, rec);
         submit();
-
-        QList<Writer> writer_list;
-        for (const QString& name : writers.split(u',')) {
-            if (!name.isEmpty()) {
-                writer_list.push_back(Writer(name));
-            }
-        }
-        emit book_added(StandardBook(title, writer_list));
+        emit book_added(book);
     } else {
         qDebug() << "Book is already in the database";
+        emit book_exists(book);
     }
     setFilter("");
     select();
 }
 
-void DataModel::add_comic_book(
-    QString& title,
-    QString& writers,
-    QString& illustrators) {
-    title = title.simplified();
-    writers = writers.simplified();
-    illustrators = illustrators.simplified();
-    if (title.isEmpty()) {
-        qDebug() << "Empty string: Title";
-        return;
-    }
-    if (writers.isEmpty()) {
-        qDebug() << "Empty string: Writers";
-        return;
-    }
-    if (illustrators.isEmpty()) {
-        qDebug() << "Empty string: Illustrators";
-        return;
-    }
-
+void DataModel::add_comic_book(const ComicBook& book) {
     setTable(comic_books_table_name);
     setFilter(
-        "Title = '" + title + "' AND Writers = '" + writers
-        + "' AND Illustrators = '" + illustrators + "'");
+        "Title = '" + book.get_title() + "' AND Writers = '"
+        + book.writers_to_string() + "' AND Illustrators = '"
+        + book.illustrators_to_string() + "'");
     select();
     if (rowCount() == 0) {
         QSqlRecord rec = record();
-        rec.setValue("Title", title);
-        rec.setValue("Writers", writers);
-        rec.setValue("Illustrators", illustrators);
+        rec.setValue("Title", book.get_title());
+        rec.setValue("Writers", book.writers_to_string());
+        rec.setValue("Illustrators", book.illustrators_to_string());
         insertRecord(-1, rec);
         submit();
+        emit book_added(book);
     } else {
         qDebug() << "Comic book is already in the database";
+        emit book_exists(book);
     }
     setFilter("");
     select();

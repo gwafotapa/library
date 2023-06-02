@@ -21,6 +21,8 @@ class ComicBook: public Book {
     get_title() const override;  // TODO: change syntax for private title_
     QList<ComicBookWriter> get_writers() const;  // TODO: return references ?
     QList<Illustrator> get_illustrators() const;
+    QString writers_to_string() const;
+    QString illustrators_to_string() const;
 
   private:
     QString title;
