@@ -71,14 +71,14 @@ MainWindow::MainWindow(QWidget* parent) :
         &DataModel::select_table);
     connect(
         search_widget,
-        &SearchWidget::search_books_and_writers,
+        &SearchWidget::search_standard_books,
         data_model,
-        &DataModel::search_books_and_writers);
+        &DataModel::search_standard_books);
     connect(
         search_widget,
-        &SearchWidget::search_comic_books_and_authors,
+        &SearchWidget::search_comic_books,
         data_model,
-        &DataModel::search_comic_books_and_authors);
+        &DataModel::search_comic_books);
     connect(
         data_model,
         &DataModel::book_added,

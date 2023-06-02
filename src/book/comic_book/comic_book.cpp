@@ -4,10 +4,10 @@ QString ComicBook::get_title() const {
     return title;
 }
 
-ComicBookWriter ComicBook::get_writer() const {
-    return writer;
+QList<ComicBookWriter> ComicBook::get_writers() const {
+    return writers;
 }
 
-Illustrator ComicBook::get_illustrator() const {
-    return illustrator;
+QList<Illustrator> ComicBook::get_illustrators() const {
+    return illustrators;
 }

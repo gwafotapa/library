@@ -89,15 +89,15 @@ SearchWidget::~SearchWidget() {
 // }
 
 void SearchWidget::select_search(int book_type) {
+    search_log->clear();
+    disconnect(search_button, &QPushButton::clicked, this, nullptr);
     switch (book_type) {
         case 0:  // Non-comic book and writers
             form_layout->setRowVisible(2, false);
-            search_log->clear();
             emit select_table(
-                "Books");  // TODO: replace the constant, necessary ?
-            disconnect(search_button, &QPushButton::clicked, this, nullptr);
+                "Standard Books");  // TODO: replace the constant, necessary ?
             connect(search_button, &QPushButton::clicked, [&]() {
-                emit search_books_and_writers(
+                emit search_standard_books(
                     title_line->text(),
                     writers_line->text());
                 update_search_log();
@@ -107,11 +107,9 @@ void SearchWidget::select_search(int book_type) {
             break;
         case 1:  // Comic books, writers and illustrators
             form_layout->setRowVisible(2, true);
-            search_log->clear();
             emit select_table("Comic Books");  // TODO: Necessary ?
-            disconnect(search_button, &QPushButton::clicked, this, nullptr);
             connect(search_button, &QPushButton::clicked, [&]() {
-                emit search_comic_books_and_authors(
+                emit search_comic_books(
                     title_line->text(),
                     writers_line->text(),
                     illustrators_line->text());

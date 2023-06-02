@@ -11,7 +11,9 @@
 #include <QLineEdit>
 #include <QStyle>
 
+#include "comic_book.h"
 #include "data_model.h"
+#include "standard_book.h"
 #include "ui_add_book_widget.h"
 
 AddBookWidget::AddBookWidget(DataModel* data_model, QWidget* parent) :
@@ -73,6 +75,8 @@ AddBookWidget::~AddBookWidget() {
 }
 
 void AddBookWidget::select_book_type(int book_type) {
+    message->clear();
+    disconnect(add_button, &QPushButton::clicked, this, nullptr);
     switch (book_type) {
         case 0:
             form_layout->setRowVisible(2, false);
@@ -80,14 +84,30 @@ void AddBookWidget::select_book_type(int book_type) {
             connect(
                 add_button,
                 &QPushButton::clicked,
-                this,
-                &AddBookWidget::add_book_and_writers);
-            disconnect(
-                add_button,
-                &QPushButton::clicked,
-                this,
-                &AddBookWidget::add_comic_book_and_authors);
-            data_model->setTable("Books");
+                [&]() {  // TODO: make a function
+                    QString title = title_line->text().simplified();
+                    if (title.isEmpty()) {
+                        message->setText("Error: blank title");
+                        message->setStyleSheet("QLabel { color : red; }");
+                        return;
+                    }
+                    QList<Writer> writers;
+                    for (QString& writer : writers_line->text().split(u',')) {
+                        writer = writer.simplified();
+                        if (writer.isEmpty()) {
+                            message->setText("Error: blank writer");
+                            message->setStyleSheet("QLabel { color : red; }");
+                            return;
+                        }
+                        writers.push_back(Writer(writer));
+                    }
+                    message->clear();
+                    emit add_standard_book(StandardBook(title, writers));
+                    for (const Writer& writer : writers) {
+                        emit add_writer(writer);
+                    }
+                });
+            data_model->setTable("Standard Books");
             data_model->select();
             break;
         case 1:
@@ -96,13 +116,44 @@ void AddBookWidget::select_book_type(int book_type) {
             connect(
                 add_button,
                 &QPushButton::clicked,
-                this,
-                &AddBookWidget::add_comic_book_and_authors);
-            disconnect(
-                add_button,
-                &QPushButton::clicked,
-                this,
-                &AddBookWidget::add_book_and_writers);
+                [&]() {  // TODO: make a function
+                    QString title = title_line->text().simplified();
+                    if (title.isEmpty()) {
+                        message->setText("Error: blank title");
+                        message->setStyleSheet("QLabel { color : red; }");
+                        return;
+                    }
+                    QList<ComicBookWriter> writers;
+                    for (QString& writer : writers_line->text().split(u',')) {
+                        writer = writer.simplified();
+                        if (writer.isEmpty()) {
+                            message->setText("Error: blank writer");
+                            message->setStyleSheet("QLabel { color : red; }");
+                            return;
+                        }
+                        writers.push_back(ComicBookWriter(writer));
+                    }
+                    QList<Illustrator> illustrators;
+                    for (QString& illustrator :
+                         illustrators_line->text().split(u',')) {
+                        illustrator = illustrator.simplified();
+                        if (illustrator.isEmpty()) {
+                            message->setText("Error: blank illustrator");
+                            message->setStyleSheet("QLabel { color : red; }");
+                            return;
+                        }
+                        illustrators.push_back(Illustrator(illustrator));
+                    }
+                    message->clear();
+                    emit add_comic_book(
+                        ComicBook(title, writers, illustrators));
+                    for (const ComicBookWriter& writer : writers) {
+                        emit add_comic_book_writer(writer);
+                    }
+                    for (const Illustrator& illustrator : illustrators) {
+                        emit add_illustrator(illustrator);
+                    }
+                });
             data_model->setTable("Comic Books");
             data_model->select();
             break;
@@ -151,6 +202,7 @@ void AddBookWidget::clear() {
     writers_line->clear();
     illustrators_line->clear();
     check_box->setChecked(false);
+    message->clear();
 }
 
 void AddBookWidget::add_book_and_writers() {

@@ -11,7 +11,10 @@
 #include <QTableView>
 #include <QWidget>
 
+#include "comic_book.h"
+#include "comic_book_writer.h"
 #include "data_model.h"
+#include "standard_book.h"
 
 namespace Ui {
 class AddBookWidget;
@@ -27,6 +30,14 @@ class AddBookWidget: public QWidget {
   public slots:
     void select_book_type(int book_type);
     void book_added(const Book& book) const;
+
+  signals:
+    void add_standard_book(const StandardBook& book);
+    void add_comic_book(const ComicBook& book);
+    void add_author(const Author& author);  // TODO: useful ?
+    void add_writer(const Writer& writer);
+    void add_comic_book_writer(const ComicBookWriter& writer);
+    void add_illustrator(const Illustrator& illustrator);
 
   private:
     Ui::AddBookWidget* ui;

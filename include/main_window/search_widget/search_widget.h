@@ -27,8 +27,8 @@ class SearchWidget: public QWidget {
 
   signals:
     void select_table(const QString& table);
-    void search_books_and_writers(const QString& title, const QString& writers);
-    void search_comic_books_and_authors(
+    void search_standard_books(const QString& title, const QString& writers);
+    void search_comic_books(
         const QString& title,
         const QString& writers,
         const QString& illustrators);

@@ -40,7 +40,7 @@ class DataModel: public QSqlTableModel {
             comic_books_table_name,
             comic_books_column_names,
             comic_books_column_types);
-        // setTable("Books");
+        // setTable("Standard Books");
     }
     ~DataModel();
 
@@ -55,18 +55,16 @@ class DataModel: public QSqlTableModel {
     void add_standard_book(QString& title, QString& writers);
     void
     add_comic_book(QString& title, QString& writers, QString& illustrators);
-    void search_books_and_writers(QString title, QString writers);
-    void search_comic_books_and_authors(
-        QString title,
-        QString writers,
-        QString illustrators);
+    void search_standard_books(QString title, QString writers);
+    void
+    search_comic_books(QString title, QString writers, QString illustrators);
 
   signals:
     void book_added(const Book& book) const;
 
   private:
     const QString db_filename = "library.db";
-    const QString books_table_name = "Books";
+    const QString books_table_name = "Standard Books";
     const QStringList books_column_names = {"Title", "Writers"};
     const QStringList books_column_types {"VARCHAR", "VARCHAR"};
     const QString comic_books_table_name = "Comic Books";

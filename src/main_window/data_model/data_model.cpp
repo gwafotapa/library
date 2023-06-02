@@ -199,7 +199,7 @@ void DataModel::add_comic_book(
     select();
 }
 
-void DataModel::search_books_and_writers(QString title, QString writers) {
+void DataModel::search_standard_books(QString title, QString writers) {
     title = title.simplified();
     writers = writers.simplified();
 
@@ -223,7 +223,7 @@ void DataModel::search_books_and_writers(QString title, QString writers) {
     // }
 }
 
-void DataModel::search_comic_books_and_authors(
+void DataModel::search_comic_books(
     QString title,
     QString writers,
     QString illustrators) {

@@ -1,6 +1,7 @@
 #ifndef COMIC_BOOK_H
 #define COMIC_BOOK_H
 
+#include <QList>
 #include <QString>
 
 #include "book.h"
@@ -9,19 +10,22 @@
 
 class ComicBook: public Book {
   public:
-    ComicBook(QString title, ComicBookWriter writer, Illustrator illustrator) :
+    ComicBook(
+        QString title,
+        QList<ComicBookWriter> writers,
+        QList<Illustrator> illustrators) :
         title {title},
-        writer {writer},
-        illustrator {illustrator} {}
+        writers {writers},
+        illustrators {illustrators} {}
     QString
     get_title() const override;  // TODO: change syntax for private title_
-    ComicBookWriter get_writer() const;
-    Illustrator get_illustrator() const;
+    QList<ComicBookWriter> get_writers() const;  // TODO: return references ?
+    QList<Illustrator> get_illustrators() const;
 
   private:
     QString title;
-    ComicBookWriter writer;
-    Illustrator illustrator;
+    QList<ComicBookWriter> writers;
+    QList<Illustrator> illustrators;
 };
 
 #endif  // COMIC_BOOK_H
