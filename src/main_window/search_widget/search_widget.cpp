@@ -38,7 +38,7 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
     search_button = new QPushButton("Search");
     clear_button = new QPushButton("Clear");
 
-    search_log = new QLabel;
+    results_label = new QLabel;
     table_view = new QTableView;
     table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     // table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
@@ -58,7 +58,7 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
     main_layout->addWidget(combo_box);
     main_layout->addLayout(form_layout);
     main_layout->addLayout(buttons_layout);
-    main_layout->addWidget(search_log);
+    main_layout->addWidget(results_label);
     main_layout->addWidget(table_view);
     // main_layout->addStretch();
     setLayout(main_layout);
@@ -77,19 +77,23 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
     //     search_button,
     //     &QPushButton::clicked,
     //     this,
-    //     &SearchWidget::update_search_log);
+    //     &SearchWidget::set_results_label);
 }
 
 SearchWidget::~SearchWidget() {
     delete ui;
 }
 
+// QComboBox* SearchWidget::get_combo_box() const {
+//     return combo_box;
+// }
+
 // QPushButton* SearchWidget::get_search_button() const {
 //     return search_button;
 // }
 
 void SearchWidget::select_search(int book_type) {
-    search_log->clear();
+    results_label->clear();
     disconnect(search_button, &QPushButton::clicked, this, nullptr);
     switch (book_type) {
         case 0:  // Non-comic book and writers
@@ -100,7 +104,7 @@ void SearchWidget::select_search(int book_type) {
                 emit search_standard_books(
                     title_line->text(),
                     writers_line->text());
-                update_search_log();
+                set_results_label();
             });
             // data_model->setTable("Books");
             // data_model->select();
@@ -113,7 +117,7 @@ void SearchWidget::select_search(int book_type) {
                     title_line->text(),
                     writers_line->text(),
                     illustrators_line->text());
-                update_search_log();
+                set_results_label();
             });
             // data_model->setTable("Comic Books");
             // data_model->select();
@@ -140,17 +144,17 @@ void SearchWidget::clear() {
 // data_model->search_comic_books_and_authors(title, writers, illustrators);
 // }
 
-void SearchWidget::update_search_log() {
+void SearchWidget::set_results_label() {
     int rows = table_view->model()->rowCount();
     // int rows = data_model->rowCount();
     switch (rows) {
         case 0:
-            search_log->setText("No results found");
+            results_label->setText("No results found");
             break;
         case 1:
-            search_log->setText("1 result found");
+            results_label->setText("1 result found");
             break;
         default:
-            search_log->setText(QString::number(rows) + " results found");
+            results_label->setText(QString::number(rows) + " results found");
     }
 }

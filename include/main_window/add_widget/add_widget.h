@@ -5,6 +5,7 @@
 #include <QComboBox>
 #include <QPushButton>
 #include <QStackedWidget>
+#include <QTableView>
 #include <QWidget>
 
 #include "add_author_widget.h"
@@ -23,6 +24,7 @@ class AddWidget: public QWidget {
   public:
     explicit AddWidget(DataModel* data_model, QWidget* parent = nullptr);
     ~AddWidget() override;
+    // QComboBox* get_combo_box() const;
     AddBookWidget* book() const;
     AddAuthorWidget* author() const;
 
@@ -36,6 +38,8 @@ class AddWidget: public QWidget {
     AddAuthorWidget* add_author_widget;
     // QPushButton* add_button;
     // QPushButton* clear_button;
+    QTableView* table_view;
+    DataModel* data_model;
 };
 
 #endif  // ADD_WIDGET_H

@@ -45,6 +45,7 @@ class MainWindow: public QMainWindow {
     void add_data();
     void add_data2();
     void search_data();
+    // void select_table(int index);
     // void filter_search_data();
 };
 

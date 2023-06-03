@@ -24,7 +24,7 @@ class AddBookWidget: public QWidget {
     Q_OBJECT
 
   public:
-    explicit AddBookWidget(DataModel* data_model, QWidget* parent = nullptr);
+    explicit AddBookWidget(QWidget* parent = nullptr);
     ~AddBookWidget();
 
   public slots:
@@ -59,8 +59,6 @@ class AddBookWidget: public QWidget {
     QPushButton* add_button;
     QPushButton* clear_button;
     QLabel* message;
-    QTableView* table_view;
-    DataModel* data_model;
 
   private slots:
     void writer_illustrator(int state);

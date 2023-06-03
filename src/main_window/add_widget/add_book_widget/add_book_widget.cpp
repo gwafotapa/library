@@ -2,7 +2,6 @@
 
 #include <QCheckBox>
 #include <QFormLayout>
-#include <QHeaderView>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
@@ -10,11 +9,10 @@
 #include <QTableView>
 
 #include "comic_book.h"
-#include "data_model.h"
 #include "standard_book.h"
 #include "ui_add_book_widget.h"
 
-AddBookWidget::AddBookWidget(DataModel* data_model, QWidget* parent) :
+AddBookWidget::AddBookWidget(QWidget* parent) :
     QWidget(parent),
     ui(new Ui::AddBookWidget) {
     ui->setupUi(this);
@@ -33,12 +31,6 @@ AddBookWidget::AddBookWidget(DataModel* data_model, QWidget* parent) :
     message = new QLabel("coucou");
     message->setStyleSheet("QLabel { color : blue; }");
 
-    table_view = new QTableView;
-    table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    // table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    table_view->setModel(data_model);
-    this->data_model = data_model;
-
     form_layout = new QFormLayout;
     form_layout->addRow("Title", title_line);
     form_layout->addRow("Writers", writers_line);
@@ -53,7 +45,6 @@ AddBookWidget::AddBookWidget(DataModel* data_model, QWidget* parent) :
     main_layout->addLayout(form_layout);
     main_layout->addLayout(buttons_layout);
     main_layout->addWidget(message);
-    main_layout->addWidget(table_view);
     // main_layout->addStretch();
     setLayout(main_layout);
 
@@ -107,8 +98,8 @@ void AddBookWidget::select_book_type(int book_type) {
                     // }
                     emit add_writers(writers);
                 });
-            data_model->setTable("Standard Books");  // TODO: #ifdef DEBUG
-            data_model->select();
+            // data_model->setTable("Standard Books");  // TODO: #ifdef DEBUG
+            // data_model->select();
             break;
         case 1:
             form_layout->setRowVisible(2, true);
@@ -156,8 +147,8 @@ void AddBookWidget::select_book_type(int book_type) {
                     // }
                     emit add_illustrators(illustrators);
                 });
-            data_model->setTable("Comic Books");
-            data_model->select();
+            // data_model->setTable("Comic Books");
+            // data_model->select();
             break;
     }
 }

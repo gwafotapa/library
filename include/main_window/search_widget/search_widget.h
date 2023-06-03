@@ -24,6 +24,7 @@ class SearchWidget: public QWidget {
   public:
     explicit SearchWidget(DataModel* data_model, QWidget* parent = nullptr);
     ~SearchWidget() override;
+    // QComboBox* get_combo_box() const;
 
   signals:
     void select_table(const QString& table);
@@ -45,13 +46,13 @@ class SearchWidget: public QWidget {
     QLineEdit* illustrators_line;
     QPushButton* search_button;
     QPushButton* clear_button;
-    QLabel* search_log;
+    QLabel* results_label;
     QTableView* table_view;
 
   private slots:
     void select_search(int book_type);
     void clear();
-    void update_search_log();
+    void set_results_label();
 };
 
 #endif  // SEARCH_WIDGET_H

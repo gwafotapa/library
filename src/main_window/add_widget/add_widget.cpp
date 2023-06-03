@@ -1,9 +1,12 @@
 #include "add_widget.h"
 
-#include <qboxlayout.h>
-#include <qcombobox.h>
 #include <qpushbutton.h>
-#include <qstackedwidget.h>
+
+#include <QBoxLayout>
+#include <QComboBox>
+#include <QHeaderView>
+#include <QPushButton>
+#include <QStackedWidget>
 
 // #include <qformlayout.h>
 // #include <qlineedit.h>
@@ -21,19 +24,27 @@ AddWidget::AddWidget(DataModel* data_model, QWidget* parent) :
     combo_box->addItem("Comic book");
     combo_box->addItem("Author");
 
-    add_book_widget = new AddBookWidget(data_model);
+    add_book_widget = new AddBookWidget;
     add_author_widget = new AddAuthorWidget;
 
     stacked_widget = new QStackedWidget;
     stacked_widget->addWidget(add_book_widget);
     stacked_widget->addWidget(add_author_widget);
 
-    // QHBoxLayout* stacked_widget_layout = new QHBoxLayout;
-    // stacked_widget->setLayout(stacked_widget_layout);
+    table_view = new QTableView;
+    table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    // table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    table_view->setModel(data_model);
+    this->data_model = data_model;
+    data_model->setTable(
+        "Standard Books");  // TODO: replace all table strings with constants
+    data_model->select();
 
     main_layout = new QVBoxLayout;
     main_layout->addWidget(combo_box);
     main_layout->addWidget(stacked_widget);
+    main_layout->addWidget(table_view);
+    main_layout->addStretch();
 
     // TODO: put message here for both add_book_widget and add_author_widget
 
@@ -55,11 +66,33 @@ AddWidget::AddWidget(DataModel* data_model, QWidget* parent) :
         &QComboBox::currentIndexChanged,
         add_book_widget,
         &AddBookWidget::select_book_type);
+
+    connect(combo_box, &QComboBox::currentIndexChanged, [&](int i) {
+        switch (i) {
+            case 0:
+                table_view->setVisible(true);
+                this->data_model->setTable("Standard Books");
+                this->data_model->select();
+                break;
+            case 1:
+                table_view->setVisible(true);
+                this->data_model->setTable("Comic Books");
+                this->data_model->select();
+                break;
+            case 2:
+                table_view->setVisible(false);
+                break;
+        }
+    });
 }
 
 AddWidget::~AddWidget() {
     delete ui;
 }
+
+// QComboBox* AddWidget::get_combo_box() const {
+//     return combo_box;
+// }
 
 AddBookWidget* AddWidget::book() const {
     return add_book_widget;

@@ -1,5 +1,7 @@
 #include "main_window.h"
 
+#include <qtabwidget.h>
+
 #include <QDebug>
 #include <QKeyEvent>
 #include <QPushButton>
@@ -62,6 +64,12 @@ MainWindow::MainWindow(QWidget* parent) :
     //     this,
     //     &MainWindow::filter_search_data);
     setCentralWidget(tab_widget);
+
+    // connect(
+    //     tab_widget,
+    //     &QTabWidget ::currentChanged,
+    //     this,
+    //     &MainWindow::select_table);
 
     connect(
         search_widget,
@@ -140,6 +148,32 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
             QMainWindow::keyPressEvent(event);
     }
 }
+
+// void MainWindow::select_table(int index) {
+//     switch (index) {
+//         case 0:  // Search widget
+//             switch (search_widget->get_combo_box()->currentIndex()) {
+//                 case 0:
+//                     data_model->setTable("Standard Books");
+//                     break;
+//                 case 1:
+//                     data_model->setTable("Comic Books");
+//                     break;
+//             }
+//             break;
+//         case 1:  // Add widget
+//             switch (add_widget->get_combo_box()->currentIndex()) {
+//                 case 0:
+//                     data_model->setTable("Standard Books");
+//                     break;
+//                 case 1:
+//                     data_model->setTable("Comic Books");
+//                     break;
+//                 case 2:  // Add author
+//                     break;
+//             }
+//     }
+// }
 
 // void MainWindow::add_author(QString& author) const {
 // author = author.simplified();
