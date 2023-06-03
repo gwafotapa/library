@@ -56,7 +56,8 @@ void DataModel::add_writer(const Writer& writer) {
         qDebug() << "Writer is already in the database";
         emit author_exists(writer);
     }
-    setFilter("");
+    setFilter(
+        "");  // TODO: set filter back to its previous value ? Remove because any query should set its filter first ?
     select();
 }
 

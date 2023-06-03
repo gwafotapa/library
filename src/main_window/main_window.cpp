@@ -90,51 +90,51 @@ MainWindow::MainWindow(QWidget* parent) :
 
     // TODO: create a datamodel without view in addbookwidget and move these connects there
     connect(
-        add_widget->book(),
-        &AddBookWidget::add_standard_book,
+        add_widget,
+        &AddWidget::add_standard_book,
         data_model,
         &DataModel::add_standard_book);
     connect(
-        add_widget->book(),
-        &AddBookWidget::add_comic_book,
+        add_widget,
+        &AddWidget::add_comic_book,
         data_model,
         &DataModel::add_comic_book);
     connect(
-        add_widget->book(),
-        &AddBookWidget::add_writers,
+        add_widget,
+        &AddWidget::add_writers,
         data_model,
         &DataModel::add_writers);
     connect(
-        add_widget->book(),
-        &AddBookWidget::add_comic_book_writers,
+        add_widget,
+        &AddWidget::add_comic_book_writers,
         data_model,
         &DataModel::add_comic_book_writers);
     connect(
-        add_widget->book(),
-        &AddBookWidget::add_illustrators,
+        add_widget,
+        &AddWidget::add_illustrators,
         data_model,
         &DataModel::add_illustrators);
 
     connect(
         data_model,
         &DataModel::book_added,
-        add_widget->book(),
-        &AddBookWidget::book_added);
+        add_widget,
+        &AddWidget::book_added);
     connect(
         data_model,
         &DataModel::book_exists,
-        add_widget->book(),
-        &AddBookWidget::book_exists);
+        add_widget,
+        &AddWidget::book_exists);
     connect(
         data_model,
         &DataModel::author_added,
-        add_widget->book(),
-        &AddBookWidget::author_added);
+        add_widget,
+        &AddWidget::author_added);
     connect(
         data_model,
         &DataModel::author_exists,
-        add_widget->book(),
-        &AddBookWidget::author_exists);
+        add_widget,
+        &AddWidget::author_exists);
 }
 
 MainWindow::~MainWindow() {

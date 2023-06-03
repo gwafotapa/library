@@ -26,10 +26,8 @@ AddBookWidget::AddBookWidget(QWidget* parent) :
     illustrators_line->setPlaceholderText("Illustrator1, Illustrator2, ...");
     illustrators_line->setClearButtonEnabled(true);
     check_box = new QCheckBox("Writers / Illustrators");
-    add_button = new QPushButton("Add");
-    clear_button = new QPushButton("Clear");
-    message = new QLabel("coucou");
-    message->setStyleSheet("QLabel { color : blue; }");
+    // add_button = new QPushButton("Add");
+    // clear_button = new QPushButton("Clear");
 
     form_layout = new QFormLayout;
     form_layout->addRow("Title", title_line);
@@ -37,18 +35,17 @@ AddBookWidget::AddBookWidget(QWidget* parent) :
     form_layout->addRow("Illustrators", illustrators_line);
     form_layout->addRow("", check_box);
 
-    buttons_layout = new QHBoxLayout;
-    buttons_layout->addWidget(add_button);
-    buttons_layout->addWidget(clear_button);
+    // buttons_layout = new QHBoxLayout;
+    // buttons_layout->addWidget(add_button);
+    // buttons_layout->addWidget(clear_button);
 
-    main_layout = new QVBoxLayout;
-    main_layout->addLayout(form_layout);
-    main_layout->addLayout(buttons_layout);
-    main_layout->addWidget(message);
+    // main_layout = new QVBoxLayout;
+    // main_layout->addLayout(form_layout);
+    // main_layout->addLayout(buttons_layout);
     // main_layout->addStretch();
-    setLayout(main_layout);
+    setLayout(form_layout);
 
-    select_book_type(0);
+    // select_book_type(0);
 
     connect(
         check_box,
@@ -56,128 +53,23 @@ AddBookWidget::AddBookWidget(QWidget* parent) :
         this,
         &AddBookWidget::writer_illustrator);
 
-    connect(clear_button, &QPushButton::clicked, this, &AddBookWidget::clear);
+    // connect(clear_button, &QPushButton::clicked, this, &AddBookWidget::clear);
 }
 
 AddBookWidget::~AddBookWidget() {
     delete ui;
 }
 
-void AddBookWidget::select_book_type(int book_type) {
-    message->clear();
-    // disconnect(add_button, &QPushButton::clicked, this, nullptr);
-    add_button->disconnect();
-    switch (book_type) {
-        case 0:
-            form_layout->setRowVisible(2, false);
-            form_layout->setRowVisible(3, false);
-            connect(
-                add_button,
-                &QPushButton::clicked,
-                [&]() {  // TODO: make a function
-                    QString title = title_line->text().simplified();
-                    if (title.isEmpty()) {
-                        message->setText("Error: blank title");
-                        message->setStyleSheet("QLabel { color : red; }");
-                        return;
-                    }
-                    QList<Writer> writers;
-                    for (QString& writer : writers_line->text().split(u',')) {
-                        writer = writer.simplified();
-                        if (writer.isEmpty()) {
-                            message->setText("Error: blank writer");
-                            message->setStyleSheet("QLabel { color : red; }");
-                            return;
-                        }
-                        writers.push_back(Writer(writer));
-                    }
-                    message->clear();
-                    emit add_standard_book(StandardBook(title, writers));
-                    // for (const Writer& writer : writers) {
-                    //     emit add_writer(writer);
-                    // }
-                    emit add_writers(writers);
-                });
-            // data_model->setTable("Standard Books");  // TODO: #ifdef DEBUG
-            // data_model->select();
-            break;
-        case 1:
-            form_layout->setRowVisible(2, true);
-            form_layout->setRowVisible(3, true);
-            connect(
-                add_button,
-                &QPushButton::clicked,
-                [&]() {  // TODO: make a function
-                    QString title = title_line->text().simplified();
-                    if (title.isEmpty()) {
-                        message->setText("Error: blank title");
-                        message->setStyleSheet("QLabel { color : red; }");
-                        return;
-                    }
-                    QList<ComicBookWriter> writers;
-                    for (QString& writer : writers_line->text().split(u',')) {
-                        writer = writer.simplified();
-                        if (writer.isEmpty()) {
-                            message->setText("Error: blank writer");
-                            message->setStyleSheet("QLabel { color : red; }");
-                            return;
-                        }
-                        writers.push_back(ComicBookWriter(writer));
-                    }
-                    QList<Illustrator> illustrators;
-                    for (QString& illustrator :
-                         illustrators_line->text().split(u',')) {
-                        illustrator = illustrator.simplified();
-                        if (illustrator.isEmpty()) {
-                            message->setText("Error: blank illustrator");
-                            message->setStyleSheet("QLabel { color : red; }");
-                            return;
-                        }
-                        illustrators.push_back(Illustrator(illustrator));
-                    }
-                    message->clear();
-                    emit add_comic_book(
-                        ComicBook(title, writers, illustrators));
-                    // for (const ComicBookWriter& writer : writers) {
-                    //     emit add_comic_book_writer(writer);
-                    // }
-                    emit add_comic_book_writers(writers);
-                    // for (const Illustrator& illustrator : illustrators) {
-                    //     emit add_illustrator(illustrator);
-                    // }
-                    emit add_illustrators(illustrators);
-                });
-            // data_model->setTable("Comic Books");
-            // data_model->select();
-            break;
-    }
+QLineEdit* AddBookWidget::get_title_line() const {
+    return title_line;
 }
 
-void AddBookWidget::book_added(const Book& book) const {
-    message->setText("Added book \"" + book.get_title() + "\"");
-    message->setStyleSheet("QLabel { color : blue; }");
+QLineEdit* AddBookWidget::get_writers_line() const {
+    return writers_line;
 }
 
-void AddBookWidget::book_exists(const Book& book) const {
-    message->setText(
-        "Book \"" + book.get_title() + "\" is already in the database");
-    message->setStyleSheet("QLabel { color : red; }");
-}
-
-void AddBookWidget::author_added(const Author& author) const {
-    if (!message->text().isEmpty()) {
-        message->setText(
-            message->text() + "\nAdded author \"" + author.get_name() + "\"");
-        message->setStyleSheet("QLabel { color : blue; }");
-    }
-}
-
-void AddBookWidget::author_exists(const Author& author) const {
-    if (message->text().isEmpty()) {
-        message->setText(
-            "Author \"" + author.get_name() + "\" is already in the database");
-        message->setStyleSheet("QLabel { color : red; }");
-    }
+QLineEdit* AddBookWidget::get_illustrators_line() const {
+    return illustrators_line;
 }
 
 // TODO: change all palette to stylesheet
@@ -218,7 +110,7 @@ void AddBookWidget::clear() {
     writers_line->clear();
     illustrators_line->clear();
     check_box->setChecked(false);
-    message->clear();
+    // message->clear();
 }
 
 // void AddBookWidget::add_book_and_writers() {
