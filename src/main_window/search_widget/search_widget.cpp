@@ -1,6 +1,8 @@
 #include "search_widget.h"
 
+#include <qboxlayout.h>
 #include <qpushbutton.h>
+#include <qsizepolicy.h>
 
 #include <QBoxLayout>
 #include <QComboBox>
@@ -15,7 +17,7 @@
 #include "data_model.h"
 #include "ui_search_widget.h"
 
-SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
+SearchWidget::SearchWidget(QWidget* parent) :
     QWidget(parent),
     ui(new Ui::SearchWidget) {
     ui->setupUi(this);
@@ -34,11 +36,16 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
     illustrators_line = new QLineEdit;
     illustrators_line->setClearButtonEnabled(true);
     illustrators_line->setPlaceholderText("Illustrator1, Illustrator2, ...");
+    QSizePolicy retain = illustrators_line->sizePolicy();
+    retain.setRetainSizeWhenHidden(true);
+    illustrators_line->setSizePolicy(retain);
 
     search_button = new QPushButton("Search");
     clear_button = new QPushButton("Clear");
 
     results_label = new QLabel;
+
+    data_model = new DataModel("search widget", this);
     table_view = new QTableView;
     table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     // table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
@@ -49,6 +56,12 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
     form_layout->addRow("Title", title_line);
     form_layout->addRow("Writers", writers_line);
     form_layout->addRow("Illustrators", illustrators_line);
+    // form_layout->addRow(illustrators_line);
+
+    // illustrators_widget = new LabelLineEdit("Illustrators");
+    // QSizePolicy retain = illustrators_widget->sizePolicy();
+    // retain.setRetainSizeWhenHidden(true);
+    // illustrators_widget->setSizePolicy(retain);
 
     buttons_layout = new QHBoxLayout;
     buttons_layout->addWidget(search_button);
@@ -57,6 +70,7 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
     main_layout = new QVBoxLayout;
     main_layout->addWidget(combo_box);
     main_layout->addLayout(form_layout);
+    // main_layout->addWidget(illustrators_widget);
     main_layout->addLayout(buttons_layout);
     main_layout->addWidget(results_label);
     main_layout->addWidget(table_view);
@@ -70,6 +84,22 @@ SearchWidget::SearchWidget(DataModel* data_model, QWidget* parent) :
         static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
         this,
         &SearchWidget::select_search);
+
+    // connect(
+    //     this,
+    //     &SearchWidget::select_table,
+    //     data_model,
+    //     &DataModel::select_table);
+    connect(
+        this,
+        &SearchWidget::search_standard_books,
+        data_model,
+        &DataModel::search_standard_books);
+    connect(
+        this,
+        &SearchWidget::search_comic_books,
+        data_model,
+        &DataModel::search_comic_books);
 
     connect(clear_button, &QPushButton::clicked, this, &SearchWidget::clear);
 
@@ -93,13 +123,18 @@ SearchWidget::~SearchWidget() {
 // }
 
 void SearchWidget::select_search(int book_type) {
+    data_model->clear();
     results_label->clear();
     disconnect(search_button, &QPushButton::clicked, this, nullptr);
     switch (book_type) {
         case 0:  // Non-comic book and writers
+            // form_layout->takeRow(2);
+            // main_layout->takeAt(3);
             form_layout->setRowVisible(2, false);
-            emit select_table(
-                "Standard Books");  // TODO: replace the constant, necessary ?
+            // form_layout->setRowVisible(3, false);
+            // illustrators_widget->hide();
+            // emit select_table(
+            //     "Standard Books");  // TODO: replace the constant, necessary ?
             connect(search_button, &QPushButton::clicked, [&]() {
                 emit search_standard_books(
                     title_line->text(),
@@ -110,8 +145,11 @@ void SearchWidget::select_search(int book_type) {
             // data_model->select();
             break;
         case 1:  // Comic books, writers and illustrators
+            // form_layout->addRow(illustrators_line);
             form_layout->setRowVisible(2, true);
-            emit select_table("Comic Books");  // TODO: Necessary ?
+            // form_layout->setRowVisible(3, true);
+            // illustrators_widget->show();
+            // emit select_table("Comic Books");  // TODO: Necessary ?
             connect(search_button, &QPushButton::clicked, [&]() {
                 emit search_comic_books(
                     title_line->text(),

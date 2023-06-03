@@ -28,12 +28,12 @@ MainWindow::MainWindow(QWidget* parent) :
     // // v_box_layout->addWidget(search_widget);
     // v_box_layout->addWidget(table_widget);
 
-    data_model = new DataModel(this);
+    // data_model = new DataModel(this);  // TODO: Remove ?
     // data_model = new DataModel(this);
     // // data_model->select();
     // table_widget->get_table_view()->setModel(data_model);
 
-    search_widget = new SearchWidget(data_model);
+    search_widget = new SearchWidget;
     add_widget = new AddWidget;
 
     tab_widget = new QTabWidget;
@@ -72,69 +72,8 @@ MainWindow::MainWindow(QWidget* parent) :
     //     &MainWindow::select_table);
 
     // TODO: use datamodel of search widget for these 3 connects
-    connect(
-        search_widget,
-        &SearchWidget::select_table,
-        data_model,
-        &DataModel::select_table);
-    connect(
-        search_widget,
-        &SearchWidget::search_standard_books,
-        data_model,
-        &DataModel::search_standard_books);
-    connect(
-        search_widget,
-        &SearchWidget::search_comic_books,
-        data_model,
-        &DataModel::search_comic_books);
 
     // TODO: create a datamodel without view in addbookwidget and move these connects there
-    connect(
-        add_widget,
-        &AddWidget::add_standard_book,
-        data_model,
-        &DataModel::add_standard_book);
-    connect(
-        add_widget,
-        &AddWidget::add_comic_book,
-        data_model,
-        &DataModel::add_comic_book);
-    connect(
-        add_widget,
-        &AddWidget::add_writers,
-        data_model,
-        &DataModel::add_writers);
-    connect(
-        add_widget,
-        &AddWidget::add_comic_book_writers,
-        data_model,
-        &DataModel::add_comic_book_writers);
-    connect(
-        add_widget,
-        &AddWidget::add_illustrators,
-        data_model,
-        &DataModel::add_illustrators);
-
-    connect(
-        data_model,
-        &DataModel::book_added,
-        add_widget,
-        &AddWidget::book_added);
-    connect(
-        data_model,
-        &DataModel::book_exists,
-        add_widget,
-        &AddWidget::book_exists);
-    connect(
-        data_model,
-        &DataModel::author_added,
-        add_widget,
-        &AddWidget::author_added);
-    connect(
-        data_model,
-        &DataModel::author_exists,
-        add_widget,
-        &AddWidget::author_exists);
 }
 
 MainWindow::~MainWindow() {

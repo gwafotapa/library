@@ -1,15 +1,43 @@
 #include "data_model.h"
 
 #include <QSqlRecord>
+#include <QSqlTableModel>
 
 #include "comic_book.h"
 #include "comic_book_writer.h"
 #include "standard_book.h"
 #include "writer.h"
 
+DataModel::DataModel(const QString& connection_name, QObject* parent) :
+    QSqlTableModel(
+        parent,
+        QSqlDatabase::addDatabase("QSQLITE", connection_name)) {
+    // QString data_dir = QCoreApplication::applicationDirPath() + "/data";
+    // QDir().mkpath(data_dir);
+    // QString data_path = data_dir + "/" + std::string(db_filename);
+
+    QString db_path =
+        QCoreApplication::applicationDirPath() + "/" + db_filename;
+    database().setDatabaseName(db_path);
+    qDebug() << db_path;
+    database().open();
+
+    create_table(
+        // QString::fromStdString(std::string(table_books)),
+        // QString::fromUtf8(table_books),
+        books_table_name,
+        books_column_names,
+        books_column_types);
+    create_table(
+        comic_books_table_name,
+        comic_books_column_names,
+        comic_books_column_types);
+    // setTable("Standard Books");
+}
+
 DataModel::~DataModel() {
-    if (db_.isOpen()) {
-        db_.close();
+    if (database().isOpen()) {
+        database().close();
     }
 }
 
@@ -17,7 +45,7 @@ void DataModel::create_table(
     const QString& table_name,
     const QStringList& column_names,
     const QStringList& column_types) {
-    if (!db_.tables().contains(table_name)) {
+    if (!database().tables().contains(table_name)) {
         qDebug() << "Table " + table_name + " not found";
         QString create_query = "CREATE TABLE \"" + table_name + "\" (";
         for (long long i = 0; i < column_names.size(); ++i) {
@@ -28,7 +56,7 @@ void DataModel::create_table(
         }
         create_query += ")";
         qDebug() << create_query;
-        QSqlQuery query(db_);
+        QSqlQuery query(database());
         bool result = query.exec(create_query);
         qDebug()
             << (result ? "Table " + table_name + " created"
@@ -37,28 +65,31 @@ void DataModel::create_table(
 }
 
 // TODO: select ? Implement 2 table views to "store" the results ?
-void DataModel::select_table(const QString& table) {
-    setTable(table);
-    // select();
-}
+// void DataModel::select_table(const QString& table) {
+//     setTable(table);
+//     // select();
+// }
 
 void DataModel::add_writer(const Writer& writer) {
     setTable(books_table_name);
-    setFilter("Writers = '" + writer.get_name() + "'");
+    setFilter(
+        "(Title IS NULL OR Title = '') AND Writers = '" + writer.get_name()
+        + "'");
     select();
     if (rowCount() == 0) {
         QSqlRecord rec = record();
         rec.setValue("Writers", writer.get_name());
         insertRecord(-1, rec);
         submit();
-        emit author_added(writer);
+        emit author_added(&writer);
     } else {
         qDebug() << "Writer is already in the database";
         emit author_exists(writer);
     }
-    setFilter(
-        "");  // TODO: set filter back to its previous value ? Remove because any query should set its filter first ?
-    select();
+    // setFilter(
+    //     "");  // TODO: set filter back to its previous value ? Remove because any query should set its filter first ?
+    // select();
+    clear();
 }
 
 void DataModel::add_writers(const QList<Writer>& writers) {
@@ -77,13 +108,14 @@ void DataModel::add_comic_book_writer(const ComicBookWriter& writer) {
         rec.setValue("Writers", writer.get_name());
         insertRecord(-1, rec);
         submit();
-        emit author_added(writer);
+        emit author_added(&writer);
     } else {
         qDebug() << "Writer is already in the database";
         emit author_exists(writer);
     }
-    setFilter("");
-    select();
+    clear();
+    // setFilter("");
+    // select();
 }
 
 void DataModel::add_comic_book_writers(const QList<ComicBookWriter>& writers) {
@@ -102,13 +134,14 @@ void DataModel::add_illustrator(const Illustrator& illustrator) {
         rec.setValue("Illustrators", illustrator.get_name());
         insertRecord(-1, rec);
         submit();
-        emit author_added(illustrator);
+        emit author_added(&illustrator);
     } else {
         qDebug() << "Illustrator is already in the database";
         emit author_exists(illustrator);
     }
-    setFilter("");
-    select();
+    // setFilter("");
+    // select();
+    clear();
 }
 
 void DataModel::add_illustrators(const QList<Illustrator>& illustrators) {
@@ -134,8 +167,9 @@ void DataModel::add_standard_book(const StandardBook& book) {
         qDebug() << "Book is already in the database";
         emit book_exists(book);
     }
-    setFilter("");
-    select();
+    clear();
+    // setFilter("");
+    // select();
 }
 
 void DataModel::add_comic_book(const ComicBook& book) {
@@ -157,8 +191,9 @@ void DataModel::add_comic_book(const ComicBook& book) {
         qDebug() << "Comic book is already in the database";
         emit book_exists(book);
     }
-    setFilter("");
-    select();
+    clear();
+    // setFilter("");
+    // select();
 }
 
 void DataModel::search_standard_books(QString title, QString writers) {
@@ -213,7 +248,7 @@ void DataModel::search_comic_books(
     setFilter(filter);
     // setSort(2, Qt::AscendingOrder);
     sort(1, Qt::AscendingOrder);
-    select();
+    // select();
 
     qDebug() << selectStatement();
     // for (int i = 0; i < rowCount(); ++i) {

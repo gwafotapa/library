@@ -19,38 +19,11 @@ class DataModel: public QSqlTableModel {
     Q_OBJECT
 
   public:
-    DataModel(  // TODO: move to .cpp
-        QObject* parent = nullptr,
-        QSqlDatabase db =
-            QSqlDatabase::addDatabase("QSQLITE", "search widget")) :
-        QSqlTableModel(parent, db) {
-        db_ = db;
-        // QString data_dir = QCoreApplication::applicationDirPath() + "/data";
-        // QDir().mkpath(data_dir);
-        // QString data_path = data_dir + "/" + std::string(db_filename);
-
-        QString db_path =
-            QCoreApplication::applicationDirPath() + "/" + db_filename;
-        db_.setDatabaseName(db_path);
-        qDebug() << db_path;
-        db_.open();
-
-        create_table(
-            // QString::fromStdString(std::string(table_books)),
-            // QString::fromUtf8(table_books),
-            books_table_name,
-            books_column_names,
-            books_column_types);
-        create_table(
-            comic_books_table_name,
-            comic_books_column_names,
-            comic_books_column_types);
-        // setTable("Standard Books");
-    }
+    DataModel(const QString& connection_name, QObject* parent = nullptr);
     ~DataModel();
 
   public slots:
-    void select_table(const QString& table);
+    // void select_table(const QString& table);
     void add_writer(const Writer& writer);
     void add_writers(const QList<Writer>& writers);
     void add_comic_book_writer(const ComicBookWriter& writer);
@@ -66,7 +39,7 @@ class DataModel: public QSqlTableModel {
   signals:
     void book_added(const Book& book);
     void book_exists(const Book& book);
-    void author_added(const Author& author);
+    void author_added(const Author* author);
     void author_exists(const Author& author);
 
   private:
@@ -83,8 +56,6 @@ class DataModel: public QSqlTableModel {
         "VARCHAR",
         "VARCHAR",
         "VARCHAR"};
-
-    QSqlDatabase db_;
 
     void create_table(
         const QString& table_name,

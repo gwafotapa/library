@@ -32,7 +32,7 @@ class AddWidget: public QWidget {
   public slots:
     void book_added(const Book& book) const;
     void book_exists(const Book& book) const;
-    void author_added(const Author& author) const;
+    void author_added(const Author*) const;
     void author_exists(const Author& author) const;
 
   signals:
@@ -57,8 +57,8 @@ class AddWidget: public QWidget {
     QPushButton* add_button;
     QPushButton* clear_button;
     QLabel* message;
-    QTableView* table_view;
     DataModel* data_model;
+    QTableView* table_view;
 
     void book_page();
     void comic_book_page();

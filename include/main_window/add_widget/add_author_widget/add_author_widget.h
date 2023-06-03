@@ -24,11 +24,15 @@ class AddAuthorWidget: public QWidget {
   public:
     explicit AddAuthorWidget(QWidget* parent = nullptr);
     ~AddAuthorWidget();
-
-  signals:
-    void add_writer(const Writer& writer);
-    void add_comic_book_writer(const ComicBookWriter& writer);
-    void add_illustrator(const Illustrator& illustrator);
+    QLineEdit* get_name_line() const;
+    QCheckBox* get_writer() const;
+    QCheckBox* get_comic_book_writer() const;
+    QCheckBox* get_illustrator() const;
+    void clear();
+    // signals:
+    //   void add_writer(const Writer& writer);
+    //   void add_comic_book_writer(const ComicBookWriter& writer);
+    //   void add_illustrator(const Illustrator& illustrator);
 
   private:
     Ui::AddAuthorWidget* ui;
@@ -41,12 +45,9 @@ class AddAuthorWidget: public QWidget {
     QCheckBox* writer;
     QCheckBox* comic_book_writer;
     QCheckBox* illustrator;
-    QPushButton* add_button;
-    QPushButton* clear_button;
-    QLabel* message;
-
-  private slots:
-    void clear();
+    // QPushButton* add_button;
+    // QPushButton* clear_button;
+    // QLabel* message;
 };
 
 #endif  // ADD_AUTHOR_WIDGET_H
