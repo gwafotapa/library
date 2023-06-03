@@ -22,7 +22,7 @@ class AddWidget: public QWidget {
     Q_OBJECT
 
   public:
-    explicit AddWidget(DataModel* data_model, QWidget* parent = nullptr);
+    explicit AddWidget(QWidget* parent = nullptr);
     ~AddWidget() override;
     // QComboBox* get_combo_box() const;
     AddBookWidget* book() const;

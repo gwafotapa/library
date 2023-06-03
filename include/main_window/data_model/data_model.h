@@ -21,7 +21,8 @@ class DataModel: public QSqlTableModel {
   public:
     DataModel(  // TODO: move to .cpp
         QObject* parent = nullptr,
-        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE")) :
+        QSqlDatabase db =
+            QSqlDatabase::addDatabase("QSQLITE", "search widget")) :
         QSqlTableModel(parent, db) {
         db_ = db;
         // QString data_dir = QCoreApplication::applicationDirPath() + "/data";

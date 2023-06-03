@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget* parent) :
     // table_widget->get_table_view()->setModel(data_model);
 
     search_widget = new SearchWidget(data_model);
-    add_widget = new AddWidget(data_model);
+    add_widget = new AddWidget;
 
     tab_widget = new QTabWidget;
     // tab_widget->setStyleSheet("QTabBar::tab { width: 80px; }");
@@ -71,6 +71,7 @@ MainWindow::MainWindow(QWidget* parent) :
     //     this,
     //     &MainWindow::select_table);
 
+    // TODO: use datamodel of search widget for these 3 connects
     connect(
         search_widget,
         &SearchWidget::select_table,
@@ -87,6 +88,7 @@ MainWindow::MainWindow(QWidget* parent) :
         data_model,
         &DataModel::search_comic_books);
 
+    // TODO: create a datamodel without view in addbookwidget and move these connects there
     connect(
         add_widget->book(),
         &AddBookWidget::add_standard_book,

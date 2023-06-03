@@ -14,9 +14,7 @@
 
 #include "ui_add_widget.h"
 
-AddWidget::AddWidget(DataModel* data_model, QWidget* parent) :
-    QWidget(parent),
-    ui(new Ui::AddWidget) {
+AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
     ui->setupUi(this);
 
     combo_box = new QComboBox;
@@ -31,14 +29,15 @@ AddWidget::AddWidget(DataModel* data_model, QWidget* parent) :
     stacked_widget->addWidget(add_book_widget);
     stacked_widget->addWidget(add_author_widget);
 
+    data_model =
+        new DataModel(this, QSqlDatabase::addDatabase("QSQLITE", "add widget"));
+    data_model->setTable(
+        "Standard Books");  // TODO: replace all table strings with constants or a call
+    data_model->select();
     table_view = new QTableView;
     table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     // table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     table_view->setModel(data_model);
-    this->data_model = data_model;
-    data_model->setTable(
-        "Standard Books");  // TODO: replace all table strings with constants
-    data_model->select();
 
     main_layout = new QVBoxLayout;
     main_layout->addWidget(combo_box);
@@ -67,17 +66,17 @@ AddWidget::AddWidget(DataModel* data_model, QWidget* parent) :
         add_book_widget,
         &AddBookWidget::select_book_type);
 
-    connect(combo_box, &QComboBox::currentIndexChanged, [&](int i) {
-        switch (i) {
+    connect(combo_box, &QComboBox::currentIndexChanged, [&](int index) {
+        switch (index) {
             case 0:
                 table_view->setVisible(true);
-                this->data_model->setTable("Standard Books");
-                this->data_model->select();
+                data_model->setTable("Standard Books");
+                data_model->select();
                 break;
             case 1:
                 table_view->setVisible(true);
-                this->data_model->setTable("Comic Books");
-                this->data_model->select();
+                data_model->setTable("Comic Books");
+                data_model->select();
                 break;
             case 2:
                 table_view->setVisible(false);
