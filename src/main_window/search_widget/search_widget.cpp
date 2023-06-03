@@ -28,6 +28,7 @@ SearchWidget::SearchWidget(QWidget* parent) :
 
     title_line = new QLineEdit;
     title_line->setClearButtonEnabled(true);
+    // title_line->setStyleSheet("background-color: whitesmoke");
 
     writers_line = new QLineEdit;
     writers_line->setClearButtonEnabled(true);
@@ -41,7 +42,24 @@ SearchWidget::SearchWidget(QWidget* parent) :
     illustrators_line->setSizePolicy(retain);
 
     search_button = new QPushButton("Search");
+    search_button->setSizePolicy(
+        QSizePolicy::Expanding,
+        QSizePolicy::Expanding);
+    search_button->setMaximumSize(300, 50);
+    search_button->setStyleSheet("max-width: 250; max-height: 50; color: blue");
+    // search_button->setMinimumSize(
+    // 2 * search_button->width(),
+    // 3 * search_button->height());
+    // 150,
+    // 100);
+    // search_button->setFixedSize(
+    //     2 * search_button->width(),
+    //     3 * search_button->height());
     clear_button = new QPushButton("Clear");
+    // clear_button->resize(clear_button->width(), 3 * clear_button->height());
+    clear_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // clear_button->setMaximumSize(300, 50);
+    clear_button->setStyleSheet("max-width: 250; max-height: 50; color: blue");
 
     results_label = new QLabel;
 
@@ -49,6 +67,8 @@ SearchWidget::SearchWidget(QWidget* parent) :
     table_view = new QTableView;
     table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     // table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    table_view->horizontalHeader()->setStyleSheet("color: blue");
+    table_view->setStyleSheet("selection-background-color: blue");
     table_view->setSortingEnabled(true);
     table_view->setModel(data_model);
 
@@ -66,15 +86,20 @@ SearchWidget::SearchWidget(QWidget* parent) :
     buttons_layout = new QHBoxLayout;
     buttons_layout->addWidget(search_button);
     buttons_layout->addWidget(clear_button);
+    // buttons_layout->setSpacing(100);
 
     main_layout = new QVBoxLayout;
+    // main_layout->setSpacing(10);
     main_layout->addWidget(combo_box);
     main_layout->addLayout(form_layout);
-    // main_layout->addWidget(illustrators_widget);
     main_layout->addLayout(buttons_layout);
     main_layout->addWidget(results_label);
     main_layout->addWidget(table_view);
     // main_layout->addStretch();
+    // main_layout->setStretchFactor(combo_box, 0);
+    // main_layout->setStretchFactor(form_layout, 0);
+    // main_layout->setStretchFactor(buttons_layout, 1);
+    // main_layout->setStretchFactor(results_label, 1);
     setLayout(main_layout);
 
     select_search(0);

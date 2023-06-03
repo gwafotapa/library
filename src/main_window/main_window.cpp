@@ -33,13 +33,14 @@ MainWindow::MainWindow(QWidget* parent) :
     // // data_model->select();
     // table_widget->get_table_view()->setModel(data_model);
 
+    tab_widget = new QTabWidget;
     search_widget = new SearchWidget;
     add_widget = new AddWidget;
-
-    tab_widget = new QTabWidget;
-    // tab_widget->setStyleSheet("QTabBar::tab { width: 80px; }");
+    setCentralWidget(tab_widget);
+    // qDebug() << (tab_widget->parentWidget() == this ? "yes" : "no");
     tab_widget->addTab(search_widget, "Search");
     tab_widget->addTab(add_widget, "Add");
+    // qDebug() << (search_widget->parentWidget() == tab_widget ? "yes" : "no");
     // tab_widget->addTab(buttons_widget, "Add");
 
     // main_layout = new QVBoxLayout;
@@ -63,7 +64,6 @@ MainWindow::MainWindow(QWidget* parent) :
     //     &QPushButton::clicked,
     //     this,
     //     &MainWindow::filter_search_data);
-    setCentralWidget(tab_widget);
 
     // connect(
     //     tab_widget,

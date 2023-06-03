@@ -33,7 +33,12 @@ AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
     stacked_widget->addWidget(add_author_widget);
 
     add_button = new QPushButton("Add");
+    add_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    add_button->setStyleSheet("max-width: 250; max-height: 50; color: blue");
     clear_button = new QPushButton("Clear");
+    clear_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // clear_button->setMaximumSize(300, 50);
+    clear_button->setStyleSheet("max-width: 250; max-height: 50; color: blue");
 
     message = new QLabel("coucou");
     message->setStyleSheet("QLabel { color : blue; }");
@@ -308,7 +313,7 @@ void AddWidget::author_page() {
 
 void AddWidget::book_added(const Book& book) const {
     message->setText("Added book \"" + book.get_title() + "\"");
-    message->setStyleSheet("QLabel { color : blue; }");
+    message->setStyleSheet("QLabel { color : purple; }");
     // data_model->setFilter("");
     data_model->select();
 }
@@ -334,7 +339,7 @@ void AddWidget::author_added(const Author* author) const {
     message->setText(
         message->text().isEmpty() ? added_author
                                   : message->text() + "\n" + added_author);
-    message->setStyleSheet("QLabel { color : blue; }");
+    message->setStyleSheet("QLabel { color : purple; }");
     // data_model->setFilter("");
     data_model->select();
 }
