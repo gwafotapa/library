@@ -32,7 +32,6 @@ DataModel::DataModel(const QString& connection_name, QObject* parent) :
         comic_books_table_name,
         comic_books_column_names,
         comic_books_column_types);
-    // setTable("Standard Books");
 }
 
 DataModel::~DataModel() {
@@ -64,23 +63,28 @@ void DataModel::create_table(
     }
 }
 
-void DataModel::add_writer(const Writer& writer) {
-    setTable(books_table_name);
+void DataModel::add_author(const Author& author, const QString& table_name) {
+    QString column = author.writes() ? "Writer" : "Illusstrator";
+    setTable(table_name);
     setFilter(
-        "(Title IS NULL OR Title = '') AND Writers = '" + writer.get_name()
-        + "'");
+        "(Title IS NULL OR Title = '') AND " + column + "s = '"
+        + author.get_name() + "'");
     select();
     if (rowCount() == 0) {
         QSqlRecord rec = record();
-        rec.setValue("Writers", writer.get_name());
+        rec.setValue(column + "s", author.get_name());
         insertRecord(-1, rec);
         submit();
-        emit author_added(&writer);
+        emit author_added(author);
     } else {
-        qDebug() << "Writer is already in the database";
-        emit author_exists(writer);
+        qDebug() << column + " is already in the database";
+        emit author_exists(author);
     }
     clear();
+}
+
+void DataModel::add_writer(const Writer& writer) {
+    add_author(writer, books_table_name);
 }
 
 void DataModel::add_writers(const QList<Writer>& writers) {
@@ -89,22 +93,8 @@ void DataModel::add_writers(const QList<Writer>& writers) {
     }
 }
 
-// TODO: factor with add_writer (table name is the only difference)
 void DataModel::add_comic_book_writer(const ComicBookWriter& writer) {
-    setTable(comic_books_table_name);
-    setFilter("Writers = '" + writer.get_name() + "'");
-    select();
-    if (rowCount() == 0) {
-        QSqlRecord rec = record();
-        rec.setValue("Writers", writer.get_name());
-        insertRecord(-1, rec);
-        submit();
-        emit author_added(&writer);
-    } else {
-        qDebug() << "Writer is already in the database";
-        emit author_exists(writer);
-    }
-    clear();
+    add_author(writer, comic_books_table_name);
 }
 
 void DataModel::add_comic_book_writers(const QList<ComicBookWriter>& writers) {
@@ -113,22 +103,8 @@ void DataModel::add_comic_book_writers(const QList<ComicBookWriter>& writers) {
     }
 }
 
-// TODO: factor with add_writer and add_comic_book_writer as add_author
 void DataModel::add_illustrator(const Illustrator& illustrator) {
-    setTable(comic_books_table_name);
-    setFilter("Illustrators = '" + illustrator.get_name() + "'");
-    select();
-    if (rowCount() == 0) {
-        QSqlRecord rec = record();
-        rec.setValue("Illustrators", illustrator.get_name());
-        insertRecord(-1, rec);
-        submit();
-        emit author_added(&illustrator);
-    } else {
-        qDebug() << "Illustrator is already in the database";
-        emit author_exists(illustrator);
-    }
-    clear();
+    add_author(illustrator, comic_books_table_name);
 }
 
 void DataModel::add_illustrators(const QList<Illustrator>& illustrators) {

@@ -28,11 +28,10 @@ class AddWidget: public QWidget {
     AddBookWidget* book_widget() const;
     AddAuthorWidget* author_widget() const;
 
-    // TODO: homogenise parameters with pointers and specialise message slot
   public slots:
     void book_added(const Book& book) const;
     void book_exists(const Book& book) const;
-    void author_added(const Author*) const;
+    void author_added(const Author& author) const;
     void author_exists(const Author& author) const;
 
   signals:

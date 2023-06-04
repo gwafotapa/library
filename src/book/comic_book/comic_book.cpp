@@ -6,6 +6,10 @@ QString ComicBook::get_title() const {
     return title;
 }
 
+bool ComicBook::has_pictures() const {
+    return true;
+}
+
 const QList<ComicBookWriter>& ComicBook::get_writers() const {
     return writers;
 }

@@ -4,6 +4,10 @@ QString StandardBook::get_title() const {
     return title;
 }
 
+bool StandardBook::has_pictures() const {
+    return false;
+}
+
 QList<Writer> StandardBook::get_writers() const {
     return writers;
 }

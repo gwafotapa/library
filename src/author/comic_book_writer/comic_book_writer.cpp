@@ -7,3 +7,11 @@ bool ComicBookWriter::makes_standard_books() const {
 bool ComicBookWriter::makes_comic_books() const {
     return true;
 }
+
+bool ComicBookWriter::writes() const {
+    return true;
+}
+
+bool ComicBookWriter::illustrates() const {
+    return false;
+}

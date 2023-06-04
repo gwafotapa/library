@@ -86,16 +86,16 @@ const QLineEdit* AddBookWidget::get_illustrators_line() const {
     return illustrators_line;
 }
 
-// TODO: change all palette to stylesheet
 void AddBookWidget::writer_illustrator(int state) {
     if (state == Qt::Checked) {
-        // TODO: factorize read only palette
-        QPalette read_only_palette;
-        read_only_palette.setColor(QPalette::Base, Qt::lightGray);
-        read_only_palette.setColor(QPalette::Text, Qt::darkGray);
+        // QPalette read_only_palette;
+        // read_only_palette.setColor(QPalette::Base, Qt::lightGray);
+        // read_only_palette.setColor(QPalette::Text, Qt::darkGray);
 
         illustrators_line->setReadOnly(true);
-        illustrators_line->setPalette(read_only_palette);
+        illustrators_line->setStyleSheet(
+            "background-color: silver; color: gray");
+        // illustrators_line->setPalette(read_only_palette);
         copy_writer_to_illustrator();
 
         connect(
@@ -105,7 +105,9 @@ void AddBookWidget::writer_illustrator(int state) {
             &AddBookWidget::copy_writer_to_illustrator);
     } else {
         illustrators_line->setReadOnly(false);
-        illustrators_line->setPalette(QApplication::style()->standardPalette());
+        illustrators_line->setStyleSheet(
+            "background-color: white; color: black");
+        // illustrators_line->setPalette(QApplication::style()->standardPalette());
 
         disconnect(
             writers_line,

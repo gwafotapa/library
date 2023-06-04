@@ -28,6 +28,7 @@ class ComicBook: public Book {
             [](auto i1, auto i2) { return i1.get_name() < i2.get_name(); });
     }
     QString get_title() const override;
+    bool has_pictures() const override;
     const QList<ComicBookWriter>& get_writers() const;
     const QList<Illustrator>& get_illustrators() const;
     QString writers_to_string() const;

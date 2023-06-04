@@ -171,14 +171,10 @@ SearchWidget::~SearchWidget() {
 void SearchWidget::select_search(int book_type) {
     data_model->clear();
     results_label->clear();
-    disconnect(
-        search_button,
-        &QPushButton::clicked,
-        this,
-        nullptr);  // TODO: button->disconnect() ?
-    disconnect(title_line, &QLineEdit::returnPressed, this, nullptr);
-    disconnect(writers_line, &QLineEdit::returnPressed, this, nullptr);
-    disconnect(illustrators_line, &QLineEdit::returnPressed, this, nullptr);
+    search_button->disconnect();
+    title_line->disconnect();
+    writers_line->disconnect();
+    illustrators_line->disconnect();
 
     switch (book_type) {
         case 0: {  // Non-comic book and writers
@@ -187,8 +183,6 @@ void SearchWidget::select_search(int book_type) {
             form_layout->setRowVisible(2, false);
             // form_layout->setRowVisible(3, false);
             // illustrators_widget->hide();
-            // emit select_table(
-            //     "Standard Books");  // TODO: replace the constant, necessary ?
             auto search = [&]() {
                 emit search_standard_books(
                     title_line->text(),
@@ -208,7 +202,6 @@ void SearchWidget::select_search(int book_type) {
             form_layout->setRowVisible(2, true);
             // form_layout->setRowVisible(3, true);
             // illustrators_widget->show();
-            // emit select_table("Comic Books");  // TODO: Necessary ?
             auto search = [&]() {
                 emit search_comic_books(
                     title_line->text(),
@@ -221,8 +214,6 @@ void SearchWidget::select_search(int book_type) {
             connect(title_line, &QLineEdit::returnPressed, search);
             connect(writers_line, &QLineEdit::returnPressed, search);
             connect(illustrators_line, &QLineEdit::returnPressed, search);
-            // data_model->setTable("Comic Books");
-            // data_model->select();
             break;
         }
     }

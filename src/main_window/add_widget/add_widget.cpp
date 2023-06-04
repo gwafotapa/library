@@ -45,9 +45,6 @@ AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
     // message->setStyleSheet("background-color: white");
 
     data_model = new DataModel("add_widget", this);
-    // data_model->setTable(
-    //     "Standard Books");  // TODO: replace all table strings with constants or a call
-    // data_model->select();
 
 #ifndef NDEBUG
     table_view = new QTableView;
@@ -73,8 +70,6 @@ AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
     main_layout->addStretch(1);
 #endif
     // main_layout->addStretch();
-
-    // TODO: put message here for both add_book_widget and add_author_widget
 
     // main_layout->addStretch();
     // main_layout->addLayout(buttons_layout);
@@ -104,24 +99,6 @@ AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
                 break;
         }
     });
-
-    // connect(combo_box, &QComboBox::currentIndexChanged, [&](int index) {
-    //     switch (index) {
-    //         case 0:
-    //             table_view->setVisible(true);
-    //             data_model->setTable("Standard Books");
-    //             data_model->select();
-    //             break;
-    //         case 1:
-    //             table_view->setVisible(true);
-    //             data_model->setTable("Comic Books");
-    //             data_model->select();
-    //             break;
-    //         case 2:
-    //             table_view->setVisible(false);
-    //             break;
-    //     }
-    // });
 
     connect(
         this,
@@ -247,13 +224,11 @@ void AddWidget::book_page() {
         add);
     message->clear();
 #ifndef NDEBUG
-    data_model->setTable("Standard Books");
+    data_model->setTable(books_table_name);
     data_model->select();
     // data_model->clear();
     // table_view->setVisible(true);
 #endif
-    // data_model->setTable("Standard Books");
-    // data_model->select();
 }
 
 void AddWidget::comic_book_page() {
@@ -319,9 +294,8 @@ void AddWidget::comic_book_page() {
     message->clear();
     // data_model->clear();
     // table_view->setVisible(true);
-    // data_model->setTable("Comic Books");
 #ifndef NDEBUG
-    data_model->setTable("Comic Books");
+    data_model->setTable(comic_books_table_name);
     data_model->select();
 #endif
 }
@@ -362,7 +336,7 @@ void AddWidget::author_page() {
     // table_view->setVisible(false);
 #ifndef NDEBUG
     if (data_model->tableName().isEmpty()) {
-        data_model->setTable("Standard Books");
+        data_model->setTable(books_table_name);
     }
     data_model->select();
 #endif
@@ -384,18 +358,16 @@ void AddWidget::book_exists(const Book& book) const {
     message->setStyleSheet(message_err_style);
 }
 
-void AddWidget::author_added(const Author* author) const {
-    // qDebug() << "Author " + author.get_name()
-    //         + " added";  // TODO: remove or add everywhere
+void AddWidget::author_added(const Author& author) const {
     QString added_author = "Added ";
-    if (dynamic_cast<const Writer*>(author)) {
+    if (author.makes_standard_books()) {
         added_author += "writer";
-    } else if (dynamic_cast<const ComicBookWriter*>(author)) {
+    } else if (author.writes()) {
         added_author += "comic book writer";
     } else {
         added_author += "illustrator";
     }
-    added_author += " \"" + author->get_name() + "\"";
+    added_author += " \"" + author.get_name() + "\"";
     message->setText(
         message->text().isEmpty() ? added_author
                                   : message->text() + "\n" + added_author);

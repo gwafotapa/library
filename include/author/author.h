@@ -10,6 +10,8 @@ class Author {
     QString get_name() const;
     virtual bool makes_standard_books() const = 0;
     virtual bool makes_comic_books() const = 0;
+    virtual bool writes() const = 0;
+    virtual bool illustrates() const = 0;
 
   private:
     QString name;

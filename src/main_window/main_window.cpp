@@ -28,7 +28,6 @@ MainWindow::MainWindow(QWidget* parent) :
     // // v_box_layout->addWidget(search_widget);
     // v_box_layout->addWidget(table_widget);
 
-    // data_model = new DataModel(this);  // TODO: Remove ?
     // data_model = new DataModel(this);
     // // data_model->select();
     // table_widget->get_table_view()->setModel(data_model);
@@ -70,10 +69,6 @@ MainWindow::MainWindow(QWidget* parent) :
     //     &QTabWidget ::currentChanged,
     //     this,
     //     &MainWindow::select_table);
-
-    // TODO: use datamodel of search widget for these 3 connects
-
-    // TODO: create a datamodel without view in addbookwidget and move these connects there
 }
 
 MainWindow::~MainWindow() {
@@ -89,32 +84,6 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
             QMainWindow::keyPressEvent(event);
     }
 }
-
-// void MainWindow::select_table(int index) {
-//     switch (index) {
-//         case 0:  // Search widget
-//             switch (search_widget->get_combo_box()->currentIndex()) {
-//                 case 0:
-//                     data_model->setTable("Standard Books");
-//                     break;
-//                 case 1:
-//                     data_model->setTable("Comic Books");
-//                     break;
-//             }
-//             break;
-//         case 1:  // Add widget
-//             switch (add_widget->get_combo_box()->currentIndex()) {
-//                 case 0:
-//                     data_model->setTable("Standard Books");
-//                     break;
-//                 case 1:
-//                     data_model->setTable("Comic Books");
-//                     break;
-//                 case 2:  // Add author
-//                     break;
-//             }
-//     }
-// }
 
 // void MainWindow::add_author(QString& author) const {
 // author = author.simplified();
@@ -136,13 +105,6 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
 //     for (QString& author : authors) {
 //         add_author(author);
 //     }
-// }
-
-// void MainWindow::add_book(QString& title, QString& authors) const {
-// title = title.simplified();
-// authors = authors.simplified();
-// if (title.isEmpty() || authors.isEmpty()) {
-//     return;
 // }
 
 // data_model->setFilter(

@@ -19,6 +19,7 @@ class StandardBook: public Book {
             [](auto w1, auto w2) { return w1.get_name() < w2.get_name(); });
     }
     QString get_title() const override;
+    bool has_pictures() const override;
     QList<Writer> get_writers() const;
     QString writers_to_string() const;
 

@@ -1,6 +1,6 @@
 target_sources(library PRIVATE main.cpp)
-# target_sources(library PRIVATE "${INCLUDE_DIRECTORIES}/main_window/main_window.h")
-# target_include_directories(library PRIVATE "${INCLUDE_DIRECTORIES}/main_window") # TODO: PRIVATE
+# target_sources(library PRIVATE "${HEADER_DIRECTORIES}/main_window/main_window.h")
+# target_include_directories(library PRIVATE "${HEADER_DIRECTORIES}/main_window")
 # target_link_libraries(library PRIVATE Sources)
 target_link_libraries(library
   Qt6::Core
