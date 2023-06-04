@@ -5,4 +5,3 @@ target_include_directories(Sources PUBLIC ${HEADER_DIR})
 
 add_subdirectory(add_widget)
 add_subdirectory(search_widget)
-add_subdirectory(data_model)
