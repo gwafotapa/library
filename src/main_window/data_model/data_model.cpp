@@ -1,5 +1,8 @@
 #include "data_model.h"
 
+#include <QCoreApplication>
+#include <QSqlError>
+#include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlTableModel>
 
@@ -38,6 +41,14 @@ DataModel::~DataModel() {
     if (database().isOpen()) {
         database().close();
     }
+}
+
+void DataModel::set_table_standard_books() {
+    setTable(books_table_name);
+}
+
+void DataModel::set_table_comic_books() {
+    setTable(comic_books_table_name);
 }
 
 void DataModel::create_table(

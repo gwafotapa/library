@@ -1,30 +1,18 @@
 #ifndef DATA_MODEL_H
 #define DATA_MODEL_H
 
-#include <QCoreApplication>
-#include <QDebug>
-#include <QDir>
 #include <QList>
-#include <QSqlError>
-#include <QSqlQuery>
 #include <QSqlTableModel>
+#include <QString>
+#include <QStringList>
 
+#include "author.h"
 #include "book.h"
 #include "comic_book.h"
 #include "comic_book_writer.h"
 #include "illustrator.h"
 #include "standard_book.h"
-
-const QString db_filename = "library.db";
-const QString books_table_name = "Standard Books";
-const QStringList books_column_names = {"Title", "Writers"};
-const QStringList books_column_types {"VARCHAR", "VARCHAR"};
-const QString comic_books_table_name = "Comic Books";
-const QStringList comic_books_column_names = {
-    "Title",
-    "Writers",
-    "Illustrators"};
-const QStringList comic_books_column_types = {"VARCHAR", "VARCHAR", "VARCHAR"};
+#include "writer.h"
 
 class DataModel: public QSqlTableModel {
     Q_OBJECT
@@ -32,9 +20,10 @@ class DataModel: public QSqlTableModel {
   public:
     DataModel(const QString& connection_name, QObject* parent = nullptr);
     ~DataModel();
+    void set_table_standard_books();
+    void set_table_comic_books();
 
   public slots:
-    // void select_table(const QString& table);
     void add_writer(const Writer& writer);
     void add_writers(const QList<Writer>& writers);
     void add_comic_book_writer(const ComicBookWriter& writer);
@@ -59,6 +48,20 @@ class DataModel: public QSqlTableModel {
         const QString& table_name,
         const QStringList& table_column_names,
         const QStringList& column_types);
+
+    inline static const QString db_filename = "Library.db";
+    inline static const QString books_table_name = "Standard Books";
+    inline static const QString comic_books_table_name = "Comic Books";
+    inline static const QStringList books_column_names = {"Title", "Writers"};
+    inline static const QStringList comic_books_column_names = {
+        "Title",
+        "Writers",
+        "Illustrators"};
+    inline static const QStringList books_column_types {"VARCHAR", "VARCHAR"};
+    inline static const QStringList comic_books_column_types = {
+        "VARCHAR",
+        "VARCHAR",
+        "VARCHAR"};
 };
 
 #endif  // DATA_MODEL_H

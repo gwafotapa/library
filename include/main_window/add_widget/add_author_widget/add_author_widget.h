@@ -1,18 +1,11 @@
 #ifndef ADD_AUTHOR_WIDGET_H
 #define ADD_AUTHOR_WIDGET_H
 
-#include <qboxlayout.h>
-
 #include <QCheckBox>
 #include <QFormLayout>
-#include <QLabel>
 #include <QLineEdit>
-#include <QPushButton>
+#include <QVBoxLayout>
 #include <QWidget>
-
-#include "comic_book_writer.h"
-#include "illustrator.h"
-#include "writer.h"
 
 namespace Ui {
 class AddAuthorWidget;
@@ -29,10 +22,6 @@ class AddAuthorWidget: public QWidget {
     const QCheckBox* get_comic_book_writer() const;
     const QCheckBox* get_illustrator() const;
     void clear();
-    // signals:
-    //   void add_writer(const Writer& writer);
-    //   void add_comic_book_writer(const ComicBookWriter& writer);
-    //   void add_illustrator(const Illustrator& illustrator);
 
   private:
     Ui::AddAuthorWidget* ui;
@@ -45,9 +34,6 @@ class AddAuthorWidget: public QWidget {
     QCheckBox* writer;
     QCheckBox* comic_book_writer;
     QCheckBox* illustrator;
-    // QPushButton* add_button;
-    // QPushButton* clear_button;
-    // QLabel* message;
 };
 
 #endif  // ADD_AUTHOR_WIDGET_H

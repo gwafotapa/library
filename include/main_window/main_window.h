@@ -3,12 +3,9 @@
 
 #include <QMainWindow>
 #include <QTabWidget>
-#include <QTableView>
 #include <QVBoxLayout>
-#include <QWidget>
 
 #include "add_widget.h"
-#include "data_model.h"
 #include "search_widget.h"
 
 QT_BEGIN_NAMESPACE
@@ -24,29 +21,17 @@ class MainWindow: public QMainWindow {
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow() override;
 
-    // void add_author(QString& author) const;
-    // void add_authors(QStringList& authors) const;
-    // void add_book(QString& title, QString& authors) const;
-
   private:
     Ui::MainWindow* ui;
-    // QVBoxLayout* main_layout;
+
+    QVBoxLayout* main_layout;
+
+    QWidget* central_widget;
     QTabWidget* tab_widget;
     SearchWidget* search_widget;
     AddWidget* add_widget;
-    // FormWidget* form_widget;
-    // ButtonsWidget* buttons_widget;
-    // // SearchWidget* search_widget;
-    // DataModel* data_model;
 
-    void keyPressEvent(QKeyEvent* event);
-
-  private slots:
-    void add_data();
-    void add_data2();
-    void search_data();
-    // void select_table(int index);
-    // void filter_search_data();
+    void keyPressEvent(QKeyEvent* event) override;
 };
 
 #endif  // MAIN_WINDOW_H

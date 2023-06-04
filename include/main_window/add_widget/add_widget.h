@@ -46,8 +46,10 @@ class AddWidget: public QWidget {
 
   private:
     Ui::AddWidget* ui;
+
     QVBoxLayout* main_layout;
     QHBoxLayout* buttons_layout;
+
     QComboBox* combo_box;
     QStackedWidget* stacked_widget;
     AddBookWidget* add_book_widget;
@@ -64,9 +66,10 @@ class AddWidget: public QWidget {
     void comic_book_page();
     void author_page();
 
-    const QString message_std_style =
+    inline static const QString message_std_style =
         "background-color: white; color: dodgerblue";
-    const QString message_err_style = "background-color: white; color: red";
+    inline static const QString message_err_style =
+        "background-color: white; color: red";
 };
 
 #endif  // ADD_WIDGET_H

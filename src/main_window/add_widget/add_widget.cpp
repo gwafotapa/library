@@ -224,7 +224,7 @@ void AddWidget::book_page() {
         add);
     message->clear();
 #ifndef NDEBUG
-    data_model->setTable(books_table_name);
+    data_model->set_table_standard_books();
     data_model->select();
     // data_model->clear();
     // table_view->setVisible(true);
@@ -295,7 +295,7 @@ void AddWidget::comic_book_page() {
     // data_model->clear();
     // table_view->setVisible(true);
 #ifndef NDEBUG
-    data_model->setTable(comic_books_table_name);
+    data_model->set_table_comic_books();
     data_model->select();
 #endif
 }
@@ -336,7 +336,7 @@ void AddWidget::author_page() {
     // table_view->setVisible(false);
 #ifndef NDEBUG
     if (data_model->tableName().isEmpty()) {
-        data_model->setTable(books_table_name);
+        data_model->set_table_standard_books();
     }
     data_model->select();
 #endif
