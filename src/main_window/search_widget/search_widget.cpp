@@ -46,7 +46,7 @@ SearchWidget::SearchWidget(QWidget* parent) :
         QSizePolicy::Expanding,
         QSizePolicy::Expanding);
     search_button->setMaximumSize(300, 50);
-    search_button->setStyleSheet("max-width: 250; max-height: 50; color: blue");
+    // search_button->setStyleSheet("max-width: 250; max-height: 50; color: blue");
     // search_button->setMinimumSize(
     // 2 * search_button->width(),
     // 3 * search_button->height());
@@ -59,7 +59,7 @@ SearchWidget::SearchWidget(QWidget* parent) :
     // clear_button->resize(clear_button->width(), 3 * clear_button->height());
     clear_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     // clear_button->setMaximumSize(300, 50);
-    clear_button->setStyleSheet("max-width: 250; max-height: 50; color: blue");
+    // clear_button->setStyleSheet("max-width: 250; max-height: 50; color: blue");
 
     results_label = new QLabel;
 
@@ -192,6 +192,8 @@ void SearchWidget::clear() {
     title_line->clear();
     writers_line->clear();
     illustrators_line->clear();
+    results_label->clear();
+    data_model->clear();
 }
 
 // void SearchWidget::search_books_and_writers() const {

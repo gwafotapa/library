@@ -34,23 +34,29 @@ AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
 
     add_button = new QPushButton("Add");
     add_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    add_button->setStyleSheet("max-width: 250; max-height: 50; color: blue");
+    // add_button->setStyleSheet("max-width: 250; max-height: 50; color: blue");
     clear_button = new QPushButton("Clear");
     clear_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     // clear_button->setMaximumSize(300, 50);
-    clear_button->setStyleSheet("max-width: 250; max-height: 50; color: blue");
+    // clear_button->setStyleSheet("max-width: 250; max-height: 50; color: blue");
 
-    message = new QLabel("coucou");
-    message->setStyleSheet("QLabel { color : blue; }");
+    message = new QLabel;
+    message->setStyleSheet(message_std_style);
+    // message->setStyleSheet("background-color: white");
 
     data_model = new DataModel("add_widget", this);
-    data_model->setTable(
-        "Standard Books");  // TODO: replace all table strings with constants or a call
-    data_model->select();
+    // data_model->setTable(
+    //     "Standard Books");  // TODO: replace all table strings with constants or a call
+    // data_model->select();
+
+#ifndef NDEBUG
     table_view = new QTableView;
     table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    // table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    table_view->horizontalHeader()->setStyleSheet("color: blue");
+    table_view->setStyleSheet("selection-background-color: blue");
+    table_view->setSortingEnabled(true);
     table_view->setModel(data_model);
+#endif
 
     buttons_layout = new QHBoxLayout;
     buttons_layout->addWidget(add_button);
@@ -59,10 +65,14 @@ AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
     main_layout = new QVBoxLayout;
     main_layout->addWidget(combo_box);
     main_layout->addWidget(stacked_widget);
-    main_layout->addLayout(buttons_layout);
+    main_layout->addLayout(buttons_layout, 1);
     main_layout->addWidget(message);
-    main_layout->addWidget(table_view);
-    main_layout->addStretch();
+#ifndef NDEBUG
+    main_layout->addWidget(table_view, 1);
+#else
+    main_layout->addStretch(1);
+#endif
+    // main_layout->addStretch();
 
     // TODO: put message here for both add_book_widget and add_author_widget
 
@@ -195,7 +205,7 @@ void AddWidget::book_page() {
                 book_widget()->get_title_line()->text().simplified();
             if (title.isEmpty()) {
                 message->setText("Error: blank title");
-                message->setStyleSheet("QLabel { color : red; }");
+                message->setStyleSheet(message_err_style);
                 return;
             }
             QList<Writer> writers;
@@ -204,7 +214,7 @@ void AddWidget::book_page() {
                 writer = writer.simplified();
                 if (writer.isEmpty()) {
                     message->setText("Error: blank writer");
-                    message->setStyleSheet("QLabel { color : red; }");
+                    message->setStyleSheet(message_err_style);
                     return;
                 }
                 writers.push_back(Writer(writer));
@@ -217,8 +227,12 @@ void AddWidget::book_page() {
             emit add_writers(writers);
         });
     message->clear();
-    data_model->clear();
-    table_view->setVisible(true);
+#ifndef NDEBUG
+    data_model->setTable("Standard Books");
+    data_model->select();
+    // data_model->clear();
+    // table_view->setVisible(true);
+#endif
     // data_model->setTable("Standard Books");
     // data_model->select();
 }
@@ -236,7 +250,7 @@ void AddWidget::comic_book_page() {
                 book_widget()->get_title_line()->text().simplified();
             if (title.isEmpty()) {
                 message->setText("Error: blank title");
-                message->setStyleSheet("QLabel { color : red; }");
+                message->setStyleSheet(message_err_style);
                 return;
             }
             QList<ComicBookWriter> writers;
@@ -245,7 +259,7 @@ void AddWidget::comic_book_page() {
                 writer = writer.simplified();
                 if (writer.isEmpty()) {
                     message->setText("Error: blank writer");
-                    message->setStyleSheet("QLabel { color : red; }");
+                    message->setStyleSheet(message_err_style);
                     return;
                 }
                 writers.push_back(ComicBookWriter(writer));
@@ -256,7 +270,7 @@ void AddWidget::comic_book_page() {
                 illustrator = illustrator.simplified();
                 if (illustrator.isEmpty()) {
                     message->setText("Error: blank illustrator");
-                    message->setStyleSheet("QLabel { color : red; }");
+                    message->setStyleSheet(message_err_style);
                     return;
                 }
                 illustrators.push_back(Illustrator(illustrator));
@@ -273,10 +287,13 @@ void AddWidget::comic_book_page() {
             emit add_illustrators(illustrators);
         });
     message->clear();
-    data_model->clear();
-    table_view->setVisible(true);
+    // data_model->clear();
+    // table_view->setVisible(true);
     // data_model->setTable("Comic Books");
-    // data_model->select();
+#ifndef NDEBUG
+    data_model->setTable("Comic Books");
+    data_model->select();
+#endif
 }
 
 void AddWidget::author_page() {
@@ -286,14 +303,14 @@ void AddWidget::author_page() {
         QString name = author_widget()->get_name_line()->text().simplified();
         if (name.isEmpty()) {
             message->setText("Error: blank author");
-            message->setStyleSheet("QLabel { color : red; }");
+            message->setStyleSheet(message_err_style);
             return;
         }
         if (!author_widget()->get_writer()->isChecked()
             && !author_widget()->get_comic_book_writer()->isChecked()
             && !author_widget()->get_illustrator()->isChecked()) {
             message->setText("Error: all boxes unchecked");
-            message->setStyleSheet("QLabel { color : red; }");
+            message->setStyleSheet(message_err_style);
             return;
         }
         message->clear();
@@ -308,20 +325,26 @@ void AddWidget::author_page() {
         }
     });
     message->clear();
-    table_view->setVisible(false);
+    // table_view->setVisible(false);
+#ifndef NDEBUG
+    data_model->select();
+#endif
 }
 
 void AddWidget::book_added(const Book& book) const {
     message->setText("Added book \"" + book.get_title() + "\"");
-    message->setStyleSheet("QLabel { color : purple; }");
+    message->setStyleSheet(message_std_style);
     // data_model->setFilter("");
+    // data_model->select();
+#ifndef NDEBUG
     data_model->select();
+#endif
 }
 
 void AddWidget::book_exists(const Book& book) const {
     message->setText(
         "Book \"" + book.get_title() + "\" is already in the database");
-    message->setStyleSheet("QLabel { color : red; }");
+    message->setStyleSheet(message_err_style);
 }
 
 void AddWidget::author_added(const Author* author) const {
@@ -339,15 +362,18 @@ void AddWidget::author_added(const Author* author) const {
     message->setText(
         message->text().isEmpty() ? added_author
                                   : message->text() + "\n" + added_author);
-    message->setStyleSheet("QLabel { color : purple; }");
+    message->setStyleSheet(message_std_style);
     // data_model->setFilter("");
+    // data_model->select();
+#ifndef NDEBUG
     data_model->select();
+#endif
 }
 
 void AddWidget::author_exists(const Author& author) const {
     if (message->text().isEmpty()) {
         message->setText(
             "Author \"" + author.get_name() + "\" is already in the database");
-        message->setStyleSheet("QLabel { color : red; }");
+        message->setStyleSheet(message_err_style);
     }
 }

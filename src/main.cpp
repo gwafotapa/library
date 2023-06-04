@@ -9,10 +9,13 @@ int main(int argc, char* argv[]) {
 
     app.setStyleSheet(
         "* { color: black }"
+        // "QMainWindow::menu-bar { color: darkgray }"
+        // "* { background-color: darkgray }"
         "QTabWidget { background-color: lightgray }"
         "QTabBar { color: blue }"
         "QComboBox { selection-background-color: blue; selection-color: white; color: blue }"
-        "QLineEdit { placeholder-text-color: gray; selection-background-color: blue }");
+        "QLineEdit { placeholder-text-color: gray; selection-background-color: blue }"
+        "QPushButton { max-width: 250; max-height: 50; color: blue }");
     // "QPushButton { max-width: 300; max-height: 50; color: blue }"
     // "QTableView { selection-background-color: blue }");
     // setStyleSheet("QPushButton { color: blue };");

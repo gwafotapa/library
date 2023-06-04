@@ -2,12 +2,18 @@ cmake_minimum_required(VERSION 3.25)
 project(library)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-# set(CMAKE_PREFIX_PATH "C:/Users/Administrateur/SE23-188121-POEI-Python-C-/qt/5.15.2/mingw81_64")
 set(CMAKE_PREFIX_PATH "/home/guillaume/programs/qt/6.5.1/gcc_64/lib/cmake")
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -Wall -Wextra -Wpedantic")
+
+# set(CMAKE_CXX_STANDARD 20)
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -Wall -Wextra -Wpedantic")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -Wall -Wextra -Wpedantic")
+# set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g")
+# set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
+# message(CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS})
+
 set(INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include")
 message(INCLUDE_DIRECTORIES=${INCLUDE_DIRECTORIES}) #TODO: remove
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -40,7 +46,7 @@ add_subdirectory(src)
 
 if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   set(DEBUG_SUFFIX)
-  if (MSVC AND CMAKE_BUILD_TYPE MATCHES "Debug")
+  if (MSVC AND NDEBUG MATCHES "Debug")
     set(DEBUG_SUFFIX "d")
   endif ()
   set(QT_INSTALL_PATH "${CMAKE_PREFIX_PATH}")

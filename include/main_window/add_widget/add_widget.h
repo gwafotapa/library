@@ -58,11 +58,16 @@ class AddWidget: public QWidget {
     QPushButton* clear_button;
     QLabel* message;
     DataModel* data_model;
+#ifndef NDEBUG
     QTableView* table_view;
+#endif
 
     void book_page();
     void comic_book_page();
     void author_page();
+
+    const QString message_std_style = "background-color: white; color: black";
+    const QString message_err_style = "background-color: white; color: red";
 };
 
 #endif  // ADD_WIDGET_H
