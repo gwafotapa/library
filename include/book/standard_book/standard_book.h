@@ -18,8 +18,7 @@ class StandardBook: public Book {
             this->writers.end(),
             [](auto w1, auto w2) { return w1.get_name() < w2.get_name(); });
     }
-    QString
-    get_title() const override;  // TODO: change syntax for private title_
+    QString get_title() const override;
     QList<Writer> get_writers() const;
     QString writers_to_string() const;
 

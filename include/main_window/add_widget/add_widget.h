@@ -25,10 +25,10 @@ class AddWidget: public QWidget {
   public:
     explicit AddWidget(QWidget* parent = nullptr);
     ~AddWidget() override;
-    // QComboBox* get_combo_box() const;
     AddBookWidget* book_widget() const;
     AddAuthorWidget* author_widget() const;
 
+    // TODO: homogenise parameters with pointers and specialise message slot
   public slots:
     void book_added(const Book& book) const;
     void book_exists(const Book& book) const;
@@ -38,7 +38,6 @@ class AddWidget: public QWidget {
   signals:
     void add_standard_book(const StandardBook& book);
     void add_comic_book(const ComicBook& book);
-    void add_author(const Author& author);  // TODO: useful ?
     void add_writer(const Writer& writer);
     void add_writers(const QList<Writer>& writers);
     void add_comic_book_writer(const ComicBookWriter& writer);

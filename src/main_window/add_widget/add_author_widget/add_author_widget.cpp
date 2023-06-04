@@ -76,19 +76,19 @@ AddAuthorWidget::~AddAuthorWidget() {
     delete ui;
 }
 
-QLineEdit* AddAuthorWidget::get_name_line() const {
+const QLineEdit* AddAuthorWidget::get_name_line() const {
     return name_line;
 }
 
-QCheckBox* AddAuthorWidget::get_writer() const {
+const QCheckBox* AddAuthorWidget::get_writer() const {
     return writer;
 }
 
-QCheckBox* AddAuthorWidget::get_comic_book_writer() const {
+const QCheckBox* AddAuthorWidget::get_comic_book_writer() const {
     return comic_book_writer;
 }
 
-QCheckBox* AddAuthorWidget::get_illustrator() const {
+const QCheckBox* AddAuthorWidget::get_illustrator() const {
     return illustrator;
 }
 

@@ -24,10 +24,10 @@ class AddAuthorWidget: public QWidget {
   public:
     explicit AddAuthorWidget(QWidget* parent = nullptr);
     ~AddAuthorWidget();
-    QLineEdit* get_name_line() const;
-    QCheckBox* get_writer() const;
-    QCheckBox* get_comic_book_writer() const;
-    QCheckBox* get_illustrator() const;
+    const QLineEdit* get_name_line() const;
+    const QCheckBox* get_writer() const;
+    const QCheckBox* get_comic_book_writer() const;
+    const QCheckBox* get_illustrator() const;
     void clear();
     // signals:
     //   void add_writer(const Writer& writer);

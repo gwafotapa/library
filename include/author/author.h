@@ -8,7 +8,8 @@ class Author {
     Author(const QString& name) : name {name} {}
     virtual ~Author() {};
     QString get_name() const;
-    virtual int book_type() const = 0;
+    virtual bool makes_standard_books() const = 0;
+    virtual bool makes_comic_books() const = 0;
 
   private:
     QString name;

@@ -6,11 +6,11 @@ QString ComicBook::get_title() const {
     return title;
 }
 
-QList<ComicBookWriter> ComicBook::get_writers() const {
+const QList<ComicBookWriter>& ComicBook::get_writers() const {
     return writers;
 }
 
-QList<Illustrator> ComicBook::get_illustrators() const {
+const QList<Illustrator>& ComicBook::get_illustrators() const {
     return illustrators;
 }
 

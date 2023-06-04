@@ -1,8 +1,6 @@
 #ifndef ADD_BOOK_WIDGET_H
 #define ADD_BOOK_WIDGET_H
 
-#include <qboxlayout.h>
-
 #include <QCheckBox>
 #include <QFormLayout>
 #include <QLineEdit>
@@ -24,9 +22,9 @@ class AddBookWidget: public QWidget {
   public:
     explicit AddBookWidget(QWidget* parent = nullptr);
     ~AddBookWidget();
-    const QLineEdit* get_title_line() const;  // TODO: return const* ? get_mut ?
-    QLineEdit* get_writers_line() const;
-    QLineEdit* get_illustrators_line() const;
+    const QLineEdit* get_title_line() const;
+    const QLineEdit* get_writers_line() const;
+    const QLineEdit* get_illustrators_line() const;
 
   public slots:
     void clear();

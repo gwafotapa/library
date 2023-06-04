@@ -8,7 +8,8 @@
 class Writer: public Author {
   public:
     Writer(const QString& name) : Author(name) {}
-    int book_type() const override;
+    bool makes_standard_books() const override;
+    bool makes_comic_books() const override;
 };
 
 #endif  // WRITER_H

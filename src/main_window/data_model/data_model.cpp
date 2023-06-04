@@ -64,12 +64,6 @@ void DataModel::create_table(
     }
 }
 
-// TODO: select ? Implement 2 table views to "store" the results ?
-// void DataModel::select_table(const QString& table) {
-//     setTable(table);
-//     // select();
-// }
-
 void DataModel::add_writer(const Writer& writer) {
     setTable(books_table_name);
     setFilter(
@@ -86,9 +80,6 @@ void DataModel::add_writer(const Writer& writer) {
         qDebug() << "Writer is already in the database";
         emit author_exists(writer);
     }
-    // setFilter(
-    //     "");  // TODO: set filter back to its previous value ? Remove because any query should set its filter first ?
-    // select();
     clear();
 }
 
@@ -114,8 +105,6 @@ void DataModel::add_comic_book_writer(const ComicBookWriter& writer) {
         emit author_exists(writer);
     }
     clear();
-    // setFilter("");
-    // select();
 }
 
 void DataModel::add_comic_book_writers(const QList<ComicBookWriter>& writers) {
@@ -139,8 +128,6 @@ void DataModel::add_illustrator(const Illustrator& illustrator) {
         qDebug() << "Illustrator is already in the database";
         emit author_exists(illustrator);
     }
-    // setFilter("");
-    // select();
     clear();
 }
 
@@ -168,8 +155,6 @@ void DataModel::add_standard_book(const StandardBook& book) {
         emit book_exists(book);
     }
     clear();
-    // setFilter("");
-    // select();
 }
 
 void DataModel::add_comic_book(const ComicBook& book) {
@@ -192,8 +177,6 @@ void DataModel::add_comic_book(const ComicBook& book) {
         emit book_exists(book);
     }
     clear();
-    // setFilter("");
-    // select();
 }
 
 void DataModel::search_standard_books(QString title, QString writers) {
@@ -215,9 +198,6 @@ void DataModel::search_standard_books(QString title, QString writers) {
     sort(1, Qt::AscendingOrder);
 
     qDebug() << selectStatement();
-    // for (int i = 0; i < rowCount(); ++i) {
-    //     qDebug() << record(i);
-    // }
 }
 
 void DataModel::search_comic_books(
@@ -251,7 +231,4 @@ void DataModel::search_comic_books(
     // select();
 
     qDebug() << selectStatement();
-    // for (int i = 0; i < rowCount(); ++i) {
-    //     qDebug() << record(i);
-    // }
 };

@@ -78,11 +78,11 @@ const QLineEdit* AddBookWidget::get_title_line() const {
     return title_line;
 }
 
-QLineEdit* AddBookWidget::get_writers_line() const {
+const QLineEdit* AddBookWidget::get_writers_line() const {
     return writers_line;
 }
 
-QLineEdit* AddBookWidget::get_illustrators_line() const {
+const QLineEdit* AddBookWidget::get_illustrators_line() const {
     return illustrators_line;
 }
 

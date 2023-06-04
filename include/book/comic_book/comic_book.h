@@ -27,10 +27,9 @@ class ComicBook: public Book {
             this->illustrators.end(),
             [](auto i1, auto i2) { return i1.get_name() < i2.get_name(); });
     }
-    QString
-    get_title() const override;  // TODO: change syntax for private title_
-    QList<ComicBookWriter> get_writers() const;  // TODO: return references ?
-    QList<Illustrator> get_illustrators() const;
+    QString get_title() const override;
+    const QList<ComicBookWriter>& get_writers() const;
+    const QList<Illustrator>& get_illustrators() const;
     QString writers_to_string() const;
     QString illustrators_to_string() const;
 

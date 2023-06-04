@@ -1,5 +1,9 @@
 #include "comic_book_writer.h"
 
-int ComicBookWriter::book_type() const {
-    return 1;
+bool ComicBookWriter::makes_standard_books() const {
+    return false;
+}
+
+bool ComicBookWriter::makes_comic_books() const {
+    return true;
 }
