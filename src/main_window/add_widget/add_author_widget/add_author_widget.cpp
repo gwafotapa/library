@@ -18,7 +18,7 @@ AddAuthorWidget::AddAuthorWidget(QWidget* parent) :
     ui->setupUi(this);
 
     name_line = new QLineEdit;
-    name_line->setClearButtonEnabled(true);
+    // name_line->setClearButtonEnabled(true);
     writer = new QCheckBox("Writer");
     comic_book_writer = new QCheckBox("Comic book writer");
     illustrator = new QCheckBox("Comic book illustrator");

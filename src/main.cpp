@@ -8,14 +8,17 @@ int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
     app.setStyleSheet(
-        "* { color: black }"
+        "* { selection-background-color: blue; color: black }"
         // "QMainWindow::menu-bar { color: darkgray }"
         // "* { background-color: darkgray }"
         "QTabWidget { background-color: lightgray }"
         "QTabBar { color: blue }"
-        "QComboBox { selection-background-color: blue; selection-color: white; color: blue }"
-        "QLineEdit { placeholder-text-color: gray; selection-background-color: blue }"
-        "QPushButton { max-width: 250; max-height: 50; color: blue }");
+        // "QTabBar::tab:selected { background-color: lightgray; border-top-left-radius: 5px; border-top-right-radius: 5px; padding: 5px; border-bottom: 2px solid red }"
+        // "QTabBar::tab:!selected { background-color: rgb(240, 240, 240); border-top-left-radius: 5px; border-top-right-radius: 5px; padding: 5px; border: 1px solid black }"
+        "QComboBox { selection-color: white; color: blue }"
+        "QLineEdit { placeholder-text-color: gray }"
+        "QPushButton { max-width: 250; max-height: 50; color: blue }"
+        "QPushButton:focus { background-color: lightblue }");
     // "QPushButton { max-width: 300; max-height: 50; color: blue }"
     // "QTableView { selection-background-color: blue }");
     // setStyleSheet("QPushButton { color: blue };");

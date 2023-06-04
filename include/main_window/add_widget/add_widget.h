@@ -66,7 +66,8 @@ class AddWidget: public QWidget {
     void comic_book_page();
     void author_page();
 
-    const QString message_std_style = "background-color: white; color: black";
+    const QString message_std_style =
+        "background-color: white; color: dodgerblue";
     const QString message_err_style = "background-color: white; color: red";
 };
 

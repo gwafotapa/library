@@ -24,7 +24,7 @@ class AddBookWidget: public QWidget {
   public:
     explicit AddBookWidget(QWidget* parent = nullptr);
     ~AddBookWidget();
-    QLineEdit* get_title_line() const;  // TODO: return const* ? get_mut ?
+    const QLineEdit* get_title_line() const;  // TODO: return const* ? get_mut ?
     QLineEdit* get_writers_line() const;
     QLineEdit* get_illustrators_line() const;
 

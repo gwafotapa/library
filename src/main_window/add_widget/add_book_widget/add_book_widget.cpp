@@ -18,13 +18,13 @@ AddBookWidget::AddBookWidget(QWidget* parent) :
     ui->setupUi(this);
 
     title_line = new QLineEdit;
-    title_line->setClearButtonEnabled(true);
+    // title_line->setClearButtonEnabled(true);
     writers_line = new QLineEdit;
     writers_line->setPlaceholderText("Writer1, Writer2, ...");
-    writers_line->setClearButtonEnabled(true);
+    // writers_line->setClearButtonEnabled(true);
     illustrators_line = new QLineEdit;
     illustrators_line->setPlaceholderText("Illustrator1, Illustrator2, ...");
-    illustrators_line->setClearButtonEnabled(true);
+    // illustrators_line->setClearButtonEnabled(true);
     check_box = new QCheckBox("Writers / Illustrators");
     // add_button = new QPushButton("Add");
     // clear_button = new QPushButton("Clear");
@@ -60,7 +60,7 @@ AddBookWidget::~AddBookWidget() {
     delete ui;
 }
 
-QLineEdit* AddBookWidget::get_title_line() const {
+const QLineEdit* AddBookWidget::get_title_line() const {
     return title_line;
 }
 

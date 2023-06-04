@@ -173,6 +173,7 @@ AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
         add_book_widget->clear();
         add_author_widget->clear();
         message->clear();
+        // data_model->clear();
     });
 }
 
@@ -197,35 +198,45 @@ void AddWidget::book_page() {
     static_cast<QFormLayout*>(book_widget()->layout())->setRowVisible(2, false);
     static_cast<QFormLayout*>(book_widget()->layout())->setRowVisible(3, false);
     add_button->disconnect();
-    connect(
-        add_button,
-        &QPushButton::clicked,
-        [&]() {  // TODO: make a function
-            QString title =
-                book_widget()->get_title_line()->text().simplified();
-            if (title.isEmpty()) {
-                message->setText("Error: blank title");
+    add_book_widget->get_title_line()->disconnect();
+    add_book_widget->get_writers_line()->disconnect();
+    add_book_widget->get_illustrators_line()->disconnect();
+
+    auto add = [&]() {  // TODO: make a function
+        QString title = book_widget()->get_title_line()->text().simplified();
+        if (title.isEmpty()) {
+            message->setText("Error: blank title");
+            message->setStyleSheet(message_err_style);
+            return;
+        }
+        QList<Writer> writers;
+        for (QString& writer :
+             book_widget()->get_writers_line()->text().split(u',')) {
+            writer = writer.simplified();
+            if (writer.isEmpty()) {
+                message->setText("Error: blank writer");
                 message->setStyleSheet(message_err_style);
                 return;
             }
-            QList<Writer> writers;
-            for (QString& writer :
-                 book_widget()->get_writers_line()->text().split(u',')) {
-                writer = writer.simplified();
-                if (writer.isEmpty()) {
-                    message->setText("Error: blank writer");
-                    message->setStyleSheet(message_err_style);
-                    return;
-                }
-                writers.push_back(Writer(writer));
-            }
-            message->clear();
-            emit add_standard_book(StandardBook(title, writers));
-            // for (const Writer& writer : writers) {
-            //     emit add_writer(writer);
-            // }
-            emit add_writers(writers);
-        });
+            writers.push_back(Writer(writer));
+        }
+        message->clear();
+        emit add_standard_book(StandardBook(title, writers));
+        // for (const Writer& writer : writers) {
+        //     emit add_writer(writer);
+        // }
+        emit add_writers(writers);
+    };
+    connect(add_button, &QPushButton::clicked, add);
+    connect(add_book_widget->get_title_line(), &QLineEdit::returnPressed, add);
+    connect(
+        add_book_widget->get_writers_line(),
+        &QLineEdit::returnPressed,
+        add);
+    connect(
+        add_book_widget->get_illustrators_line(),
+        &QLineEdit::returnPressed,
+        add);
     message->clear();
 #ifndef NDEBUG
     data_model->setTable("Standard Books");
@@ -242,50 +253,61 @@ void AddWidget::comic_book_page() {
     static_cast<QFormLayout*>(book_widget()->layout())->setRowVisible(2, true);
     static_cast<QFormLayout*>(book_widget()->layout())->setRowVisible(3, true);
     add_button->disconnect();
-    connect(
-        add_button,
-        &QPushButton::clicked,
-        [&]() {  // TODO: make a function
-            QString title =
-                book_widget()->get_title_line()->text().simplified();
-            if (title.isEmpty()) {
-                message->setText("Error: blank title");
+    add_book_widget->get_title_line()->disconnect();
+    add_book_widget->get_writers_line()->disconnect();
+    add_book_widget->get_illustrators_line()->disconnect();
+
+    auto add = [&]() {  // TODO: make a function
+        QString title = book_widget()->get_title_line()->text().simplified();
+        if (title.isEmpty()) {
+            message->setText("Error: blank title");
+            message->setStyleSheet(message_err_style);
+            return;
+        }
+        QList<ComicBookWriter> writers;
+        for (QString& writer :
+             book_widget()->get_writers_line()->text().split(u',')) {
+            writer = writer.simplified();
+            if (writer.isEmpty()) {
+                message->setText("Error: blank writer");
                 message->setStyleSheet(message_err_style);
                 return;
             }
-            QList<ComicBookWriter> writers;
-            for (QString& writer :
-                 book_widget()->get_writers_line()->text().split(u',')) {
-                writer = writer.simplified();
-                if (writer.isEmpty()) {
-                    message->setText("Error: blank writer");
-                    message->setStyleSheet(message_err_style);
-                    return;
-                }
-                writers.push_back(ComicBookWriter(writer));
+            writers.push_back(ComicBookWriter(writer));
+        }
+        QList<Illustrator> illustrators;
+        for (QString& illustrator :
+             book_widget()->get_illustrators_line()->text().split(u',')) {
+            illustrator = illustrator.simplified();
+            if (illustrator.isEmpty()) {
+                message->setText("Error: blank illustrator");
+                message->setStyleSheet(message_err_style);
+                return;
             }
-            QList<Illustrator> illustrators;
-            for (QString& illustrator :
-                 book_widget()->get_illustrators_line()->text().split(u',')) {
-                illustrator = illustrator.simplified();
-                if (illustrator.isEmpty()) {
-                    message->setText("Error: blank illustrator");
-                    message->setStyleSheet(message_err_style);
-                    return;
-                }
-                illustrators.push_back(Illustrator(illustrator));
-            }
-            message->clear();
-            emit add_comic_book(ComicBook(title, writers, illustrators));
-            // for (const ComicBookWriter& writer : writers) {
-            //     emit add_comic_book_writer(writer);
-            // }
-            emit add_comic_book_writers(writers);
-            // for (const Illustrator& illustrator : illustrators) {
-            //     emit add_illustrator(illustrator);
-            // }
-            emit add_illustrators(illustrators);
-        });
+            illustrators.push_back(Illustrator(illustrator));
+        }
+        message->clear();
+        emit add_comic_book(ComicBook(title, writers, illustrators));
+        // for (const ComicBookWriter& writer : writers) {
+        //     emit add_comic_book_writer(writer);
+        // }
+        emit add_comic_book_writers(writers);
+        // for (const Illustrator& illustrator : illustrators) {
+        //     emit add_illustrator(illustrator);
+        // }
+        emit add_illustrators(illustrators);
+    };
+    connect(add_button, &QPushButton::clicked, add);
+    connect(add_book_widget->get_title_line(), &QLineEdit::returnPressed, add);
+    connect(
+        add_book_widget->get_writers_line(),
+        &QLineEdit::returnPressed,
+        add);
+    connect(
+        add_book_widget->get_illustrators_line(),
+        &QLineEdit::returnPressed,
+        add);
+
     message->clear();
     // data_model->clear();
     // table_view->setVisible(true);
@@ -299,7 +321,9 @@ void AddWidget::comic_book_page() {
 void AddWidget::author_page() {
     stacked_widget->setCurrentIndex(1);
     add_button->disconnect();
-    connect(add_button, &QPushButton::clicked, [&]() {
+    add_author_widget->get_name_line()->disconnect();
+
+    auto add = [&]() {
         QString name = author_widget()->get_name_line()->text().simplified();
         if (name.isEmpty()) {
             message->setText("Error: blank author");
@@ -323,7 +347,9 @@ void AddWidget::author_page() {
         if (author_widget()->get_illustrator()->isChecked()) {
             emit add_illustrator(Illustrator(name));
         }
-    });
+    };
+    connect(add_button, &QPushButton::clicked, add);
+    connect(add_author_widget->get_name_line(), &QLineEdit::returnPressed, add);
     message->clear();
     // table_view->setVisible(false);
 #ifndef NDEBUG

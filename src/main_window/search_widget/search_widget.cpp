@@ -27,15 +27,15 @@ SearchWidget::SearchWidget(QWidget* parent) :
     combo_box->addItem("Comic books, writers and illustrators");
 
     title_line = new QLineEdit;
-    title_line->setClearButtonEnabled(true);
+    // title_line->setClearButtonEnabled(true);
     // title_line->setStyleSheet("background-color: whitesmoke");
 
     writers_line = new QLineEdit;
-    writers_line->setClearButtonEnabled(true);
+    // writers_line->setClearButtonEnabled(true);
     writers_line->setPlaceholderText("Writer1, Writer2, ...");
 
     illustrators_line = new QLineEdit;
-    illustrators_line->setClearButtonEnabled(true);
+    // illustrators_line->setClearButtonEnabled(true);
     illustrators_line->setPlaceholderText("Illustrator1, Illustrator2, ...");
     QSizePolicy retain = illustrators_line->sizePolicy();
     retain.setRetainSizeWhenHidden(true);
@@ -115,6 +115,7 @@ SearchWidget::SearchWidget(QWidget* parent) :
     //     &SearchWidget::select_table,
     //     data_model,
     //     &DataModel::select_table);
+
     connect(
         this,
         &SearchWidget::search_standard_books,
@@ -150,9 +151,17 @@ SearchWidget::~SearchWidget() {
 void SearchWidget::select_search(int book_type) {
     data_model->clear();
     results_label->clear();
-    disconnect(search_button, &QPushButton::clicked, this, nullptr);
+    disconnect(
+        search_button,
+        &QPushButton::clicked,
+        this,
+        nullptr);  // TODO: button->disconnect() ?
+    disconnect(title_line, &QLineEdit::returnPressed, this, nullptr);
+    disconnect(writers_line, &QLineEdit::returnPressed, this, nullptr);
+    disconnect(illustrators_line, &QLineEdit::returnPressed, this, nullptr);
+
     switch (book_type) {
-        case 0:  // Non-comic book and writers
+        case 0: {  // Non-comic book and writers
             // form_layout->takeRow(2);
             // main_layout->takeAt(3);
             form_layout->setRowVisible(2, false);
@@ -160,31 +169,42 @@ void SearchWidget::select_search(int book_type) {
             // illustrators_widget->hide();
             // emit select_table(
             //     "Standard Books");  // TODO: replace the constant, necessary ?
-            connect(search_button, &QPushButton::clicked, [&]() {
+            auto search = [&]() {
                 emit search_standard_books(
                     title_line->text(),
                     writers_line->text());
                 set_results_label();
-            });
+            };
+            connect(search_button, &QPushButton::clicked, search);
+            connect(title_line, &QLineEdit::returnPressed, search);
+            connect(writers_line, &QLineEdit::returnPressed, search);
+
             // data_model->setTable("Books");
             // data_model->select();
             break;
-        case 1:  // Comic books, writers and illustrators
+        }
+        case 1: {  // Comic books, writers and illustrators
             // form_layout->addRow(illustrators_line);
             form_layout->setRowVisible(2, true);
             // form_layout->setRowVisible(3, true);
             // illustrators_widget->show();
             // emit select_table("Comic Books");  // TODO: Necessary ?
-            connect(search_button, &QPushButton::clicked, [&]() {
+            auto search = [&]() {
                 emit search_comic_books(
                     title_line->text(),
                     writers_line->text(),
                     illustrators_line->text());
                 set_results_label();
-            });
+            };
+
+            connect(search_button, &QPushButton::clicked, search);
+            connect(title_line, &QLineEdit::returnPressed, search);
+            connect(writers_line, &QLineEdit::returnPressed, search);
+            connect(illustrators_line, &QLineEdit::returnPressed, search);
             // data_model->setTable("Comic Books");
             // data_model->select();
             break;
+        }
     }
 }
 
