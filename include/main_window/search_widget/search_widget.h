@@ -50,6 +50,9 @@ class SearchWidget: public QWidget {
     DataModel* data_model;
     QTableView* table_view;
 
+    void setup_layout();
+    void setup_connections();
+
   private slots:
     void select_search(int book_type);
     void clear();

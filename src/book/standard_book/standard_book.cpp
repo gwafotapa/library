@@ -1,5 +1,7 @@
 #include "standard_book.h"
 
+#include "writer.h"
+
 QString StandardBook::get_title() const {
     return title;
 }

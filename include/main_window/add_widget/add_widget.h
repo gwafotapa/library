@@ -62,6 +62,8 @@ class AddWidget: public QWidget {
     QTableView* table_view;
 #endif
 
+    void setup_layout();
+    void setup_connections();
     void book_page();
     void comic_book_page();
     void author_page();

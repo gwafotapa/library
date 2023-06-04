@@ -1,6 +1,7 @@
 #include "comic_book.h"
 
 #include "comic_book_writer.h"
+#include "illustrator.h"
 
 QString ComicBook::get_title() const {
     return title;

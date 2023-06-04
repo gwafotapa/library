@@ -6,8 +6,10 @@
 #include <QSqlRecord>
 #include <QSqlTableModel>
 
+#include "author.h"
 #include "comic_book.h"
 #include "comic_book_writer.h"
+#include "illustrator.h"
 #include "standard_book.h"
 #include "writer.h"
 
@@ -15,22 +17,13 @@ DataModel::DataModel(const QString& connection_name, QObject* parent) :
     QSqlTableModel(
         parent,
         QSqlDatabase::addDatabase("QSQLITE", connection_name)) {
-    // QString data_dir = QCoreApplication::applicationDirPath() + "/data";
-    // QDir().mkpath(data_dir);
-    // QString data_path = data_dir + "/" + std::string(db_filename);
-
     QString db_path =
         QCoreApplication::applicationDirPath() + "/" + db_filename;
     database().setDatabaseName(db_path);
     qDebug() << db_path;
     database().open();
 
-    create_table(
-        // QString::fromStdString(std::string(table_books)),
-        // QString::fromUtf8(table_books),
-        books_table_name,
-        books_column_names,
-        books_column_types);
+    create_table(books_table_name, books_column_names, books_column_types);
     create_table(
         comic_books_table_name,
         comic_books_column_names,
@@ -75,7 +68,7 @@ void DataModel::create_table(
 }
 
 void DataModel::add_author(const Author& author, const QString& table_name) {
-    QString column = author.writes() ? "Writer" : "Illusstrator";
+    QString column = author.writes() ? "Writer" : "Illustrator";
     setTable(table_name);
     setFilter(
         "(Title IS NULL OR Title = '') AND " + column + "s = '"
@@ -86,12 +79,13 @@ void DataModel::add_author(const Author& author, const QString& table_name) {
         rec.setValue(column + "s", author.get_name());
         insertRecord(-1, rec);
         submit();
+        clear();
         emit author_added(author);
     } else {
         qDebug() << column + " is already in the database";
+        clear();
         emit author_exists(author);
     }
-    clear();
 }
 
 void DataModel::add_writer(const Writer& writer) {
@@ -136,12 +130,13 @@ void DataModel::add_standard_book(const StandardBook& book) {
         rec.setValue("Writers", book.writers_to_string());
         insertRecord(-1, rec);
         submit();
+        clear();
         emit book_added(book);
     } else {
         qDebug() << "Book is already in the database";
+        clear();
         emit book_exists(book);
     }
-    clear();
 }
 
 void DataModel::add_comic_book(const ComicBook& book) {
@@ -158,12 +153,13 @@ void DataModel::add_comic_book(const ComicBook& book) {
         rec.setValue("Illustrators", book.illustrators_to_string());
         insertRecord(-1, rec);
         submit();
+        clear();
         emit book_added(book);
     } else {
         qDebug() << "Comic book is already in the database";
+        clear();
         emit book_exists(book);
     }
-    clear();
 }
 
 void DataModel::search_standard_books(QString title, QString writers) {
@@ -213,9 +209,7 @@ void DataModel::search_comic_books(
         filter += "Illustrators LIKE '%" + illustrators + "%'";
     }
     setFilter(filter);
-    // setSort(2, Qt::AscendingOrder);
     sort(1, Qt::AscendingOrder);
-    // select();
 
     qDebug() << selectStatement();
 };

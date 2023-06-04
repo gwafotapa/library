@@ -1,21 +1,21 @@
 #include "add_widget.h"
 
-#include <qformlayout.h>
-#include <qpushbutton.h>
-
 #include <QBoxLayout>
 #include <QComboBox>
+#include <QFormLayout>
 #include <QHeaderView>
 #include <QPushButton>
 #include <QStackedWidget>
+#include <QTableView>
 
-// #include <qformlayout.h>
-// #include <qlineedit.h>
-// #include <qnamespace.h>
-
+#include "author.h"
+#include "comic_book.h"
 #include "comic_book_writer.h"
 #include "data_model.h"
+#include "illustrator.h"
+#include "standard_book.h"
 #include "ui_add_widget.h"
+#include "writer.h"
 
 AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
     ui->setupUi(this);
@@ -34,15 +34,11 @@ AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
 
     add_button = new QPushButton("Add");
     add_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    // add_button->setStyleSheet("max-width: 250; max-height: 50; color: blue");
     clear_button = new QPushButton("Clear");
     clear_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    // clear_button->setMaximumSize(300, 50);
-    // clear_button->setStyleSheet("max-width: 250; max-height: 50; color: blue");
 
     message = new QLabel;
     message->setStyleSheet(message_std_style);
-    // message->setStyleSheet("background-color: white");
 
     data_model = new DataModel("add_widget", this);
 
@@ -55,6 +51,13 @@ AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
     table_view->setModel(data_model);
 #endif
 
+    setup_layout();
+    setup_connections();
+
+    book_page();
+}
+
+void AddWidget::setup_layout() {
     buttons_layout = new QHBoxLayout;
     buttons_layout->addWidget(add_button);
     buttons_layout->addWidget(clear_button);
@@ -69,23 +72,11 @@ AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
 #else
     main_layout->addStretch(1);
 #endif
-    // main_layout->addStretch();
 
-    // main_layout->addStretch();
-    // main_layout->addLayout(buttons_layout);
     setLayout(main_layout);
+}
 
-    // connect(combo_box, &QComboBox::currentIndexChanged, [&](int index) {
-    //     stacked_widget->setFixedHeight(
-    //         stacked_widget->currentWidget()->sizeHint().height());
-    // });
-
-    book_page();
-
-    // connect(combo_box, &QComboBox::currentIndexChanged, [&](int index) {
-    //     stacked_widget->setCurrentIndex(index <= 1 ? 0 : 1);
-    // });
-
+void AddWidget::setup_connections() {
     connect(combo_box, &QComboBox::currentIndexChanged, [&](int index) {
         switch (index) {
             case 0:
@@ -160,10 +151,6 @@ AddWidget::~AddWidget() {
     delete ui;
 }
 
-// QComboBox* AddWidget::get_combo_box() const {
-//     return combo_box;
-// }
-
 AddBookWidget* AddWidget::book_widget() const {
     return add_book_widget;
 }
@@ -174,20 +161,14 @@ AddAuthorWidget* AddWidget::author_widget() const {
 
 void AddWidget::book_page() {
     stacked_widget->setCurrentIndex(0);
-    // static_cast<QFormLayout*>(book_widget()->layout())
-    //     ->setSizeConstraint(QLayout::SetFixedSize);
     static_cast<QFormLayout*>(book_widget()->layout())->setRowVisible(2, false);
     static_cast<QFormLayout*>(book_widget()->layout())->setRowVisible(3, false);
-    // book_widget()->get_illustrators_line()->setFixedWidth(0);
-    // static_cast<QFormLayout*>(book_widget()->layout())
-    //     ->labelForField(book_widget()->get_illustrators_line())
-    //     ->setFixedWidth(0);
     add_button->disconnect();
     add_book_widget->get_title_line()->disconnect();
     add_book_widget->get_writers_line()->disconnect();
     add_book_widget->get_illustrators_line()->disconnect();
 
-    auto add = [&]() {  // TODO: make a function
+    auto add = [&]() {  // TODO: make a function and clean disconnects above
         QString title = book_widget()->get_title_line()->text().simplified();
         if (title.isEmpty()) {
             message->setText("Error: blank title");
@@ -207,9 +188,6 @@ void AddWidget::book_page() {
         }
         message->clear();
         emit add_standard_book(StandardBook(title, writers));
-        // for (const Writer& writer : writers) {
-        //     emit add_writer(writer);
-        // }
         emit add_writers(writers);
     };
     connect(add_button, &QPushButton::clicked, add);
@@ -226,8 +204,6 @@ void AddWidget::book_page() {
 #ifndef NDEBUG
     data_model->set_table_standard_books();
     data_model->select();
-    // data_model->clear();
-    // table_view->setVisible(true);
 #endif
 }
 
@@ -240,7 +216,7 @@ void AddWidget::comic_book_page() {
     add_book_widget->get_writers_line()->disconnect();
     add_book_widget->get_illustrators_line()->disconnect();
 
-    auto add = [&]() {  // TODO: make a function
+    auto add = [&]() {  // TODO: make a function and clean disconnects above
         QString title = book_widget()->get_title_line()->text().simplified();
         if (title.isEmpty()) {
             message->setText("Error: blank title");
@@ -271,13 +247,7 @@ void AddWidget::comic_book_page() {
         }
         message->clear();
         emit add_comic_book(ComicBook(title, writers, illustrators));
-        // for (const ComicBookWriter& writer : writers) {
-        //     emit add_comic_book_writer(writer);
-        // }
         emit add_comic_book_writers(writers);
-        // for (const Illustrator& illustrator : illustrators) {
-        //     emit add_illustrator(illustrator);
-        // }
         emit add_illustrators(illustrators);
     };
     connect(add_button, &QPushButton::clicked, add);
@@ -292,8 +262,6 @@ void AddWidget::comic_book_page() {
         add);
 
     message->clear();
-    // data_model->clear();
-    // table_view->setVisible(true);
 #ifndef NDEBUG
     data_model->set_table_comic_books();
     data_model->select();
@@ -305,7 +273,7 @@ void AddWidget::author_page() {
     add_button->disconnect();
     add_author_widget->get_name_line()->disconnect();
 
-    auto add = [&]() {
+    auto add = [&]() {  // TODO: make a function and clean disconnects above
         QString name = author_widget()->get_name_line()->text().simplified();
         if (name.isEmpty()) {
             message->setText("Error: blank author");
@@ -333,7 +301,6 @@ void AddWidget::author_page() {
     connect(add_button, &QPushButton::clicked, add);
     connect(add_author_widget->get_name_line(), &QLineEdit::returnPressed, add);
     message->clear();
-    // table_view->setVisible(false);
 #ifndef NDEBUG
     if (data_model->tableName().isEmpty()) {
         data_model->set_table_standard_books();
@@ -345,8 +312,6 @@ void AddWidget::author_page() {
 void AddWidget::book_added(const Book& book) const {
     message->setText("Added book \"" + book.get_title() + "\"");
     message->setStyleSheet(message_std_style);
-    // data_model->setFilter("");
-    // data_model->select();
 #ifndef NDEBUG
     data_model->select();
 #endif
@@ -372,9 +337,12 @@ void AddWidget::author_added(const Author& author) const {
         message->text().isEmpty() ? added_author
                                   : message->text() + "\n" + added_author);
     message->setStyleSheet(message_std_style);
-    // data_model->setFilter("");
-    // data_model->select();
 #ifndef NDEBUG
+    if (author.makes_standard_books()) {
+        data_model->set_table_standard_books();
+    } else {
+        data_model->set_table_comic_books();
+    }
     data_model->select();
 #endif
 }

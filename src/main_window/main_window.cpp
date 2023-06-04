@@ -1,16 +1,12 @@
 #include "main_window.h"
 
-#include <qboxlayout.h>
-#include <qtabwidget.h>
-
-#include <QDebug>
 #include <QKeyEvent>
-#include <QPushButton>
-#include <QSqlRecord>
+#include <QTabWidget>
 #include <QVBoxLayout>
+#include <QWidget>
 
-#include "add_book_widget.h"
-#include "data_model.h"
+#include "add_widget.h"
+#include "search_widget.h"
 #include "ui_main_window.h"
 
 MainWindow::MainWindow(QWidget* parent) :
