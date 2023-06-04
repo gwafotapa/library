@@ -1,5 +1,7 @@
 #include "add_book_widget.h"
 
+#include <qnamespace.h>
+
 #include <QCheckBox>
 #include <QFormLayout>
 #include <QLabel>
@@ -21,6 +23,7 @@ AddBookWidget::AddBookWidget(QWidget* parent) :
     // title_line->setClearButtonEnabled(true);
     writers_line = new QLineEdit;
     writers_line->setPlaceholderText("Writer1, Writer2, ...");
+    // writers_line->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     // writers_line->setClearButtonEnabled(true);
     illustrators_line = new QLineEdit;
     illustrators_line->setPlaceholderText("Illustrator1, Illustrator2, ...");
@@ -30,11 +33,20 @@ AddBookWidget::AddBookWidget(QWidget* parent) :
     // clear_button = new QPushButton("Clear");
 
     form_layout = new QFormLayout;
+    form_layout->setLabelAlignment(Qt::AlignHCenter);
+    // form_layout->setSizeConstraint(QLayout::SetFixedSize);
+    // qDebug() << form_layout->verticalSpacing();
+    // form_layout->setSpacing(0);
     form_layout->addRow("Title", title_line);
     form_layout->addRow("Writers", writers_line);
     form_layout->addRow("Illustrators", illustrators_line);
     form_layout->addRow("", check_box);
-
+    int labels_width =
+        form_layout->labelForField(illustrators_line)->sizeHint().width();
+    QLabel* title_label =
+        static_cast<QLabel*>(form_layout->labelForField(title_line));
+    title_label->setFixedWidth(labels_width);
+    title_label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     // buttons_layout = new QHBoxLayout;
     // buttons_layout->addWidget(add_button);
     // buttons_layout->addWidget(clear_button);
@@ -44,6 +56,8 @@ AddBookWidget::AddBookWidget(QWidget* parent) :
     // main_layout->addLayout(buttons_layout);
     // main_layout->addStretch();
     setLayout(form_layout);
+    setFixedHeight(sizeHint().height());
+    // layout()->setSizeConstraint(QLayout::SetFixedSize);
 
     // select_book_type(0);
 

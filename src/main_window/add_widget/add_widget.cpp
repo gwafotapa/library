@@ -173,7 +173,9 @@ AddWidget::AddWidget(QWidget* parent) : QWidget(parent), ui(new Ui::AddWidget) {
         add_book_widget->clear();
         add_author_widget->clear();
         message->clear();
-        // data_model->clear();
+#ifndef NDEBUG
+        data_model->clear();
+#endif
     });
 }
 
@@ -195,8 +197,14 @@ AddAuthorWidget* AddWidget::author_widget() const {
 
 void AddWidget::book_page() {
     stacked_widget->setCurrentIndex(0);
+    // static_cast<QFormLayout*>(book_widget()->layout())
+    //     ->setSizeConstraint(QLayout::SetFixedSize);
     static_cast<QFormLayout*>(book_widget()->layout())->setRowVisible(2, false);
     static_cast<QFormLayout*>(book_widget()->layout())->setRowVisible(3, false);
+    // book_widget()->get_illustrators_line()->setFixedWidth(0);
+    // static_cast<QFormLayout*>(book_widget()->layout())
+    //     ->labelForField(book_widget()->get_illustrators_line())
+    //     ->setFixedWidth(0);
     add_button->disconnect();
     add_book_widget->get_title_line()->disconnect();
     add_book_widget->get_writers_line()->disconnect();
@@ -353,6 +361,9 @@ void AddWidget::author_page() {
     message->clear();
     // table_view->setVisible(false);
 #ifndef NDEBUG
+    if (data_model->tableName().isEmpty()) {
+        data_model->setTable("Standard Books");
+    }
     data_model->select();
 #endif
 }

@@ -1,6 +1,7 @@
 #include "search_widget.h"
 
 #include <qboxlayout.h>
+#include <qnamespace.h>
 #include <qpushbutton.h>
 #include <qsizepolicy.h>
 
@@ -29,6 +30,7 @@ SearchWidget::SearchWidget(QWidget* parent) :
     title_line = new QLineEdit;
     // title_line->setClearButtonEnabled(true);
     // title_line->setStyleSheet("background-color: whitesmoke");
+    // title_line->setFixedSize(title_line->sizeHint());
 
     writers_line = new QLineEdit;
     // writers_line->setClearButtonEnabled(true);
@@ -37,9 +39,10 @@ SearchWidget::SearchWidget(QWidget* parent) :
     illustrators_line = new QLineEdit;
     // illustrators_line->setClearButtonEnabled(true);
     illustrators_line->setPlaceholderText("Illustrator1, Illustrator2, ...");
-    QSizePolicy retain = illustrators_line->sizePolicy();
-    retain.setRetainSizeWhenHidden(true);
-    illustrators_line->setSizePolicy(retain);
+    // QSizePolicy retain = illustrators_line->sizePolicy();
+    // retain.setRetainSizeWhenHidden(true);
+    // illustrators_line->setSizePolicy(retain);
+    // illustrators_line->setFixedHeight(illustrators_line->sizeHint().height());
 
     search_button = new QPushButton("Search");
     search_button->setSizePolicy(
@@ -73,9 +76,24 @@ SearchWidget::SearchWidget(QWidget* parent) :
     table_view->setModel(data_model);
 
     form_layout = new QFormLayout;
+    form_layout->setLabelAlignment(Qt::AlignHCenter);
     form_layout->addRow("Title", title_line);
     form_layout->addRow("Writers", writers_line);
     form_layout->addRow("Illustrators", illustrators_line);
+    int labels_width =
+        form_layout->labelForField(illustrators_line)->sizeHint().width();
+    QLabel* title_label =
+        static_cast<QLabel*>(form_layout->labelForField(title_line));
+    title_label->setFixedWidth(labels_width);
+    title_label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
+    // Fix form height such that it does not shrink when a row is hidden
+    form_widget = new QWidget;
+    form_widget->setLayout(form_layout);
+    form_widget->setFixedHeight(form_widget->sizeHint().height());
+    // form_widget->setFixedSize(form_widget->sizeHint());
+
+    // form_layout->setSizeConstraint(QLayout::SetFixedSize);
     // form_layout->addRow(illustrators_line);
 
     // illustrators_widget = new LabelLineEdit("Illustrators");
@@ -91,7 +109,8 @@ SearchWidget::SearchWidget(QWidget* parent) :
     main_layout = new QVBoxLayout;
     // main_layout->setSpacing(10);
     main_layout->addWidget(combo_box);
-    main_layout->addLayout(form_layout);
+    // main_layout->addLayout(form_layout);
+    main_layout->addWidget(form_widget);
     main_layout->addLayout(buttons_layout);
     main_layout->addWidget(results_label);
     main_layout->addWidget(table_view);
@@ -101,6 +120,7 @@ SearchWidget::SearchWidget(QWidget* parent) :
     // main_layout->setStretchFactor(buttons_layout, 1);
     // main_layout->setStretchFactor(results_label, 1);
     setLayout(main_layout);
+    // setFixedHeight(sizeHint().height());
 
     select_search(0);
 

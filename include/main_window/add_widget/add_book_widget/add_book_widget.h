@@ -39,6 +39,7 @@ class AddBookWidget: public QWidget {
     QFormLayout* form_layout;
     // QHBoxLayout* buttons_layout;
 
+    QWidget* form_widget;
     QLineEdit* title_line;
     QLineEdit* writers_line;
     QLineEdit* illustrators_line;

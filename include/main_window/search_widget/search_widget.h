@@ -62,6 +62,7 @@ class SearchWidget: public QWidget {
     QHBoxLayout* buttons_layout;
 
     QComboBox* combo_box;
+    QWidget* form_widget;
     QLineEdit* title_line;
     QLineEdit* writers_line;
     QLineEdit* illustrators_line;
